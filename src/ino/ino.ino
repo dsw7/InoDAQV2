@@ -24,6 +24,8 @@ void loop()
         }
         else if (command == F("exit"))
         {
+            Helpers::info(F("Closing connection. Goodbye!"));
+            ::Serial.end();
             break;
         }
         else
@@ -31,7 +33,4 @@ void loop()
             Helpers::error("Unknown command: " + command);
         }
     }
-
-    Helpers::info(F("Closing connection. Goodbye!"));
-    ::Serial.end();
 }
