@@ -22,9 +22,16 @@ void loop()
         {
             Helpers::info(F("Hello from InoDAQV2"));
         }
+        else if (command == F("exit"))
+        {
+            break;
+        }
         else
         {
             Helpers::error("Unknown command: " + command);
         }
     }
+
+    Helpers::info(F("Closing connection. Goodbye!"));
+    ::Serial.end();
 }
