@@ -7,8 +7,8 @@
 namespace Command
 {
 
-void command_ping() {
-
+void command_ping()
+{
     static bool status = false;
 
     status = !status;

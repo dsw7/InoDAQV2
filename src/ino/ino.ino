@@ -1,4 +1,5 @@
 #include "command_ping.h"
+#include "command_toggle_digital_pin.h"
 #include "helpers.h"
 
 void setup()
@@ -26,6 +27,10 @@ void loop()
         else if (command == F("ping"))
         {
             Command::command_ping();
+        }
+        else if (command.startsWith(F("dig:")))
+        {
+            Command::command_toggle_digital_pin(command);
         }
         else if (command == F("exit"))
         {
