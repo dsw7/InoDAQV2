@@ -1,3 +1,4 @@
+#include "command_ping.h"
 #include "helpers.h"
 
 void setup()
@@ -21,6 +22,10 @@ void loop()
         if (command == F("hello"))
         {
             Helpers::info(F("Hello from InoDAQV2"));
+        }
+        else if (command == F("ping"))
+        {
+            Command::command_ping();
         }
         else if (command == F("exit"))
         {
