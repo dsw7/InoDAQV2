@@ -11,6 +11,12 @@ void setup()
     ::Serial.setTimeout(max_time_millisec_wait_serial_data);
 
     ::pinMode(LED_BUILTIN, OUTPUT);
+
+    for (unsigned int pin = 2; pin <= 13; pin++)
+    {
+        ::pinMode(pin, OUTPUT);
+        ::digitalWrite(pin, LOW);
+    }
 }
 
 void loop()
