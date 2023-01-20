@@ -1,4 +1,4 @@
-#include "command_toggle_digital_pin.h"
+#include "command_dig.h"
 
 #include "helpers.h"
 

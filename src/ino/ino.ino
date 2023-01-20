@@ -1,5 +1,5 @@
+#include "command_dig.h"
 #include "command_ping.h"
-#include "command_toggle_digital_pin.h"
 #include "helpers.h"
 
 void setup()
