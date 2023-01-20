@@ -5,7 +5,7 @@
 namespace Command
 {
 
-void command_toggle_digital_pin(const ::String &command)
+void command_dig(const ::String &command)
 {
     // Parse command of form: "dig:<2-13>:<on/off>"
 

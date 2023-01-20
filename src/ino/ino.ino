@@ -36,7 +36,7 @@ void loop()
         }
         else if (command.startsWith(F("dig:")))
         {
-            Command::command_toggle_digital_pin(command);
+            Command::command_dig(command);
         }
         else if (command == F("exit"))
         {
