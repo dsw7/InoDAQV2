@@ -7,7 +7,7 @@ namespace Command
 
 void command_dig(const ::String &command)
 {
-    // Parse command of form: "dig:<2-13>:<on/off>"
+    // Parse command of form: "dig:<2-13>:<on|off>"
 
     int idx_pin = command.indexOf(':');
     int idx_state = command.indexOf(':', idx_pin + 1);
@@ -32,32 +32,15 @@ void command_dig(const ::String &command)
         return;
     }
 
-    unsigned int idx_arr_pins = pin - 2;
-
-    static bool pins[12] = {
-        false, // pin 2
-        false, // pin 3
-        false, // ...
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false, // ...
-        false, // pin 12
-        false  // pin 13
-    };
-
-    ::String state = command.substring(idx_state + 1, command.length());
+    ::String state = command.substring(idx_state + 1);
 
     if (state.equals(F("on")))
     {
-        pins[idx_arr_pins] = true;
+        ::digitalWrite(pin, HIGH);
     }
     else if (state.equals(F("off")))
     {
-        pins[idx_arr_pins] = false;
+        ::digitalWrite(pin, LOW);
     }
     else
     {
@@ -65,9 +48,8 @@ void command_dig(const ::String &command)
         return;
     }
 
-    ::digitalWrite(pin, pins[idx_arr_pins]);
-
     ::String msg = "Pin " + ::String(pin) + " set to " + state;
+
     Helpers::info(msg);
 }
 
