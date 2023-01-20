@@ -1,4 +1,4 @@
-.PHONY = help check-env compile upload
+.PHONY = help check-env compile upload test
 
 LIGHT_PURPLE = "\033[1;1;35m"
 NO_COLOR = "\033[0m"
@@ -18,6 +18,8 @@ Compile Arduino code:
     $$ make compile
 Upload compiled Arduino code to board:
     $$ make upload
+Test compiled Arduino code:
+    $$ make test
 endef
 
 export HELP_LIST_TARGETS
@@ -48,3 +50,7 @@ upload: compile
 	--verbose \
 	--input-dir=$(BUILD_PATH) \
 	$(PATH_INO_SRC)/
+
+test: upload
+	$(call MESSAGE,Running unit tests)
+	@python3 -m pytest --verbose --capture=no .
