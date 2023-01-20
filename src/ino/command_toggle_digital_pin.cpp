@@ -9,15 +9,8 @@ void command_toggle_digital_pin(const ::String &command)
 {
     // Parse command of form: "dig:<2-13>:<on/off>"
 
-    unsigned int idx_pin = command.indexOf(':');
-
-    if (idx_pin < 0)
-    {
-        Helpers::error(F("Malformed command. Missing first colon!"));
-        return;
-    }
-
-    unsigned int idx_state = command.indexOf(':', idx_pin + 1);
+    int idx_pin = command.indexOf(':');
+    int idx_state = command.indexOf(':', idx_pin + 1);
 
     if (idx_state < 0)
     {
@@ -25,7 +18,7 @@ void command_toggle_digital_pin(const ::String &command)
         return;
     }
 
-    unsigned int pin = command.substring(idx_pin + 1, idx_state).toInt();
+    int pin = command.substring(idx_pin + 1, idx_state).toInt();
 
     if (pin == 0)
     {
