@@ -1,5 +1,6 @@
 #include "command_dig.h"
 #include "command_ping.h"
+#include "command_pwm.h"
 #include "helpers.h"
 
 void setup()
@@ -37,6 +38,10 @@ void loop()
         else if (command.startsWith(F("dig:")))
         {
             Command::command_dig(command);
+        }
+        else if (command.startsWith(F("pwm:")))
+        {
+            Command::command_pwm(command);
         }
         else if (command == F("exit"))
         {
