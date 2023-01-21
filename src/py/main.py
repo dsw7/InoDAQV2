@@ -1,6 +1,7 @@
 import sys
 import typing
 import curses
+from serial_connection import SerialConnection
 
 T = typing.TypeVar('T')
 MIN_COLUMNS = 150
@@ -9,8 +10,10 @@ MIN_ROWS = 25
 
 class MainPanel:
 
-    def __init__(self: T, stdscr: curses.window) -> T:
+    def __init__(self: T, stdscr: curses.window, connection: SerialConnection) -> T:
+
         self.stdscr = stdscr
+        self.connection = connection
 
     def event_loop(self: T) -> None:
         self.stdscr.getch()
@@ -27,7 +30,8 @@ def main(stdscr: curses.window) -> None:
     if rows < MIN_ROWS:
         sys.exit('Terminal is not tall enough!')
 
-    MainPanel(stdscr).event_loop()
+    with SerialConnection() as connection:
+        MainPanel(stdscr, connection).event_loop()
 
 if __name__ == '__main__':
     curses.wrapper(main)
