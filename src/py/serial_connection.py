@@ -1,5 +1,6 @@
 import sys
 import logging
+from os import path, remove
 from time import sleep
 from json import dumps
 from typing import TypeVar, Tuple
@@ -21,27 +22,30 @@ def read_ini() -> ConfigParser:
 
     return configs
 
+def setup_logger(filename: str) -> logging.Logger:
+
+    configs = {
+        'level': logging.INFO,
+        'format': '%(asctime)s.%(msecs)03d %(message)s',
+        'datefmt': '%Y-%m-%d %I:%M:%S'
+    }
+
+    try:
+        logging.basicConfig(**configs, filename=filename)
+    except FileNotFoundError as error:
+        sys.exit(f'Could not create log file. Does the parent directory exist? Exception:\n{error}')
+
+    return logging.getLogger(__name__)
+
 
 class SerialConnection:
 
     def __init__(self: T) -> T:
 
         self.configs = read_ini()
+        self.logger = setup_logger(self.configs['logging']['filename'])
+
         self.serial_port_obj = None
-
-        if self.configs['logging'].getboolean('debug'):
-            level = logging.DEBUG
-        else:
-            level = logging.INFO
-
-        configs = {
-            'level': level,
-            'format': '%(asctime)s.%(msecs)03d %(message)s',
-            'datefmt': '%Y-%m-%d %I:%M:%S'
-        }
-
-        logging.basicConfig(**configs)
-        self.logger = logging.getLogger(__class__.__name__)
 
     def __enter__(self: T) -> T:
 
@@ -50,7 +54,7 @@ class SerialConnection:
             'parity': serial.PARITY_NONE,
             'stopbits': serial.STOPBITS_ONE,
             'bytesize': serial.EIGHTBITS,
-            'timeout': 5,
+            'timeout': self.configs['connection'].getfloat('timeout'),
             'port': self.configs['connection']['port']
         }
 
@@ -67,7 +71,7 @@ class SerialConnection:
         # Opening a connection will send a DTR (Data Terminal Ready) signal to device, which will
         # force the device to reset. Give device 2 seconds to reset
 
-        self.logger.debug('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
+        self.logger.info('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
         sleep(2)
 
         return self
@@ -86,17 +90,20 @@ class SerialConnection:
             self.receive_message()
             self.serial_port_obj.close()
 
+        if path.exists(self.configs['logging']['filename']):
+            remove(self.configs['logging']['filename'])
+
     def send_message(self: T, message: str) -> None:
 
-        self.logger.debug('Sending message: "%s"', message)
+        self.logger.info('Sending message: "%s"', message)
         message = message.encode(encoding=self.configs['connection']['encoding'])
 
-        self.logger.debug('Sent %i bytes', self.serial_port_obj.write(message))
+        self.logger.info('Sent %i bytes', self.serial_port_obj.write(message))
         self.serial_port_obj.flush()
 
     def receive_message(self: T) -> Tuple[bool, str]:
 
-        self.logger.debug('Waiting to receive message...')
+        self.logger.info('Waiting to receive message...')
         message_received = False
 
         while not message_received:
@@ -108,10 +115,10 @@ class SerialConnection:
             message_received = True
 
         if len(bytes_from_dev) > 40:
-            self.logger.debug('Received message: %s...', bytes_from_dev[:40])
-            self.logger.debug('Message was truncated due to excessive length')
+            self.logger.info('Received message: %s...', bytes_from_dev[:40])
+            self.logger.info('Message was truncated due to excessive length')
         else:
-            self.logger.debug('Received message: %s', bytes_from_dev)
+            self.logger.info('Received message: %s', bytes_from_dev)
 
         try:
             results = bytes_from_dev.decode(self.configs['connection']['encoding']).strip()
