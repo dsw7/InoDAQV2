@@ -25,19 +25,56 @@ class MainPanel:
 
         self.stdscr = stdscr
         self.connection = connection
+        self.position = 3
+        self.toggled = False
+
+    def cursor_up(self: T) -> None:
+        self.position -= 1
+
+        if self.position < 3:
+            self.position = 14
+
+    def cursor_down(self: T) -> None:
+        self.position += 1
+
+        if self.position > 14:
+            self.position = 3
+
+    def toggle_pin(self: T) -> None:
+        self.toggled = not self.toggled
 
     def dig_command_panel(self: T) -> None:
 
         self.stdscr.hline(0, 0, '-', C.columns)
-        self.stdscr.addstr(1, C.col_a, 'Toggle digital pins 2-13', curses.A_BOLD + curses.A_UNDERLINE)
+        self.stdscr.addstr(1, C.col_a, 'Toggle digital pins', curses.A_BOLD + curses.A_UNDERLINE)
 
-        for c in range(3, 15):
-            self.stdscr.addstr(c, C.col_a, f'{c - 1}')
-            self.stdscr.addstr(c, C.col_b, '[ ]')
+        for idx in range(3, 15):
+
+            if idx == self.position:
+                mode = curses.A_REVERSE
+            else:
+                mode = curses.A_NORMAL
+
+            self.stdscr.addstr(idx, C.col_a, f'Pin {idx - 1}', mode)
+            self.stdscr.addstr(idx, C.col_b, '[ ]', mode)
 
     def event_loop(self: T) -> None:
+
         self.dig_command_panel()
-        self.stdscr.getch()
+        key_input = None
+
+        while key_input != ord('q'):
+            key_input = self.stdscr.getch()
+
+            if key_input == curses.KEY_UP:
+                self.cursor_up()
+            elif key_input == curses.KEY_DOWN:
+                self.cursor_down()
+            elif key_input == curses.KEY_ENTER:
+                self.toggle_pin()
+
+            self.dig_command_panel()
+            self.stdscr.refresh()
 
 
 def main(stdscr: curses.window) -> None:
