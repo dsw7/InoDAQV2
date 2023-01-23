@@ -8,7 +8,7 @@ from user_interface import PanelDig, PanelPWM
 
 def read_ini() -> ConfigParser:
 
-    path_ini = Path(__file__).parent / 'inodaqv2.ini'
+    path_ini = Path(__file__).parents[1] / 'configs/inodaqv2.ini'
 
     if not path_ini.exists():
         sys.exit(f'Path "{path_ini}" does not exist')
