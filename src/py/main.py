@@ -1,7 +1,22 @@
+import sys
 import logging
+from pathlib import Path
 from tkinter import Tk
+from configparser import ConfigParser
 from serial_connection import SerialConnection
 from user_interface import PanelDig, PanelPWM
+
+def read_ini() -> ConfigParser:
+
+    path_ini = Path(__file__).parent / 'inodaqv2.ini'
+
+    if not path_ini.exists():
+        sys.exit(f'Path "{path_ini}" does not exist')
+
+    configs = ConfigParser()
+    configs.read(path_ini)
+
+    return configs
 
 def setup_logger() -> None:
 
@@ -18,9 +33,11 @@ def setup_logger() -> None:
     logger.addHandler(stream)
 
 def main() -> None:
+
+    configs = read_ini()
     setup_logger()
 
-    with SerialConnection() as connection:
+    with SerialConnection(configs['connection']) as connection:
         root = Tk()
         root.title('InoDAQV2')
         root.geometry('1200x300')

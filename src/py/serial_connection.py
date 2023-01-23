@@ -3,42 +3,29 @@ from logging import getLogger
 from time import sleep
 from json import dumps
 from typing import Tuple, TypeVar
-from configparser import ConfigParser
-from pathlib import Path
+from configparser import SectionProxy
 import serial
 
 T = TypeVar('T')
 LOGGER = getLogger('inodaq')
 
-def read_ini() -> ConfigParser:
-
-    path_ini = Path(__file__).parent / 'inodaqv2.ini'
-
-    if not path_ini.exists():
-        sys.exit(f'Path "{path_ini}" does not exist')
-
-    configs = ConfigParser()
-    configs.read(path_ini)
-
-    return configs
-
 
 class SerialConnection:
 
-    def __init__(self: T) -> T:
+    def __init__(self: T, configs: SectionProxy) -> T:
 
-        self.configs = read_ini()
+        self.configs = configs
         self.serial_port_obj = None
 
     def __enter__(self: T) -> T:
 
         connection_params = {
-            'baudrate': self.configs['connection']['baud'],
+            'baudrate': self.configs['baud'],
             'parity': serial.PARITY_NONE,
             'stopbits': serial.STOPBITS_ONE,
             'bytesize': serial.EIGHTBITS,
-            'timeout': self.configs['connection'].getfloat('timeout'),
-            'port': self.configs['connection']['port']
+            'timeout': self.configs.getfloat('timeout'),
+            'port': self.configs['port']
         }
 
         LOGGER.info('Connecting using parameters:\n%s', dumps(connection_params, indent=4))
@@ -77,7 +64,7 @@ class SerialConnection:
     def send_message(self: T, message: str) -> None:
 
         LOGGER.info('Sending message: "%s"', message)
-        message = message.encode(encoding=self.configs['connection']['encoding'])
+        message = message.encode(encoding=self.configs['encoding'])
 
         LOGGER.info('Sent %i bytes', self.serial_port_obj.write(message))
         self.serial_port_obj.flush()
@@ -102,7 +89,7 @@ class SerialConnection:
             LOGGER.info('Received message: %s', bytes_from_dev)
 
         try:
-            results = bytes_from_dev.decode(self.configs['connection']['encoding']).strip()
+            results = bytes_from_dev.decode(self.configs['encoding']).strip()
         except UnicodeDecodeError as e:
             return False, f'An exception occurred when decoding results: "{e}"'
 
