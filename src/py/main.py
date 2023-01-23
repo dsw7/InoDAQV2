@@ -1,7 +1,7 @@
 import sys
 import logging
 from pathlib import Path
-from tkinter import Tk
+from tkinter import Tk, _tkinter
 from configparser import ConfigParser
 from serial_connection import SerialConnection
 from user_interface import PanelDig, PanelPWM
@@ -37,11 +37,15 @@ def main() -> None:
     configs = read_ini()
     setup_logger()
 
-    with SerialConnection(configs['connection']) as connection:
+    try:
         root = Tk()
-        root.title('InoDAQV2')
-        root.geometry('1200x300')
+    except _tkinter.TclError as exception:
+        sys.exit(f'Missing X11 graphic layer: "{exception}"')
 
+    root.title('InoDAQV2')
+    root.geometry(configs['gui']['dimensions'])
+
+    with SerialConnection(configs['connection']) as connection:
         PanelDig(root, connection)
         PanelPWM(root)
         root.mainloop()
