@@ -43,7 +43,6 @@ def main() -> None:
         sys.exit(f'Missing X11 graphic layer: "{exception}"')
 
     root.title('InoDAQV2')
-    root.geometry(configs['gui']['dimensions'])
 
     with SerialConnection(configs['connection']) as connection:
         PanelDig(root, connection)
