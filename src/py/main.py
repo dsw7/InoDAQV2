@@ -1,5 +1,6 @@
 import typing
 import tkinter as tk
+from serial_connection import SerialConnection
 
 T = typing.TypeVar('T')
 PACK_FRAME = {'side': 'left', 'fill': 'both', 'expand': True, 'padx': 5, 'pady': 5}
@@ -8,12 +9,13 @@ PACK_GRID = {'column': 1, 'sticky': 'W', 'padx': 5}
 
 class PanelDig:
 
-    def __init__(self: T, master: tk.Tk) -> T:
+    def __init__(self: T, root: tk.Tk, connection: SerialConnection) -> T:
 
-        frame = tk.LabelFrame(master, relief=tk.GROOVE, bd=1, text='Toggle digital pins')
-        frame.pack(**PACK_FRAME)
-
+        self.connection = connection
         self.pins = {}
+
+        frame = tk.LabelFrame(root, relief=tk.GROOVE, bd=1, text='Toggle digital pins')
+        frame.pack(**PACK_FRAME)
 
         for pin in range(2, 14):
             self.pins[pin] = tk.BooleanVar()
@@ -37,9 +39,9 @@ class PanelDig:
 
 class PanelPWM:
 
-    def __init__(self: T, master: tk.Tk) -> T:
+    def __init__(self: T, root: tk.Tk) -> T:
 
-        frame = tk.LabelFrame(master, relief=tk.GROOVE, bd=1, text='Replace')
+        frame = tk.LabelFrame(root, relief=tk.GROOVE, bd=1, text='Replace')
         frame.pack(**PACK_FRAME)
 
         tk.Label(frame, text='Enter ID here:').pack(anchor='w', padx=5)
@@ -55,19 +57,15 @@ class PanelPWM:
         print('Entry ID:', self._id.get())
 
 
-class Master:
-    def __init__(self, master):
-        master.title('Unknown')
-        master.geometry('1200x300')
+def main() -> None:
+    with SerialConnection() as connection:
+        root = tk.Tk()
+        root.title('InoDAQV2')
+        root.geometry('1200x300')
 
-        PanelDig(master)
-        PanelPWM(master)
-
-
-def main():
-    root = tk.Tk()
-    Master(root)
-    root.mainloop()
+        PanelDig(root, connection)
+        PanelPWM(root)
+        root.mainloop()
 
 if __name__ == '__main__':
     main()
