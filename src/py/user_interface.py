@@ -30,7 +30,15 @@ class PanelDig:
         tk.Checkbutton(frame, text='Pin 13', variable=self.pins[13], command=lambda: self.toggle(13)).grid(**consts.PACK_GRID, row=13)
 
     def toggle(self: consts.T, pin: int) -> None:
-        print(pin, self.pins[pin].get())
+        command = f'dig:{pin}:'
+
+        if self.pins[pin].get():
+            command += 'on'
+        else:
+            command += 'off'
+
+        self.connection.send_message(command)
+        self.connection.receive_message()
 
 
 class PanelPWM:

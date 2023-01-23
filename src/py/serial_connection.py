@@ -8,7 +8,7 @@ from pathlib import Path
 import serial
 from consts import T
 
-logger = getLogger('inodaq')
+LOGGER = getLogger('inodaq')
 
 def read_ini() -> ConfigParser:
 
@@ -41,7 +41,7 @@ class SerialConnection:
             'port': self.configs['connection']['port']
         }
 
-        logger.info('Connecting using parameters:\n%s', dumps(connection_params, indent=4))
+        LOGGER.info('Connecting using parameters:\n%s', dumps(connection_params, indent=4))
 
         try:
             self.serial_port_obj = serial.Serial(**connection_params)
@@ -54,7 +54,7 @@ class SerialConnection:
         # Opening a connection will send a DTR (Data Terminal Ready) signal to device, which will
         # force the device to reset. Give device 2 seconds to reset
 
-        logger.info('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
+        LOGGER.info('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
         sleep(2)
 
         return self
@@ -62,10 +62,10 @@ class SerialConnection:
     def __exit__(self: T, *args) -> None:
 
         if self.serial_port_obj is None:
-            logger.info('Not closing connection. Connection was never opened!')
+            LOGGER.info('Not closing connection. Connection was never opened!')
             return
 
-        logger.info('Closing connection!')
+        LOGGER.info('Closing connection!')
 
         if self.serial_port_obj.is_open:
 
@@ -75,15 +75,15 @@ class SerialConnection:
 
     def send_message(self: T, message: str) -> None:
 
-        logger.info('Sending message: "%s"', message)
+        LOGGER.info('Sending message: "%s"', message)
         message = message.encode(encoding=self.configs['connection']['encoding'])
 
-        logger.info('Sent %i bytes', self.serial_port_obj.write(message))
+        LOGGER.info('Sent %i bytes', self.serial_port_obj.write(message))
         self.serial_port_obj.flush()
 
     def receive_message(self: T) -> Tuple[bool, str]:
 
-        logger.info('Waiting to receive message...')
+        LOGGER.info('Waiting to receive message...')
         message_received = False
 
         while not message_received:
@@ -95,10 +95,10 @@ class SerialConnection:
             message_received = True
 
         if len(bytes_from_dev) > 40:
-            logger.info('Received message: %s...', bytes_from_dev[:40])
-            logger.info('Message was truncated due to excessive length')
+            LOGGER.info('Received message: %s...', bytes_from_dev[:40])
+            LOGGER.info('Message was truncated due to excessive length')
         else:
-            logger.info('Received message: %s', bytes_from_dev)
+            LOGGER.info('Received message: %s', bytes_from_dev)
 
         try:
             results = bytes_from_dev.decode(self.configs['connection']['encoding']).strip()
