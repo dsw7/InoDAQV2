@@ -1,8 +1,24 @@
+import logging
 from tkinter import Tk
 from serial_connection import SerialConnection
 from user_interface import PanelDig, PanelPWM
 
+def setup_logger() -> None:
+
+    logger = logging.getLogger('inodaq')
+    logger.setLevel(logging.DEBUG)
+
+    stream = logging.StreamHandler()
+    formatter = logging.Formatter(
+        fmt='%(asctime)s.%(msecs)03d %(message)s',
+        datefmt='%Y-%m-%d %I:%M:%S'
+    )
+    stream.setFormatter(formatter)
+
+    logger.addHandler(stream)
+
 def main() -> None:
+    setup_logger()
 
     with SerialConnection() as connection:
         root = Tk()
