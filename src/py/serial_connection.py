@@ -2,12 +2,12 @@ import sys
 from logging import getLogger
 from time import sleep
 from json import dumps
-from typing import Tuple
+from typing import Tuple, TypeVar
 from configparser import ConfigParser
 from pathlib import Path
 import serial
-from consts import T
 
+T = TypeVar('T')
 LOGGER = getLogger('inodaq')
 
 def read_ini() -> ConfigParser:
@@ -57,6 +57,7 @@ class SerialConnection:
         LOGGER.info('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
         sleep(2)
 
+        LOGGER.info('Device ready to accept instructions')
         return self
 
     def __exit__(self: T, *args) -> None:

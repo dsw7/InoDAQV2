@@ -6,7 +6,7 @@ from user_interface import PanelDig, PanelPWM
 def setup_logger() -> None:
 
     logger = logging.getLogger('inodaq')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
     stream = logging.StreamHandler()
     formatter = logging.Formatter(
