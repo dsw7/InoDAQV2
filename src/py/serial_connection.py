@@ -7,10 +7,11 @@ from configparser import SectionProxy
 import serial
 
 T = TypeVar('T')
-LOGGER = getLogger('inodaq')
 
 
 class SerialConnection:
+
+    logger = getLogger('inodaqv2')
 
     def __init__(self: T, configs: SectionProxy) -> T:
 
@@ -28,7 +29,7 @@ class SerialConnection:
             'port': self.configs['port']
         }
 
-        LOGGER.info('Connecting using parameters:\n%s', dumps(connection_params, indent=4))
+        self.logger.info('Connecting using parameters:\n%s', dumps(connection_params, indent=4))
 
         try:
             self.serial_port_obj = serial.Serial(**connection_params)
@@ -41,19 +42,19 @@ class SerialConnection:
         # Opening a connection will send a DTR (Data Terminal Ready) signal to device, which will
         # force the device to reset. Give device 2 seconds to reset
 
-        LOGGER.info('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
+        self.logger.info('DTR (Data Terminal Ready) was sent. Waiting for device to reset')
         sleep(2)
 
-        LOGGER.info('Device ready to accept instructions')
+        self.logger.info('Device ready to accept instructions!')
         return self
 
     def __exit__(self: T, *args) -> None:
 
         if self.serial_port_obj is None:
-            LOGGER.info('Not closing connection. Connection was never opened!')
+            self.logger.info('Not closing connection. Connection was never opened!')
             return
 
-        LOGGER.info('Closing connection!')
+        self.logger.info('Closing connection!')
 
         if self.serial_port_obj.is_open:
 
@@ -63,15 +64,15 @@ class SerialConnection:
 
     def send_message(self: T, message: str) -> None:
 
-        LOGGER.info('Sending message: "%s"', message)
+        self.logger.debug('Sending message: "%s"', message)
         message = message.encode(encoding=self.configs['encoding'])
 
-        LOGGER.info('Sent %i bytes', self.serial_port_obj.write(message))
+        self.logger.debug('Sent %i bytes', self.serial_port_obj.write(message))
         self.serial_port_obj.flush()
 
     def receive_message(self: T) -> Tuple[bool, str]:
 
-        LOGGER.info('Waiting to receive message...')
+        self.logger.debug('Waiting to receive message...')
         message_received = False
 
         while not message_received:
@@ -82,11 +83,11 @@ class SerialConnection:
             bytes_from_dev = self.serial_port_obj.read_until()  # Reads until \n by default
             message_received = True
 
-        if len(bytes_from_dev) > 40:
-            LOGGER.info('Received message: %s...', bytes_from_dev[:40])
-            LOGGER.info('Message was truncated due to excessive length')
+        if len(bytes_from_dev) > 80:
+            self.logger.debug('Received message: %s...', bytes_from_dev[:80])
+            self.logger.debug('Message was truncated due to excessive length')
         else:
-            LOGGER.info('Received message: %s', bytes_from_dev)
+            self.logger.debug('Received message: %s', bytes_from_dev)
 
         try:
             results = bytes_from_dev.decode(self.configs['encoding']).strip()

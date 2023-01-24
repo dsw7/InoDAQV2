@@ -10,6 +10,8 @@ T = TypeVar('T')
 
 class PanelBase(ABC):
 
+    # TODO: add logger here
+
     kw_labelframe = {
         'side': 'left', 'fill': 'both', 'expand': True, 'padx': 5, 'pady': 5, 'ipady': 3, 'ipadx': 3
     }

@@ -20,8 +20,8 @@ def read_ini() -> ConfigParser:
 
 def setup_logger() -> None:
 
-    logger = logging.getLogger('inodaq')
-    logger.setLevel(logging.INFO)
+    logger = logging.getLogger('inodaqv2')
+    logger.setLevel(logging.DEBUG)
 
     stream = logging.StreamHandler()
     formatter = logging.Formatter(
