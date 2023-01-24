@@ -25,7 +25,7 @@ def setup_logger() -> None:
 
     stream = logging.StreamHandler()
     formatter = logging.Formatter(
-        fmt='%(asctime)s.%(msecs)03d %(message)s',
+        fmt='%(asctime)s.%(msecs)03d %(levelname)s %(message)s',
         datefmt='%Y-%m-%d %I:%M:%S'
     )
     stream.setFormatter(formatter)
@@ -46,7 +46,7 @@ def main() -> None:
 
     with SerialConnection(configs['connection']) as connection:
         PanelDig(root, connection)
-        PanelPWM(root)
+        PanelPWM(root, connection)
         root.mainloop()
 
 if __name__ == '__main__':
