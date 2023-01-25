@@ -1,6 +1,7 @@
+from logging import getLogger
 from abc import ABC, abstractmethod
 from typing import TypeVar
-from math import ceil
+from math import ceil, floor
 from functools import partial
 import tkinter as tk
 from serial_connection import SerialConnection
@@ -10,7 +11,7 @@ T = TypeVar('T')
 
 class PanelBase(ABC):
 
-    # TODO: add logger here
+    logger = getLogger('inodaqv2')
 
     kw_labelframe = {
         'side': 'left', 'fill': 'both', 'expand': True, 'padx': 5, 'pady': 5, 'ipady': 3, 'ipadx': 3
@@ -55,14 +56,21 @@ class PanelDig(PanelBase):
             command += 'off'
 
         self.connection.send_message(command)
-        self.connection.receive_message()
+        status, message = self.connection.receive_message()
+
+        if status:
+            self.logger.info(message)
+        else:
+            self.logger.error(message)
 
 
 class PanelPWM(PanelBase):
 
     kw_button = {'column': 1, 'padx': 3}
     kw_scale = {'column': 2, 'padx': 3}
+
     duty_cycle_to_analog = 255 / 100
+    inv_duty_cycle_to_analog = 100 / 255
 
     def setup_panel(self: T) -> None:
 
@@ -77,7 +85,16 @@ class PanelPWM(PanelBase):
     def toggle(self: T, pin: int) -> None:
 
         pwm = ceil(self.duty_cycle_to_analog * self.pins[pin].get())
+        self.logger.debug('Scaled %i up to %i (8 bit range)', self.pins[pin].get(), pwm)
+
         command = f'pwm:{pin}:{pwm}'
 
         self.connection.send_message(command)
-        self.connection.receive_message()
+        status, message = self.connection.receive_message()
+
+        if not status:
+            self.logger.error(message)
+            return
+
+        pwm = floor(self.inv_duty_cycle_to_analog * int(message.split()[-1]))
+        self.logger.info('Pin 11 emitting PWM wave with duty cycle of %i%%', pwm)
