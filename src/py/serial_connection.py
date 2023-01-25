@@ -46,6 +46,16 @@ class SerialConnection:
         sleep(2)
 
         self.logger.info('Device ready to accept instructions!')
+
+        self.send_message('hello')
+        status, message = self.receive_message()
+
+        if not status:
+            sys.exit(f'Failed to connect on handshake: {message}')
+
+        if message != 'Hello from InoDAQV2':
+            sys.exit('Handshake returned unrecognized message. Is the right code uploaded to device?')
+
         return self
 
     def __exit__(self: T, *args) -> None:
@@ -92,7 +102,6 @@ class SerialConnection:
         try:
             results = bytes_from_dev.decode(self.configs['encoding']).strip()
         except UnicodeDecodeError as e:
-            # TODO: should this be logged to an error?
             return False, f'An exception occurred when decoding results: "{e}"'
 
         status, message = results.split(';')
