@@ -80,7 +80,7 @@ class PanelPWM(PanelBase):
         for row, p in enumerate((3, 5, 6, 9, 10, 11), 2):
             self.pins[p] = tk.IntVar()
             tk.Button(frame, text=p, command=partial(self.toggle, p), width=3).grid(**self.kw_button, row=row)
-            tk.Scale(frame, variable=self.pins[p], orient=tk.HORIZONTAL).grid(**self.kw_scale, row=row)
+            tk.Scale(frame, variable=self.pins[p], orient=tk.HORIZONTAL, length=150).grid(**self.kw_scale, row=row)
 
     def toggle(self: T, pin: int) -> None:
 
