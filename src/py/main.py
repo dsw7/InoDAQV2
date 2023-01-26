@@ -4,7 +4,9 @@ from pathlib import Path
 from tkinter import Tk, _tkinter
 from configparser import ConfigParser
 from serial_connection import SerialConnection
-from user_interface import PanelDig, PanelPWM
+from command_dig import PanelDig
+from command_pwm import PanelPWM
+
 
 def read_ini() -> ConfigParser:
 
