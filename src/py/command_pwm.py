@@ -1,14 +1,13 @@
 from math import ceil, floor
 from functools import partial
-from tkinter import LabelFrame, Button, Scale, Event
+from tkinter import LabelFrame, Scale, Event
 from tkinter import IntVar, GROOVE, HORIZONTAL
 from base import PanelBase, T
 
 
 class PanelPWM(PanelBase):
 
-    kw_button = {'column': 1, 'padx': 3}
-    kw_scale = {'column': 2, 'padx': 3}
+    kw_scale = {'column': 1, 'padx': 3}
 
     duty_cycle_to_analog = 255 / 100
     inv_duty_cycle_to_analog = 100 / 255
@@ -20,10 +19,10 @@ class PanelPWM(PanelBase):
 
         for row, p in enumerate((3, 5, 6, 9, 10, 11), 2):
             self.pins[p] = IntVar()
-            Button(frame, text=p, command=partial(self.toggle, p), width=3).grid(**self.kw_button, row=row)
-            s = Scale(frame, variable=self.pins[p], orient=HORIZONTAL, length=150)
-            s.bind('<ButtonRelease-1>', partial(self.toggle, p))
-            s.grid(**self.kw_scale, row=row)
+
+            scale = Scale(frame, variable=self.pins[p], orient=HORIZONTAL, length=150)
+            scale.bind('<ButtonRelease-1>', partial(self.toggle, p))
+            scale.grid(**self.kw_scale, row=row)
 
     def toggle(self: T, pin: int, *event: Event) -> None:
 
