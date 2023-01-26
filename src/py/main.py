@@ -7,7 +7,6 @@ from serial_connection import SerialConnection
 from command_dig import PanelDig
 from command_pwm import PanelPWM
 
-
 def read_ini() -> ConfigParser:
 
     path_ini = Path(__file__).parents[1] / 'configs/inodaqv2.ini'
