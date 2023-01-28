@@ -18,6 +18,13 @@ void setup()
         ::pinMode(pin, OUTPUT);
         ::digitalWrite(pin, LOW);
     }
+
+    ::pinMode(A0, INPUT);
+    ::pinMode(A1, INPUT);
+    ::pinMode(A2, INPUT);
+    ::pinMode(A3, INPUT);
+    ::pinMode(A4, INPUT);
+    ::pinMode(A5, INPUT);
 }
 
 void loop()
