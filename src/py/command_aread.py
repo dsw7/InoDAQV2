@@ -1,15 +1,14 @@
 from tkinter import LabelFrame, Text, Button
-from tkinter import GROOVE, INSERT
+from tkinter import GROOVE, END
 from base import PanelBase, T
 
 
 class PanelAread(PanelBase):
 
     kw_label_text = {'column': 1, 'padx': 3, 'pady': 3}
-    kw_button = {'column': 1, 'pady': 3, 'row': 7}
+    kw_button = {'column': 1, 'pady': 3, 'row': 6}
 
-    duty_cycle_to_analog = 255 / 100
-    inv_duty_cycle_to_analog = 100 / 255
+    analog_to_volt = 5.0 / 1023
 
     def setup_panel(self: T) -> None:
 
@@ -23,7 +22,7 @@ class PanelAread(PanelBase):
             self.pins[p] = Text(subframe, height=1, width=20)
             self.pins[p].grid(**self.kw_label_text, row=p)
 
-            self.pins[p].insert(INSERT, ' ...')
+            self.pins[p].insert(END, ' ...')
 
         Button(frame, text='READ', command=self.toggle).grid(**self.kw_button)
 
@@ -35,3 +34,9 @@ class PanelAread(PanelBase):
         if not status:
             self.logger.error(message)
             return
+
+        volts = [round(int(i) * self.analog_to_volt, 3) for i in message.split(',')]
+
+        for p in range(0, 6):
+            self.pins[p].delete(1.0, END)
+            self.pins[p].insert(END, volts[p])
