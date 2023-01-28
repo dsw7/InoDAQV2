@@ -3,7 +3,7 @@ from configparser import ConfigParser
 from pytest import fixture
 from src.py.serial_connection import SerialConnection
 
-@fixture(scope='module')
+@fixture(scope='session')
 def connection() -> SerialConnection:
     path_ini = Path(__file__).parents[1] / 'configs/inodaqv2.ini'
 
