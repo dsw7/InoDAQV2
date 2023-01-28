@@ -1,7 +1,7 @@
 from logging import getLogger
 from abc import ABC, abstractmethod
 from typing import TypeVar
-from tkinter import Tk, Event
+from tkinter import Tk
 from serial_connection import SerialConnection
 
 T = TypeVar('T')
@@ -24,9 +24,4 @@ class PanelBase(ABC):
 
     @abstractmethod
     def setup_panel(self: T) -> None:
-        pass
-
-    # TODO: maybe make this not abstract
-    @abstractmethod
-    def toggle(self: T, pin: int, *event: Event) -> None:
         pass

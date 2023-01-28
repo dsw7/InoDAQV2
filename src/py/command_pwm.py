@@ -17,7 +17,7 @@ class PanelPWM(PanelBase):
         frame = LabelFrame(self.root, relief=GROOVE, bd=1, text='PWM')
         frame.pack(**self.kw_labelframe)
 
-        for row, p in enumerate((3, 5, 6, 9, 10, 11), 2):
+        for row, p in enumerate((3, 5, 6, 9, 10, 11)):
             self.pins[p] = IntVar()
 
             scale = Scale(frame, variable=self.pins[p], orient=HORIZONTAL, length=150)

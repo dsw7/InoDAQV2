@@ -1,5 +1,5 @@
 from functools import partial
-from tkinter import LabelFrame, Checkbutton, Event
+from tkinter import LabelFrame, Checkbutton
 from tkinter import GROOVE, BooleanVar
 from base import PanelBase, T
 
@@ -15,9 +15,9 @@ class PanelDig(PanelBase):
 
         for p in range(2, 14):
             self.pins[p] = BooleanVar()
-            Checkbutton(frame, text=f'Pin {p}', variable=self.pins[p], command=partial(self.toggle, p)).grid(**self.kw_button, row=p)
+            Checkbutton(frame, text=f'Pin {p}', variable=self.pins[p], command=partial(self.toggle, p)).grid(**self.kw_button, row=p - 2)
 
-    def toggle(self: T, pin: int, *event: Event) -> None:
+    def toggle(self: T, pin: int) -> None:
 
         command = f'dig:{pin}:'
 
