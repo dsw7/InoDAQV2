@@ -1,3 +1,4 @@
+#include "command_aread.h"
 #include "command_dig.h"
 #include "command_ping.h"
 #include "command_pwm.h"
@@ -49,6 +50,10 @@ void loop()
         else if (command.startsWith(F("pwm:")))
         {
             Command::command_pwm(command);
+        }
+        else if (command == F("aread"))
+        {
+            Command::command_aread();
         }
         else if (command == F("exit"))
         {
