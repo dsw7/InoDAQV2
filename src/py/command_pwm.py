@@ -7,7 +7,7 @@ from base import PanelBase, T
 
 class PanelPWM(PanelBase):
 
-    kw_scale = {'column': 1, 'padx': 3}
+    kw_label_scale = {'column': 1, 'padx': 3}
 
     duty_cycle_to_analog = 255 / 100
     inv_duty_cycle_to_analog = 100 / 255
@@ -18,11 +18,15 @@ class PanelPWM(PanelBase):
         frame.pack(**self.kw_labelframe)
 
         for row, p in enumerate((3, 5, 6, 9, 10, 11)):
+
             self.pins[p] = IntVar()
 
-            scale = Scale(frame, variable=self.pins[p], orient=HORIZONTAL, length=150)
+            subframe = LabelFrame(frame, relief=GROOVE, bd=1, text=f'Pin {p}')
+            subframe.grid(**self.kw_label_scale, row=row)
+
+            scale = Scale(subframe, variable=self.pins[p], orient=HORIZONTAL, length=150)
             scale.bind('<ButtonRelease-1>', partial(self.toggle, p))
-            scale.grid(**self.kw_scale, row=row)
+            scale.grid(**self.kw_label_scale, row=row)
 
     def toggle(self: T, pin: int, *event: Event) -> None:
 
