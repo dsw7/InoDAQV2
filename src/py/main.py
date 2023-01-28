@@ -6,6 +6,7 @@ from configparser import ConfigParser
 from serial_connection import SerialConnection
 from command_dig import PanelDig
 from command_pwm import PanelPWM
+from command_aread import PanelAread
 
 def read_ini() -> ConfigParser:
 
@@ -48,6 +49,7 @@ def main() -> None:
     with SerialConnection(configs['connection']) as connection:
         PanelDig(root, connection)
         PanelPWM(root, connection)
+        PanelAread(root, connection)
         root.mainloop()
 
 if __name__ == '__main__':
