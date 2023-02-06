@@ -1,5 +1,6 @@
 #include "command_aread.h"
 #include "command_dig.h"
+#include "command_dread.h"
 #include "command_ping.h"
 #include "command_pwm.h"
 #include "helpers.h"
@@ -54,6 +55,10 @@ void loop()
         else if (command == F("aread"))
         {
             Command::command_aread();
+        }
+        else if (command == F("dread"))
+        {
+            Command::command_dread();
         }
         else if (command == F("exit"))
         {
