@@ -82,7 +82,7 @@ duty cycle of the emitted wave.
 This window can be used to read the analog voltages on analog pins A0 through A5.
 
 ### Window: DigitalRead
-This window can be used to read the binary state of analog pins A0 through A5.
+This window can be used to read the binary states of analog pins A0 through A5.
 
 ### Specifying a serial port
 By default, this device attempts to connect to the serial port "COM3" (or `/dev/ttyS2`). A different serial
