@@ -5,6 +5,7 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
     - [Hardware requirements](#hardware-requirements)
     - [Python requirements](#python-requirements)
     - [Uploading code to device](#uploading-code-to-device)
+    - [Testing device connectivity](#testing-device-connectivity)
 
 ## Setup
 
@@ -22,14 +23,12 @@ Uno, change the FQBN as follows:
 sed -i 's/FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno/FULLY_QUALIFIED_BOARD_NAME = <your-fqbn>/' Makefile
 ```
 **NOTE:** This project was only tested with the Arduino Uno. Other boards may or may not be compatible.
-
 ### Python requirements
 This project's GUI and API are written in Python and use several Python libraries. These libraries must be
 installed. To install the libraries:
 ```
 python3 -m pip install --user --requirement requirements.txt
 ```
-
 ### Uploading code to device
 The code located in this repository must be uploaded to the device. To upload the code, run the `upload`
 `make` target:
@@ -40,3 +39,9 @@ The `<serial-port>` argument can be either a COM port (if running from a Windows
 (if running from a Linux based host). In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n -
 1>`. For example, `COM3` would map to `/dev/ttyS2`. This mapping may be relevant if running this program on
 Cygwin.
+### Testing device connectivity
+Unit tests can be run against the device as a final sanity check. Ensure that the device is plugged into a
+free serial port and run the following `make` target:
+```
+make test SERIAL_PORT=<serial-port>
+```
