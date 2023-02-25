@@ -8,6 +8,10 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
     - [Testing device connectivity](#testing-device-connectivity)
 - [Usage](#usage)
     - [Specifying a serial port](#specifying-a-serial-port)
+    - [Window: Digital](#window-digital)
+    - [Window: PWM](#window-pwm)
+    - [Window: AnalogRead](#window-analogread)
+    - [Window: DigitalRead](#window-digitalread)
 
 ## Setup
 
@@ -59,7 +63,16 @@ python3 src/py/main.py
 If the unit tests under the [Testing device connectivity](#testing-device-connectivity) section passed, this
 invocation should start a GUI. Additionally, the program should begin to log to the command line. If the
 device is not plugged in, the command line will log an error indicating that the target serial port could not
-be opened.
+be opened. Additionally, a custom serial port may need to be specified. See the [Specifying a serial
+port](#specifying-a-serial-port) section for more details.
+
+The GUI is broken up into several "windows" - with each window serving a specific role. The following sections
+describe the windows in more detail.
+
+### Window: Digital
+### Window: PWM
+### Window: AnalogRead
+### Window: DigitalRead
 
 ### Specifying a serial port
 By default, this device attempts to connect to the serial port "COM3" (or `/dev/ttyS2`). A different serial
