@@ -1,15 +1,4 @@
-.PHONY = help check-env compile upload test
-
-PATH_CFG = src/configs/inodaqv2.ini
-
-# Automatically set serial port (path to device file) from INI file if not on a Windows machine
-ifdef OS
-	ifneq ($(OS),Windows_NT)
-		SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
-	endif
-else
-	SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
-endif
+.PHONY = help compile upload test
 
 ifndef TMP
     ifndef TMPDIR
@@ -20,7 +9,8 @@ endif
 
 BUILD_PATH = $(TMP)/inodaq-v2-build/
 CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
-
+PATH_CFG = src/configs/inodaqv2.ini
+SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
 LIGHT_PURPLE = "\033[1;1;35m"
 NO_COLOR = "\033[0m"
 FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
@@ -46,13 +36,7 @@ export HELP_LIST_TARGETS
 help:
 	@echo "$$HELP_LIST_TARGETS"
 
-check-env:
-ifndef SERIAL_PORT
-	$(warning Could not automatically set SERIAL_PORT. Is this a Windows machine?)
-	$(error Try running "make <target> SERIAL_PORT=<com port>")
-endif
-
-compile: check-env
+compile:
 	$(call MESSAGE,Compiling Arduino code)
 	@arduino-cli compile \
 	--port $(SERIAL_PORT) \

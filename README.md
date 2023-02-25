@@ -4,6 +4,7 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
 - [Setup](#setup)
     - [Hardware requirements](#hardware-requirements)
     - [Python requirements](#python-requirements)
+    - [Specifying a serial port](#specifying-a-serial-port)
     - [Uploading code to device](#uploading-code-to-device)
     - [Testing device connectivity](#testing-device-connectivity)
 - [Usage](#usage)
@@ -11,7 +12,6 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
     - [Window: PWM](#window-pwm)
     - [Window: AnalogRead](#window-analogread)
     - [Window: DigitalRead](#window-digitalread)
-    - [Specifying a serial port](#specifying-a-serial-port)
 
 ## Setup
 
@@ -37,23 +37,39 @@ installed. To install the libraries:
 python3 -m pip install --user --requirement requirements.txt
 ```
 
+### Specifying a serial port
+Once the requirements have been installed, the serial port by which the device will transmit data must be
+specified. The port can be specified by modifying the "port" field in
+[inodaqv2.ini](./src/configs/inodaqv2.ini). On Windows this field would refer to a COM port (i.e. `COM3`) and
+on Linux based systems this field would refer to the full path to a device file (i.e. `/dev/ttyS2`).
+
 ### Uploading code to device
 The code located in this repository must be uploaded to the device. To upload the code, run the `upload`
 `make` target:
 ```
-make upload SERIAL_PORT=<serial-port>
+make upload
 ```
-The `<serial-port>` argument can be either a COM port (if running from a Windows based host) or a device file
-(if running from a Linux based host). In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n -
-1>`. For example, `COM3` would map to `/dev/ttyS2`. This mapping may be relevant if running this program on
-Cygwin.
+**NOTE:** Cygwin is unique. A device file should be specified in [inodaqv2.ini](./src/configs/inodaqv2.ini)
+but the equivalent COM port should be specified when running the `make` target:
+```
+make upload SERIAL_PORT=<com-port>
+```
+In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n - 1>`. For example, `COM3` would map to
+`/dev/ttyS2`.
 
 ### Testing device connectivity
 Unit tests can be run against the device as a final sanity check. Ensure that the device is plugged into a
 free serial port and run the following `make` target:
 ```
-make test SERIAL_PORT=<serial-port>
+make test
 ```
+**NOTE:** Cygwin is unique. A device file should be specified in [inodaqv2.ini](./src/configs/inodaqv2.ini)
+but the equivalent COM port should be specified when running the `make` target:
+```
+make upload SERIAL_PORT=<com-port>
+```
+In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n - 1>`. For example, `COM3` would map to
+`/dev/ttyS2`.
 
 ## Usage
 To use the product, run:
@@ -63,11 +79,8 @@ python3 src/py/main.py
 If the unit tests under the [Testing device connectivity](#testing-device-connectivity) section passed, this
 invocation should start a GUI. Additionally, the program should begin to log to the command line. If the
 device is not plugged in, the command line will log an error indicating that the target serial port could not
-be opened. Additionally, a custom serial port may need to be specified. See the [Specifying a serial
-port](#specifying-a-serial-port) section for more details.
-
-The GUI is broken up into several "windows" - with each window serving a specific role. The following sections
-describe the windows in more detail.
+be opened. The GUI is broken up into several "windows" - with each window serving a specific role. The
+following sections describe the windows in more detail.
 
 ### Window: Digital
 This window is used to toggle digital pins 2 through 13 on the device. The pins toggle to either a HIGH or LOW
@@ -83,7 +96,3 @@ This window can be used to read the analog voltages on analog pins A0 through A5
 
 ### Window: DigitalRead
 This window can be used to read the binary states of analog pins A0 through A5.
-
-### Specifying a serial port
-By default, this device attempts to connect to the serial port "COM3" (or `/dev/ttyS2`). A different serial
-port can be specified via [inodaqv2.ini](./src/configs/inodaqv2.ini) - specifically the "port" field.
