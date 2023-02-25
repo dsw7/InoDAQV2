@@ -1,5 +1,14 @@
 .PHONY = help check-env compile upload test
 
+ifndef TMP
+    $(info Could not find "TMP" environment variable)
+    $(info Will look for "TMPDIR" environment variable)
+    ifndef TMPDIR
+        $(error No "TMPDIR" environment variable. Cannot proceed)
+    endif
+    TMP=$(TMPDIR)
+endif
+
 LIGHT_PURPLE = "\033[1;1;35m"
 NO_COLOR = "\033[0m"
 FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
