@@ -1,11 +1,6 @@
 .PHONY = help check-env compile upload test
 
-ifndef TMP
-    ifndef TMPDIR
-        $(error No "TMP" or "TMPDIR" environment variable. Cannot proceed)
-    endif
-    TMP=$(TMPDIR)
-endif
+PATH_CFG = src/configs/inodaqv2.ini
 
 # Automatically set serial port (path to device file) from INI file if not on a Windows machine
 ifdef OS
@@ -16,13 +11,20 @@ else
 	SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
 endif
 
+ifndef TMP
+    ifndef TMPDIR
+        $(error No "TMP" or "TMPDIR" environment variable. Cannot proceed)
+    endif
+    TMP=$(TMPDIR)
+endif
+
+BUILD_PATH = $(TMP)/inodaq-v2-build/
+CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
+
 LIGHT_PURPLE = "\033[1;1;35m"
 NO_COLOR = "\033[0m"
 FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
 PATH_INO_SRC = src/ino
-PATH_CFG = src/configs/inodaqv2.ini
-BUILD_PATH = $(TMP)/inodaq-v2-build/
-CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
 
 define MESSAGE
 	@echo -e $(LIGHT_PURPLE)\> $(1)$(NO_COLOR)
