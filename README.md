@@ -7,11 +7,11 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
     - [Uploading code to device](#uploading-code-to-device)
     - [Testing device connectivity](#testing-device-connectivity)
 - [Usage](#usage)
-    - [Specifying a serial port](#specifying-a-serial-port)
     - [Window: Digital](#window-digital)
     - [Window: PWM](#window-pwm)
     - [Window: AnalogRead](#window-analogread)
     - [Window: DigitalRead](#window-digitalread)
+    - [Specifying a serial port](#specifying-a-serial-port)
 
 ## Setup
 
@@ -70,9 +70,19 @@ The GUI is broken up into several "windows" - with each window serving a specifi
 describe the windows in more detail.
 
 ### Window: Digital
+This window is used to toggle digital pins 2 through 13 on the device. The pins toggle to either a HIGH or LOW
+state. Toggling pin 13 on an Uno device should turn the onboard LED either on or off. This behaviour can be
+used as a sanity check.
+
 ### Window: PWM
+This window can be used to emit a PWM wave on any PWM compatible digital pin. The slider is used to select the
+duty cycle of the emitted wave.
+
 ### Window: AnalogRead
+This window can be used to read the analog voltages on analog pins A0 through A5.
+
 ### Window: DigitalRead
+This window can be used to read the binary state of analog pins A0 through A5.
 
 ### Specifying a serial port
 By default, this device attempts to connect to the serial port "COM3" (or `/dev/ttyS2`). A different serial
