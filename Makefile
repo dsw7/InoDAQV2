@@ -7,10 +7,20 @@ ifndef TMP
     TMP=$(TMPDIR)
 endif
 
+# Automatically set serial port (path to device file) from INI file if not on a Windows machine
+ifdef OS
+	ifneq ($(OS),Windows_NT)
+		SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
+	endif
+else
+	SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
+endif
+
 LIGHT_PURPLE = "\033[1;1;35m"
 NO_COLOR = "\033[0m"
 FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
 PATH_INO_SRC = src/ino
+PATH_CFG = src/configs/inodaqv2.ini
 BUILD_PATH = $(TMP)/inodaq-v2-build/
 CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
 
@@ -36,7 +46,8 @@ help:
 
 check-env:
 ifndef SERIAL_PORT
-	$(error SERIAL_PORT is not set. Run "make <target> SERIAL_PORT=<serial-port-or-device-file>")
+	$(warning Could not automatically set SERIAL_PORT. Is this a Windows machine?)
+	$(error Try running "make <target> SERIAL_PORT=<com port>")
 endif
 
 compile: check-env
