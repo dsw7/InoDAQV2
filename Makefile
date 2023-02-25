@@ -1,10 +1,8 @@
 .PHONY = help check-env compile upload test
 
 ifndef TMP
-    $(info Could not find "TMP" environment variable)
-    $(info Will look for "TMPDIR" environment variable)
     ifndef TMPDIR
-        $(error No "TMPDIR" environment variable. Cannot proceed)
+        $(error No "TMP" or "TMPDIR" environment variable. Cannot proceed)
     endif
     TMP=$(TMPDIR)
 endif
