@@ -89,7 +89,7 @@ used as a sanity check.
 
 ### Window: PWM
 This window can be used to emit a PWM wave on any PWM compatible digital pin. The slider is used to select the
-duty cycle of the emitted wave.
+duty cycle of the emitted wave. The PWM output frequency is approximately 490 Hz.
 
 ### Window: AnalogRead
 This window can be used to read the analog voltages on analog pins A0 through A5.
