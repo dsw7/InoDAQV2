@@ -1,4 +1,6 @@
 # InoDAQV2
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 A multifunction I/O device built atop the ATmega328P microprocessor.
 ## Table of Contents
 - [Setup](#setup)
