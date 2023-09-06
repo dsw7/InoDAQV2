@@ -56,17 +56,17 @@ upload: compile
 	$(PATH_INO_SRC)/
 
 wheel:
-	@pip3 install --upgrade build
-	@python3 -m build
+	@pip3 install wheel
+	@python3 setup.py clean --all bdist_wheel
 
 setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
 clean:
-	@rm -rfv dist/ *.egg-info/
+	@rm -rfv build/ dist/ *.egg-info/
 
 test: upload
 	@python3 -m pytest --verbose --capture=no tests
 
 black:
-	@black src
+	@black inodaqv2 tests
