@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "InoDAQV2"
+name = "inodaqv2"
 version = "1.0"
 description = "A multifunction I/O device built atop the ATmega328P microprocessor."
 requires-python = ">=3.8"
@@ -14,4 +14,4 @@ dependencies = [
 ]
 
 [project.scripts]
-inodaq = "src.py.main:main"
+inodaq = "inodaqv2.main:main"
