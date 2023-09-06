@@ -33,17 +33,20 @@ sed -i 's/FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno/FULLY_QUALIFIED_BOARD_NAM
 **NOTE:** This project was only tested with the Arduino Uno. Other boards may or may not be compatible.
 
 ### Python requirements
-This project's GUI and API are written in Python and use several Python libraries. These libraries must be
-installed. To install the libraries:
+This project's GUI is written in Python. To install the GUI, run:
 ```
-python3 -m pip install --user --requirement requirements.txt
+make setup
 ```
-
 ### Specifying a serial port
 Once the requirements have been installed, the serial port by which the device will transmit data must be
-specified. The port can be specified by modifying the "port" field in
-[inodaqv2.ini](./src/configs/inodaqv2.ini). On Windows this field would refer to a COM port (i.e. `COM3`) and
-on Linux based systems this field would refer to the full path to a device file (i.e. `/dev/ttyS2`).
+specified. The port can be specified by modifying the "port" field in [inodaqv2.ini](./.inodaqv2.ini). On
+Windows this field would refer to a COM port (i.e. `COM3`) and on Linux based systems this field would refer
+to the full path to a device file (i.e. `/dev/ttyS2`). Copy the configuration file to the host's home
+directory:
+```
+cp .inodaqv2 ~/
+```
+And modify the "port" in place.
 
 ### Uploading code to device
 The code located in this repository must be uploaded to the device. To upload the code, run the `upload`
@@ -76,7 +79,7 @@ In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n - 1>`. For
 ## Usage
 To use the product, run:
 ```
-python3 src/py/main.py
+inodaq
 ```
 If the unit tests under the [Testing device connectivity](#testing-device-connectivity) section passed, this
 invocation should start a GUI. Additionally, the program should begin to log to the command line. If the

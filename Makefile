@@ -9,7 +9,7 @@ endif
 
 BUILD_PATH = $(TMP)/inodaq-v2-build/
 CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
-PATH_CFG = src/configs/inodaqv2.ini
+PATH_CFG = $(HOME)/.inodaqv2.ini
 SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
 FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
 PATH_INO_SRC = src/ino
