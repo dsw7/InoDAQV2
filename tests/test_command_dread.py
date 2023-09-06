@@ -1,4 +1,4 @@
-from src.py.serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 
 def test_command_dread(connection: SerialConnection) -> None:

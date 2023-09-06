@@ -1,5 +1,5 @@
 from pytest import mark
-from src.py.serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 PAIRS_PWM_1 = [
     ("pwm", "Unknown command: pwm"),

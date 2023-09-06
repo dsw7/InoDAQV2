@@ -1,5 +1,5 @@
 from pytest import mark
-from src.py.serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 PAIRS_PING = [("ping", "Built in LED is ON"), ("ping", "Built in LED is OFF")]
 

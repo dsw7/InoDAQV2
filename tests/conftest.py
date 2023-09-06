@@ -2,7 +2,7 @@ from pathlib import Path
 from configparser import ConfigParser
 from typing import Generator
 from pytest import fixture
-from src.py.serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 
 @fixture(scope="session")
