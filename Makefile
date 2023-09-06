@@ -12,7 +12,7 @@ CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
 PATH_CFG = $(HOME)/.inodaqv2.ini
 SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
 FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
-PATH_INO_SRC = src
+PATH_INO_SRC = ino
 
 define HELP_LIST_TARGETS
 To display all targets:
