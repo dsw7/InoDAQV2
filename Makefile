@@ -1,4 +1,4 @@
-.PHONY = help compile upload test
+.PHONY = help compile upload test black
 
 ifndef TMP
     ifndef TMPDIR
@@ -23,6 +23,8 @@ Upload compiled Arduino code to board:
     $$ make upload
 Test compiled Arduino code:
     $$ make test
+To run black over Python code
+	$$ make black
 endef
 
 export HELP_LIST_TARGETS
@@ -49,3 +51,6 @@ upload: compile
 
 test: upload
 	@python3 -m pytest --verbose --capture=no .
+
+black:
+	@black src
