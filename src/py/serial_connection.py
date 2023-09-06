@@ -12,7 +12,7 @@ class SerialConnection:
 
     def __init__(self, configs: SectionProxy) -> None:
         self.configs = configs
-        self.serial_port_obj = None
+        self.serial_port_obj: serial.Serial
 
     def __enter__(self) -> Self:
         connection_params = {
@@ -73,9 +73,9 @@ class SerialConnection:
 
     def send_message(self, message: str) -> None:
         self.logger.debug('Sending message: "%s"', message)
-        message = message.encode(encoding=self.configs["encoding"])
+        message_encoded = message.encode(encoding=self.configs["encoding"])
 
-        self.logger.debug("Sent %i bytes", self.serial_port_obj.write(message))
+        self.logger.debug("Sent %i bytes", self.serial_port_obj.write(message_encoded))
         self.serial_port_obj.flush()
 
     def receive_message(self) -> tuple[bool, str]:
