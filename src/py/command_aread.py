@@ -1,6 +1,6 @@
 from tkinter import LabelFrame, Text, Button
 from tkinter import GROOVE, END
-from base import PanelBase, T
+from base import PanelBase
 
 
 class PanelAread(PanelBase):
@@ -9,7 +9,7 @@ class PanelAread(PanelBase):
 
     analog_to_volt = 5.0 / 1023
 
-    def setup_panel(self: T) -> None:
+    def setup_panel(self) -> None:
         frame = LabelFrame(self.root, relief=GROOVE, bd=1, text="AnalogRead")
         frame.pack(**self.kw_labelframe)
 
@@ -24,7 +24,7 @@ class PanelAread(PanelBase):
 
         Button(frame, text="READ", command=self.toggle).grid(**self.kw_button)
 
-    def toggle(self: T) -> None:
+    def toggle(self) -> None:
         self.connection.send_message("aread")
         status, message = self.connection.receive_message()
 

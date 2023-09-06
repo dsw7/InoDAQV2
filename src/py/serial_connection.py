@@ -1,22 +1,20 @@
 import sys
+from configparser import SectionProxy
+from json import dumps
 from logging import getLogger
 from time import sleep
-from json import dumps
-from typing import Tuple, TypeVar
-from configparser import SectionProxy
+from typing_extensions import Self
 import serial
-
-T = TypeVar("T")
 
 
 class SerialConnection:
     logger = getLogger("inodaqv2")
 
-    def __init__(self: T, configs: SectionProxy) -> T:
+    def __init__(self, configs: SectionProxy) -> None:
         self.configs = configs
         self.serial_port_obj = None
 
-    def __enter__(self: T) -> T:
+    def __enter__(self) -> Self:
         connection_params = {
             "baudrate": self.configs["baud"],
             "parity": serial.PARITY_NONE,
@@ -61,7 +59,7 @@ class SerialConnection:
 
         return self
 
-    def __exit__(self: T, *args) -> None:
+    def __exit__(self, *args) -> None:
         if self.serial_port_obj is None:
             self.logger.info("Not closing connection. Connection was never opened!")
             return
@@ -73,14 +71,14 @@ class SerialConnection:
             self.receive_message()
             self.serial_port_obj.close()
 
-    def send_message(self: T, message: str) -> None:
+    def send_message(self, message: str) -> None:
         self.logger.debug('Sending message: "%s"', message)
         message = message.encode(encoding=self.configs["encoding"])
 
         self.logger.debug("Sent %i bytes", self.serial_port_obj.write(message))
         self.serial_port_obj.flush()
 
-    def receive_message(self: T) -> Tuple[bool, str]:
+    def receive_message(self) -> tuple[bool, str]:
         self.logger.debug("Waiting to receive message...")
         message_received = False
 

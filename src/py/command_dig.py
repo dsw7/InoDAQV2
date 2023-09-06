@@ -1,13 +1,13 @@
 from functools import partial
 from tkinter import LabelFrame, Checkbutton
 from tkinter import GROOVE, BooleanVar
-from base import PanelBase, T
+from base import PanelBase
 
 
 class PanelDig(PanelBase):
     kw_button = {"column": 1, "sticky": "W", "padx": 3}
 
-    def setup_panel(self: T) -> None:
+    def setup_panel(self) -> None:
         frame = LabelFrame(self.root, relief=GROOVE, bd=1, text="Digital")
         frame.pack(**self.kw_labelframe)
 
@@ -20,7 +20,7 @@ class PanelDig(PanelBase):
                 command=partial(self.toggle, p),
             ).grid(**self.kw_button, row=p - 2)
 
-    def toggle(self: T, pin: int) -> None:
+    def toggle(self, pin: int) -> None:
         command = f"dig:{pin}:"
 
         if self.pins[pin].get():

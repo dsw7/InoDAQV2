@@ -1,10 +1,7 @@
 from logging import getLogger
 from abc import ABC, abstractmethod
-from typing import TypeVar
 from tkinter import Tk
 from serial_connection import SerialConnection
-
-T = TypeVar("T")
 
 
 class PanelBase(ABC):
@@ -20,12 +17,12 @@ class PanelBase(ABC):
         "ipadx": 3,
     }
 
-    def __init__(self: T, root: Tk, connection: SerialConnection) -> T:
+    def __init__(self, root: Tk, connection: SerialConnection) -> None:
         self.root = root
         self.connection = connection
         self.pins = {}
         self.setup_panel()
 
     @abstractmethod
-    def setup_panel(self: T) -> None:
+    def setup_panel(self) -> None:
         pass

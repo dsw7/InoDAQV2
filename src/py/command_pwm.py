@@ -2,7 +2,7 @@ from math import ceil, floor
 from functools import partial
 from tkinter import LabelFrame, Scale, Event
 from tkinter import IntVar, GROOVE, HORIZONTAL
-from base import PanelBase, T
+from base import PanelBase
 
 
 class PanelPWM(PanelBase):
@@ -11,7 +11,7 @@ class PanelPWM(PanelBase):
     duty_cycle_to_analog = 255 / 100
     inv_duty_cycle_to_analog = 100 / 255
 
-    def setup_panel(self: T) -> None:
+    def setup_panel(self) -> None:
         frame = LabelFrame(self.root, relief=GROOVE, bd=1, text="PWM")
         frame.pack(**self.kw_labelframe)
 
@@ -27,7 +27,7 @@ class PanelPWM(PanelBase):
             scale.bind("<ButtonRelease-1>", partial(self.toggle, p))
             scale.grid(**self.kw_label_scale, row=row)
 
-    def toggle(self: T, pin: int, *event: Event) -> None:
+    def toggle(self, pin: int, *event: Event) -> None:
         pwm = ceil(self.duty_cycle_to_analog * self.pins[pin].get())
         self.logger.debug("Scaled %i up to %i (8 bit range)", self.pins[pin].get(), pwm)
 
