@@ -47,35 +47,18 @@ directory:
 cp .inodaqv2 ~/
 ```
 And modify the "port" in place.
-
 ### Uploading code to device
 The code located in this repository must be uploaded to the device. To upload the code, run the `upload`
 `make` target:
 ```
 make upload
 ```
-**NOTE:** Cygwin is unique. A device file should be specified in [inodaqv2.ini](./src/configs/inodaqv2.ini)
-but the equivalent COM port should be specified when running the `make` target:
-```
-make upload SERIAL_PORT=<com-port>
-```
-In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n - 1>`. For example, `COM3` would map to
-`/dev/ttyS2`.
-
 ### Testing device connectivity
 Unit tests can be run against the device as a final sanity check. Ensure that the device is plugged into a
 free serial port and run the following `make` target:
 ```
 make test
 ```
-**NOTE:** Cygwin is unique. A device file should be specified in [inodaqv2.ini](./src/configs/inodaqv2.ini)
-but the equivalent COM port should be specified when running the `make` target:
-```
-make upload SERIAL_PORT=<com-port>
-```
-In general, a serial port `COM<n>` maps to a device file `/dev/ttyS<n - 1>`. For example, `COM3` would map to
-`/dev/ttyS2`.
-
 ## Usage
 To use the product, run:
 ```
