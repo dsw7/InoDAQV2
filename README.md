@@ -43,7 +43,11 @@ To install the software, run:
 ```
 make install
 ```
-This will compile and upload the Arduino code, in addition to installing a GUI for controlling I/O.
+This will compile and upload the Arduino code, in addition to installing a GUI for controlling I/O. If the
+installation succeeded, any remaining build artifacts can be cleaned by running:
+```
+make clean
+```
 ### Testing device connectivity
 Unit tests can be run against the device as a final sanity check. Ensure that the device is plugged into a
 free serial port and run the following `make` target:
