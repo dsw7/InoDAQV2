@@ -1,4 +1,4 @@
-.PHONY = help compile upload wheel setup test black
+.PHONY = help compile upload wheel setup install test black
 
 ifndef TMP
     ifndef TMPDIR
@@ -25,10 +25,12 @@ To build the latest wheel from Python code:
     $$ make wheel
 To set up the Python package:
     $$ make setup
-To remove dist and Python egg directories:
-    $$ make clean
+To install project end-to-end:
+    $$ make install
 Test compiled Arduino code:
     $$ make test
+To remove Python installation artifacts:
+    $$ make clean
 To run black over Python code
     $$ make black
 endef
@@ -47,7 +49,7 @@ compile:
 	--build-cache-path=$(CORE_CACHE_PATH) \
 	$(PATH_INO_SRC)/
 
-upload: compile
+upload:
 	@arduino-cli upload \
 	--port $(SERIAL_PORT) \
 	--fqbn $(FULLY_QUALIFIED_BOARD_NAME) \
@@ -59,10 +61,12 @@ wheel:
 	@pip3 install wheel
 	@python3 setup.py clean --all bdist_wheel
 
-setup: wheel
+setup:
 	@pip3 install dist/*whl --force-reinstall
 
-test: upload setup
+install: compile upload wheel setup
+
+test: install
 	@python3 -m pytest --verbose --capture=no tests
 
 clean:
