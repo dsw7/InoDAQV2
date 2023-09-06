@@ -24,7 +24,7 @@ Upload compiled Arduino code to board:
 Test compiled Arduino code:
     $$ make test
 To run black over Python code
-	$$ make black
+    $$ make black
 endef
 
 export HELP_LIST_TARGETS
