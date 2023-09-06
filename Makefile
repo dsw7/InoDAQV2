@@ -1,4 +1,4 @@
-.PHONY = help compile upload test black
+.PHONY = help compile upload wheel setup test black
 
 ifndef TMP
     ifndef TMPDIR
@@ -21,6 +21,12 @@ Compile Arduino code:
     $$ make compile
 Upload compiled Arduino code to board:
     $$ make upload
+To build the latest wheel from Python code:
+    $$ make wheel
+To set up the Python package:
+    $$ make setup
+To remove dist and Python egg directories:
+    $$ make clean
 Test compiled Arduino code:
     $$ make test
 To run black over Python code
@@ -49,8 +55,18 @@ upload: compile
 	--input-dir=$(BUILD_PATH) \
 	$(PATH_INO_SRC)/
 
+wheel:
+	@pip3 install --upgrade build
+	@python3 -m build
+
+setup: wheel
+	@pip3 install dist/*whl --force-reinstall
+
+clean:
+	@rm -rfv dist/ *.egg-info/
+
 test: upload
-	@python3 -m pytest --verbose --capture=no .
+	@python3 -m pytest --verbose --capture=no tests
 
 black:
 	@black src
