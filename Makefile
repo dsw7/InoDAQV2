@@ -62,11 +62,11 @@ wheel:
 setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
+test: upload setup
+	@python3 -m pytest --verbose --capture=no tests
+
 clean:
 	@rm -rfv build/ dist/ *.egg-info/
-
-test: upload
-	@python3 -m pytest --verbose --capture=no tests
 
 black:
 	@black inodaqv2 tests
