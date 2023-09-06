@@ -1,7 +1,7 @@
 from logging import getLogger
 from functools import partial
 from tkinter import Tk, LabelFrame, Checkbutton, GROOVE, BooleanVar
-from serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 
 class PanelDig:

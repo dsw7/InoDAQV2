@@ -3,11 +3,11 @@ import logging
 from pathlib import Path
 from tkinter import Tk, _tkinter
 from configparser import ConfigParser
-from serial_connection import SerialConnection
-from command_dig import PanelDig
-from command_pwm import PanelPWM
-from command_aread import PanelAread
-from command_dread import PanelDread
+from inodaqv2.serial_connection import SerialConnection
+from inodaqv2.command_dig import PanelDig
+from inodaqv2.command_pwm import PanelPWM
+from inodaqv2.command_aread import PanelAread
+from inodaqv2.command_dread import PanelDread
 
 
 def read_ini() -> ConfigParser:

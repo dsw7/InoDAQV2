@@ -2,7 +2,7 @@ from functools import partial
 from logging import getLogger
 from math import ceil, floor
 from tkinter import Tk, LabelFrame, Scale, Event, IntVar, GROOVE, HORIZONTAL
-from serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 
 class PanelPWM:

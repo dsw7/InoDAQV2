@@ -1,6 +1,6 @@
 from logging import getLogger
 from tkinter import Tk, LabelFrame, Text, Button, GROOVE, END
-from serial_connection import SerialConnection
+from inodaqv2.serial_connection import SerialConnection
 
 
 class PanelDread:
