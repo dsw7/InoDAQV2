@@ -3,6 +3,7 @@ from configparser import SectionProxy
 from json import dumps
 from logging import getLogger
 from time import sleep
+from typing import Tuple
 from typing_extensions import Self
 import serial
 
@@ -78,7 +79,7 @@ class SerialConnection:
         self.logger.debug("Sent %i bytes", self.serial_port_obj.write(message_encoded))
         self.serial_port_obj.flush()
 
-    def receive_message(self) -> tuple[bool, str]:
+    def receive_message(self) -> Tuple[bool, str]:
         self.logger.debug("Waiting to receive message...")
         message_received = False
 
