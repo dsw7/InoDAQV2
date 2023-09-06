@@ -33,7 +33,7 @@ sed -i 's/FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno/FULLY_QUALIFIED_BOARD_NAM
 ### Prepare configuration file
 Copy the configuration file to the host's home directory:
 ```
-cp .inodaqv2 ~/
+cp .inodaqv2.ini ~/
 ```
 And then specify the serial by which the device will communicate by modifying the "port" field. On Windows
 this field would refer to a COM port (i.e. `COM3`) and on Linux based systems this field would refer to the
