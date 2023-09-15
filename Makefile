@@ -1,4 +1,4 @@
-.PHONY = help compile upload wheel setup install test black
+.PHONY = help compile upload wheel setup install test black mypy
 
 ifndef TMP
     ifndef TMPDIR
@@ -15,24 +15,28 @@ FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
 PATH_INO_SRC = ino
 
 define HELP_LIST_TARGETS
-To display all targets:
-    $$ make help
-Compile Arduino code:
-    $$ make compile
-Upload compiled Arduino code to board:
-    $$ make upload
-To build the latest wheel from Python code:
-    $$ make wheel
-To set up the Python package:
-    $$ make setup
-To install project end-to-end:
-    $$ make install
-Test compiled Arduino code:
-    $$ make test
-To remove Python installation artifacts:
-    $$ make clean
-To run black over Python code
-    $$ make black
+
+	To display all targets:
+		$$ make help
+	Compile Arduino code:
+		$$ make compile
+	Upload compiled Arduino code to board:
+		$$ make upload
+	To build the latest wheel from Python code:
+		$$ make wheel
+	To set up the Python package:
+		$$ make setup
+	To install project end-to-end:
+		$$ make install
+	Test compiled Arduino code:
+		$$ make test
+	To remove Python installation artifacts:
+		$$ make clean
+	To run black over Python code
+		$$ make black
+	To run mypy over Python code
+		$$ make mypy
+
 endef
 
 export HELP_LIST_TARGETS
@@ -74,3 +78,6 @@ clean:
 
 black:
 	@black inodaqv2 tests
+
+mypy:
+	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
