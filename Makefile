@@ -1,25 +1,9 @@
-.PHONY = help compile upload wheel setup install test black mypy
-
-ifndef TMP
-    ifndef TMPDIR
-        $(error No "TMP" or "TMPDIR" environment variable. Cannot proceed)
-    endif
-    TMP=$(TMPDIR)
-endif
-
-BUILD_PATH = $(TMP)/inodaq-v2-build/
-CORE_CACHE_PATH = $(TMP)/inodaq-v2-core-cache/
-PATH_CFG = $(HOME)/.inodaqv2.ini
-SERIAL_PORT := $(shell grep ^port $(PATH_CFG) | awk '{print $$3}')
-FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno
-PATH_INO_SRC = ino
+.PHONY = help upload wheel setup install test black mypy
 
 define HELP_LIST_TARGETS
 
 	To display all targets:
 		$$ make help
-	Compile Arduino code:
-		$$ make compile
 	Upload compiled Arduino code to board:
 		$$ make upload
 	To build the latest wheel from Python code:
@@ -44,22 +28,8 @@ export HELP_LIST_TARGETS
 help:
 	@echo "$$HELP_LIST_TARGETS"
 
-compile:
-	@arduino-cli compile \
-	--port $(SERIAL_PORT) \
-	--fqbn $(FULLY_QUALIFIED_BOARD_NAME) \
-	--verbose \
-	--build-path=$(BUILD_PATH) \
-	--build-cache-path=$(CORE_CACHE_PATH) \
-	$(PATH_INO_SRC)/
-
 upload:
-	@arduino-cli upload \
-	--port $(SERIAL_PORT) \
-	--fqbn $(FULLY_QUALIFIED_BOARD_NAME) \
-	--verbose \
-	--input-dir=$(BUILD_PATH) \
-	$(PATH_INO_SRC)/
+	@python3 ino/upload.py COM3
 
 wheel:
 	@pip3 install wheel
@@ -68,7 +38,7 @@ wheel:
 setup:
 	@pip3 install dist/*whl --force-reinstall
 
-install: compile upload wheel setup
+install: upload wheel setup
 
 test: install
 	@python3 -m pytest --verbose --capture=no tests
@@ -77,7 +47,7 @@ clean:
 	@rm -rfv build/ dist/ *.egg-info/
 
 black:
-	@black inodaqv2 tests
+	@black inodaqv2 tests ino
 
 mypy:
-	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
+	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests ino
