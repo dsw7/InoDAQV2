@@ -35,7 +35,7 @@ wheel:
 	@pip3 install wheel
 	@python3 setup.py clean --all bdist_wheel
 
-setup:
+setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
 install: upload wheel setup
