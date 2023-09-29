@@ -40,7 +40,7 @@ setup:
 
 install: upload wheel setup
 
-test: install
+test: upload
 	@python3 -m pytest --verbose --capture=no tests
 
 clean:
