@@ -10,12 +10,34 @@ from inodaqv2.components.extensions import conn
 app = Flask(__name__)
 
 
+def toggle_digital_pins(pin: str, state: bool) -> dict[str, str]:
+    pin_id = pin.split("-")[1]
+
+    command = f"dig:{pin_id}:"
+
+    if state:
+        command += "on"
+    else:
+        command += "off"
+
+    try:
+        conn.write(command)
+    except errors.InoIOTransmissionError as e:
+        message = str(e)
+    else:
+        message = conn.read()
+
+    return {"command": command, "message": message}
+
+
 @app.route("/", methods=["GET", "POST"])
 def dashboard() -> Union[Response, str]:
     if request.is_json:
         if request.method == "POST":
-            data = loads(request.data)
-            print(data)
+            payload = loads(request.data)
+
+            if payload["action"] == "dig":
+                return jsonify(toggle_digital_pins(payload["pin"], payload["state"]))
 
     return render_template("dashboard.html")
 

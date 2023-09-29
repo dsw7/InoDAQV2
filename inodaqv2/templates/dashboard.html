@@ -11,33 +11,33 @@
   <div class="container p-2 mt-2 mb-2 shadow-sm border rounded">
     <div class="row gx-2 justify-content-center">
       <div class="col-6 justify-content-center">
-        <div class="row p-2 g-0 mb-2 shadow-sm justify-content-center rounded border">
+        <div class="row p-2 g-0 mb-2 shadow-sm justify-content-center rounded border" id="digital-pins">
           <h6>Digital</h6>
           <div class="btn-group-vertical btn-group-sm shadow-sm" role="group">
-            <input type="checkbox" class="btn-check" id="digital-btn-pin2">
-            <label class="btn btn-secondary" for="digital-btn-pin2">Pin 2</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin3">
-            <label class="btn btn-secondary" for="digital-btn-pin3">Pin 3</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin4">
-            <label class="btn btn-secondary" for="digital-btn-pin4">Pin 4</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin5">
-            <label class="btn btn-secondary" for="digital-btn-pin5">Pin 5</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin6">
-            <label class="btn btn-secondary" for="digital-btn-pin6">Pin 6</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin7">
-            <label class="btn btn-secondary" for="digital-btn-pin7">Pin 7</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin8">
-            <label class="btn btn-secondary" for="digital-btn-pin8">Pin 8</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin9">
-            <label class="btn btn-secondary" for="digital-btn-pin9">Pin 9</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin10">
-            <label class="btn btn-secondary" for="digital-btn-pin10">Pin 10</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin11">
-            <label class="btn btn-secondary" for="digital-btn-pin11">Pin 11</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin12">
-            <label class="btn btn-secondary" for="digital-btn-pin12">Pin 12</label>
-            <input type="checkbox" class="btn-check" id="digital-btn-pin13">
-            <label class="btn btn-secondary" for="digital-btn-pin13">Pin 13</label>
+            <input type="checkbox" class="btn-check" id="dig-2">
+            <label class="btn btn-secondary" for="dig-2">Pin 2</label>
+            <input type="checkbox" class="btn-check" id="dig-3">
+            <label class="btn btn-secondary" for="dig-3">Pin 3</label>
+            <input type="checkbox" class="btn-check" id="dig-4">
+            <label class="btn btn-secondary" for="dig-4">Pin 4</label>
+            <input type="checkbox" class="btn-check" id="dig-5">
+            <label class="btn btn-secondary" for="dig-5">Pin 5</label>
+            <input type="checkbox" class="btn-check" id="dig-6">
+            <label class="btn btn-secondary" for="dig-6">Pin 6</label>
+            <input type="checkbox" class="btn-check" id="dig-7">
+            <label class="btn btn-secondary" for="dig-7">Pin 7</label>
+            <input type="checkbox" class="btn-check" id="dig-8">
+            <label class="btn btn-secondary" for="dig-8">Pin 8</label>
+            <input type="checkbox" class="btn-check" id="dig-9">
+            <label class="btn btn-secondary" for="dig-9">Pin 9</label>
+            <input type="checkbox" class="btn-check" id="dig-10">
+            <label class="btn btn-secondary" for="dig-10">Pin 10</label>
+            <input type="checkbox" class="btn-check" id="dig-11">
+            <label class="btn btn-secondary" for="dig-11">Pin 11</label>
+            <input type="checkbox" class="btn-check" id="dig-12">
+            <label class="btn btn-secondary" for="dig-12">Pin 12</label>
+            <input type="checkbox" class="btn-check" id="dig-13">
+            <label class="btn btn-secondary" for="dig-13">Pin 13</label>
           </div>
         </div>
         <div class="row p-2 g-0 shadow-sm justify-content-center rounded border">
@@ -125,5 +125,6 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="{{url_for('static', filename='dashboard.js')}}"></script>
 </body>
 </html>
