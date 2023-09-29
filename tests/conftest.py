@@ -1,16 +1,18 @@
-from pathlib import Path
-from configparser import ConfigParser
 from typing import Generator
+from inoio import InoIO
 from pytest import fixture
-from inodaqv2.serial_connection import SerialConnection
+
+
+def pytest_addoption(parser):
+    parser.addoption("--port", action="store", default="/dev/ttyS2")
 
 
 @fixture(scope="session")
-def connection() -> Generator[SerialConnection, None, None]:
-    path_ini = Path.home() / ".inodaqv2.ini"
+def connection(pytestconfig) -> Generator[InoIO, None, None]:
+    port = pytestconfig.getoption("port")
 
-    configs = ConfigParser()
-    configs.read(path_ini)
+    conn = InoIO(port=port)
+    conn.connect()
 
-    with SerialConnection(configs["connection"]) as conn:
-        yield conn
+    yield conn
+    conn.disconnect()

@@ -1,5 +1,5 @@
 from pytest import mark
-from inodaqv2.serial_connection import SerialConnection
+from inoio import InoIO
 
 PAIRS_PWM_1 = [
     ("pwm", "Unknown command: pwm"),
@@ -15,13 +15,13 @@ PAIRS_PWM_1 = [
 
 
 @mark.parametrize("command, expected_msg", PAIRS_PWM_1)
-def test_command_pwm_1(
-    connection: SerialConnection, command: str, expected_msg: str
-) -> None:
-    connection.send_message(command)
-    status, returned_msg = connection.receive_message()
+def test_command_pwm_1(connection: InoIO, command: str, expected_msg: str) -> None:
+    connection.write(command)
 
-    assert not status
+    msg = connection.read()
+    status, returned_msg = msg.split(";")
+
+    assert int(status) == 0
     assert returned_msg == expected_msg
 
 
@@ -42,11 +42,11 @@ PAIRS_PWM_2 = [
 
 
 @mark.parametrize("command, expected_msg", PAIRS_PWM_2)
-def test_command_pwm_2(
-    connection: SerialConnection, command: str, expected_msg: str
-) -> None:
-    connection.send_message(command)
-    status, returned_msg = connection.receive_message()
+def test_command_pwm_2(connection: InoIO, command: str, expected_msg: str) -> None:
+    connection.write(command)
 
-    assert status
+    msg = connection.read()
+    status, returned_msg = msg.split(";")
+
+    assert int(status) == 1
     assert returned_msg == expected_msg

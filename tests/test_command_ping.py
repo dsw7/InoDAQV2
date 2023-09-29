@@ -1,15 +1,14 @@
 from pytest import mark
-from inodaqv2.serial_connection import SerialConnection
+from inoio import InoIO
 
 PAIRS_PING = [("ping", "Built in LED is ON"), ("ping", "Built in LED is OFF")]
 
 
 @mark.parametrize("command, expected_msg", PAIRS_PING)
-def test_command_ping(
-    connection: SerialConnection, command: str, expected_msg: str
-) -> None:
-    connection.send_message(command)
-    status, returned_msg = connection.receive_message()
+def test_command_ping(connection: InoIO, command: str, expected_msg: str) -> None:
+    connection.write(command)
+    msg = connection.read()
 
-    assert status
+    status, returned_msg = msg.split(";")
+    assert int(status) == 1
     assert returned_msg == expected_msg

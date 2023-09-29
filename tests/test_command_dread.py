@@ -1,11 +1,12 @@
-from inodaqv2.serial_connection import SerialConnection
+from inoio import InoIO
 
 
-def test_command_dread(connection: SerialConnection) -> None:
-    connection.send_message("dread")
-    status, returned_msg = connection.receive_message()
+def test_command_dread(connection: InoIO) -> None:
+    connection.write("dread")
+    msg = connection.read()
 
-    assert status
+    status, values = msg.split(";")
+    assert int(status) == 1
 
-    for val in returned_msg.split(","):
+    for val in values.split(","):
         assert 0 <= int(val) <= 1023
