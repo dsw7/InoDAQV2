@@ -6,9 +6,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         "inoio",
-        "pyserial",
-        "pytest",
-        "typing-extensions",
     ],
     entry_points={"console_scripts": ["inodaq = inodaqv2.main:main"]},
 )
