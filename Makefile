@@ -1,4 +1,4 @@
-.PHONY = help upload wheel setup install test black mypy
+.PHONY = help upload wheel setup test black mypy
 
 define HELP_LIST_TARGETS
 
@@ -10,8 +10,6 @@ define HELP_LIST_TARGETS
 		$$ make wheel
 	To set up the Python package:
 		$$ make setup
-	To install project end-to-end:
-		$$ make install
 	Test compiled Arduino code:
 		$$ make test
 	To remove Python installation artifacts:
@@ -38,9 +36,7 @@ wheel:
 setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
-install: upload wheel setup
-
-test: upload
+test: upload setup
 	@python3 -m pip install pytest
 	@python3 -m pytest --verbose --capture=no tests
 
