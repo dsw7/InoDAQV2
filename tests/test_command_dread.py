@@ -9,4 +9,4 @@ def test_command_dread(connection: InoIO) -> None:
     assert int(status) == 1
 
     for val in values.split(","):
-        assert 0 <= int(val) <= 1023
+        assert 0 <= int(val) <= 1

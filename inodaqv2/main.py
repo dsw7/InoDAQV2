@@ -25,6 +25,9 @@ def dashboard() -> Union[Response, str]:
             if payload["action"] == "aread":
                 return jsonify(actions.read_analog_pins())
 
+            if payload["action"] == "dread":
+                return jsonify(actions.read_digital_pins())
+
     return render_template("dashboard.html")
 
 
