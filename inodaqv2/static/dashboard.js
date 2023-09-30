@@ -59,3 +59,21 @@ $(document).ready(function() {
     });
   });
 });
+
+$(document).ready(function() {
+  $('#pwm-sliders input[type="range"]').click(function() {
+    $.ajax({
+      url: "",
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify({
+        action: "pwm",
+        pin: $(this).attr("id"),
+        value: $(this).val(),
+      }),
+      success: function(response) {
+        console.log(response.rv);
+      }
+    });
+  });
+});
