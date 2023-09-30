@@ -28,6 +28,9 @@ def dashboard() -> Union[Response, str]:
             if payload["action"] == "dread":
                 return jsonify(actions.read_digital_pins())
 
+            if payload["action"] == "pwm":
+                return jsonify(actions.set_pwm(payload["pin"], payload["value"]))
+
     return render_template("dashboard.html")
 
 
