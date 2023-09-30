@@ -30,6 +30,24 @@ def toggle_digital_pins(pin: str, state: bool) -> dict[str, str]:
     return {"command": command, "message": message}
 
 
+def read_analog_pins() -> dict[str, int]:
+    try:
+        conn.write("aread")
+    except errors.InoIOTransmissionError as e:
+        message = str(e)
+    else:
+        message = conn.read()
+
+    _, values = message.split(";")
+    analog_to_volt = 5.0 / 1023
+
+    payload = {}
+    for u, v in enumerate(values.split(",")):
+        payload[f"A{u}"] = round(int(v) * analog_to_volt, 3)
+
+    return payload
+
+
 @app.route("/", methods=["GET", "POST"])
 def dashboard() -> Union[Response, str]:
     if request.is_json:
@@ -38,6 +56,9 @@ def dashboard() -> Union[Response, str]:
 
             if payload["action"] == "dig":
                 return jsonify(toggle_digital_pins(payload["pin"], payload["state"]))
+
+            if payload["action"] == "aread":
+                return jsonify(read_analog_pins())
 
     return render_template("dashboard.html")
 
