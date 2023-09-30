@@ -10,8 +10,7 @@ $(document).ready(function() {
         state: $(this).is(":checked"),
       }),
       success: function(response) {
-        console.log("The command was: " + response.command);
-        console.log("The reply was: " + response.message);
+        console.log(response.rv);
       }
     });
   });
@@ -27,6 +26,7 @@ $(document).ready(function() {
         action: "aread",
       }),
       success: function(response) {
+        console.log(response.rv);
         $("#analog-a0").text(response.A0);
         $("#analog-a1").text(response.A1);
         $("#analog-a2").text(response.A2);
