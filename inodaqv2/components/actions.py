@@ -55,6 +55,7 @@ def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
         payload["rv"] = False
         payload["message"] = str(e)
 
+    conn.read()  # Flush input buffer
     return payload
 
 
