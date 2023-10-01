@@ -11,7 +11,6 @@ $(document).ready(function() {
       }),
       success: function(response) {
         console.log(response.rv);
-        console.log(response.message);
       }
     });
   });
@@ -28,7 +27,6 @@ $(document).ready(function() {
       }),
       success: function(response) {
         console.log(response.rv);
-        console.log(response.message);
         $("#analog-a0").text(response.A0);
         $("#analog-a1").text(response.A1);
         $("#analog-a2").text(response.A2);
@@ -51,7 +49,6 @@ $(document).ready(function() {
       }),
       success: function(response) {
         console.log(response.rv);
-        console.log(response.message);
         $("#digital-a0").text(response.A0);
         $("#digital-a1").text(response.A1);
         $("#digital-a2").text(response.A2);
@@ -76,7 +73,6 @@ $(document).ready(function() {
       }),
       success: function(response) {
         console.log(response.rv);
-        console.log(response.message);
       }
     });
   });

@@ -22,7 +22,7 @@ def setup_logger() -> None:
                 "level": "DEBUG",
                 "handlers": ["stream"],
             },
-            "keychain": {
+            "inodaqv2": {
                 "level": "DEBUG",
                 "handlers": ["stream"],
             },
