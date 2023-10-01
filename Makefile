@@ -1,23 +1,25 @@
-.PHONY = help upload wheel setup test black mypy
+.PHONY = help upload wheel setup test black mypy tidy
 
 define HELP_LIST_TARGETS
 
-	To display all targets:
-		$$ make help
-	Upload compiled Arduino code to board:
-		$$ make upload
-	To build the latest wheel from Python code:
-		$$ make wheel
-	To set up the Python package:
-		$$ make setup
-	Test compiled Arduino code:
-		$$ make test
-	To remove Python installation artifacts:
-		$$ make clean
-	To run black over Python code
-		$$ make black
-	To run mypy over Python code
-		$$ make mypy
+  To display all targets:
+    $$ make help
+  Upload compiled Arduino code to board:
+    $$ make upload
+  To build the latest wheel from Python code:
+    $$ make wheel
+  To set up the Python package:
+    $$ make setup
+  Test compiled Arduino code:
+    $$ make test
+  To remove Python installation artifacts:
+    $$ make clean
+  To run black over Python code:
+    $$ make black
+  To run mypy over Python code:
+    $$ make mypy
+  To lint HTML code:
+    $$ make tidy
 
 endef
 
@@ -48,3 +50,6 @@ black:
 
 mypy:
 	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests ino
+
+tidy:
+	@tidy -errors inodaqv2/templates/*html
