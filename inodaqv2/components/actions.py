@@ -34,6 +34,23 @@ TYPE_PAYLOAD_DREAD = TypedDict(
 )
 
 
+def run_handshake() -> None:
+    LOGGER.info("Handshaking with device")
+    LOGGER.info('Sending command: "hello"')
+
+    try:
+        conn.write("hello")
+    except errors.InoIOTransmissionError as e:
+        LOGGER.exception("Failed to send command")
+        raise ConnectionError("Could not connect to device") from e
+
+    reply = conn.read()
+
+    if reply != "1;Hello from InoDAQV2":
+        LOGGER.error('Handshake returned unknown message: "%s"', reply)
+        raise ConnectionError("Handshake returned unknown message")
+
+
 def toggle_digital_pins(pin: str, state: bool) -> dict[str, bool]:
     pin_id = pin.split("-")[1]
 

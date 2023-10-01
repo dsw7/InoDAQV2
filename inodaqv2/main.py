@@ -50,6 +50,11 @@ def main(host: str, port: int, serial_port: str) -> None:
     except errors.InoIOConnectionError as e:
         sys.exit(e)
 
+    try:
+        actions.run_handshake()
+    except ConnectionError as e:
+        sys.exit(str(e))
+
     app.run(host=host, port=port)
 
 
