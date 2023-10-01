@@ -8,119 +8,115 @@
   <title>InoDAQV2</title>
 </head>
 <body>
-  <div class="container p-2 mt-2 mb-2 shadow-sm border rounded">
-    <div class="row gx-2 justify-content-center">
-      <div class="col-6 justify-content-center">
-        <div class="row p-2 g-0 mb-2 shadow-sm justify-content-center rounded border" id="digital-pins">
-          <h6>Digital</h6>
-          <div class="btn-group-vertical btn-group-sm shadow-sm" role="group">
-            <input type="checkbox" class="btn-check" id="dig-2">
-            <label class="btn btn-secondary" for="dig-2">Pin 2</label>
-            <input type="checkbox" class="btn-check" id="dig-3">
-            <label class="btn btn-secondary" for="dig-3">Pin 3</label>
-            <input type="checkbox" class="btn-check" id="dig-4">
-            <label class="btn btn-secondary" for="dig-4">Pin 4</label>
-            <input type="checkbox" class="btn-check" id="dig-5">
-            <label class="btn btn-secondary" for="dig-5">Pin 5</label>
-            <input type="checkbox" class="btn-check" id="dig-6">
-            <label class="btn btn-secondary" for="dig-6">Pin 6</label>
-            <input type="checkbox" class="btn-check" id="dig-7">
-            <label class="btn btn-secondary" for="dig-7">Pin 7</label>
-            <input type="checkbox" class="btn-check" id="dig-8">
-            <label class="btn btn-secondary" for="dig-8">Pin 8</label>
-            <input type="checkbox" class="btn-check" id="dig-9">
-            <label class="btn btn-secondary" for="dig-9">Pin 9</label>
-            <input type="checkbox" class="btn-check" id="dig-10">
-            <label class="btn btn-secondary" for="dig-10">Pin 10</label>
-            <input type="checkbox" class="btn-check" id="dig-11">
-            <label class="btn btn-secondary" for="dig-11">Pin 11</label>
-            <input type="checkbox" class="btn-check" id="dig-12">
-            <label class="btn btn-secondary" for="dig-12">Pin 12</label>
-            <input type="checkbox" class="btn-check" id="dig-13">
-            <label class="btn btn-secondary" for="dig-13">Pin 13</label>
-          </div>
-        </div>
-        <div class="row p-2 g-0 shadow-sm justify-content-center rounded border" id="pwm-sliders">
-          <h6>PWM</h6>
-          <label for="pwm-3" class="form-label">Pin 3</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-3">
-          <label for="pwm-5" class="form-label">Pin 5</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-5">
-          <label for="pwm-6" class="form-label">Pin 6</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-6">
-          <label for="pwm-9" class="form-label">Pin 9</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-9">
-          <label for="pwm-10" class="form-label">Pin 10</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-10">
-          <label for="pwm-11" class="form-label">Pin 11</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-11">
+  <div class="container mt-2">
+    <div class="row">
+      <div class="col-lg-3 p-2 shadow-sm justify-content-center rounded border" id="digital-pins">
+        <h6>Digital</h6>
+        <div class="btn-group-vertical btn-group-sm shadow-sm" role="group">
+          <input type="checkbox" class="btn-check" id="dig-2">
+          <label class="btn btn-secondary" for="dig-2">Pin 2</label>
+          <input type="checkbox" class="btn-check" id="dig-3">
+          <label class="btn btn-secondary" for="dig-3">Pin 3</label>
+          <input type="checkbox" class="btn-check" id="dig-4">
+          <label class="btn btn-secondary" for="dig-4">Pin 4</label>
+          <input type="checkbox" class="btn-check" id="dig-5">
+          <label class="btn btn-secondary" for="dig-5">Pin 5</label>
+          <input type="checkbox" class="btn-check" id="dig-6">
+          <label class="btn btn-secondary" for="dig-6">Pin 6</label>
+          <input type="checkbox" class="btn-check" id="dig-7">
+          <label class="btn btn-secondary" for="dig-7">Pin 7</label>
+          <input type="checkbox" class="btn-check" id="dig-8">
+          <label class="btn btn-secondary" for="dig-8">Pin 8</label>
+          <input type="checkbox" class="btn-check" id="dig-9">
+          <label class="btn btn-secondary" for="dig-9">Pin 9</label>
+          <input type="checkbox" class="btn-check" id="dig-10">
+          <label class="btn btn-secondary" for="dig-10">Pin 10</label>
+          <input type="checkbox" class="btn-check" id="dig-11">
+          <label class="btn btn-secondary" for="dig-11">Pin 11</label>
+          <input type="checkbox" class="btn-check" id="dig-12">
+          <label class="btn btn-secondary" for="dig-12">Pin 12</label>
+          <input type="checkbox" class="btn-check" id="dig-13">
+          <label class="btn btn-secondary" for="dig-13">Pin 13</label>
         </div>
       </div>
-      <div class="col-6 justify-content-center">
-        <div class="row p-2 g-0 mb-2 shadow-sm justify-content-center rounded border">
-          <h6>AnalogRead</h6>
-          <table class="table mb-2 table-sm table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th class="w-25" scope="row">A0</th>
-                <td id="analog-a0">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A1</th>
-                <td id="analog-a1">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A2</th>
-                <td id="analog-a2">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A3</th>
-                <td id="analog-a3">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A4</th>
-                <td id="analog-a4">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A5</th>
-                <td id="analog-a5">...</td>
-              </tr>
-            </tbody>
-          </table>
-          <button class="btn btn-primary" type="button" id="btn-read-analog">Read</button>
-        </div>
-        <div class="row p-2 g-0 shadow-sm justify-content-center rounded border">
-          <h6>DigitalRead</h6>
-          <table class="table mb-2 table-sm table-bordered table-hover">
-            <tbody>
-              <tr>
-                <th class="w-25" scope="row">A0</th>
-                <td id="digital-a0">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A1</th>
-                <td id="digital-a1">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A2</th>
-                <td id="digital-a2">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A3</th>
-                <td id="digital-a3">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A4</th>
-                <td id="digital-a4">...</td>
-              </tr>
-              <tr>
-                <th scope="row">A5</th>
-                <td id="digital-a5">...</td>
-              </tr>
-            </tbody>
-          </table>
-          <button class="btn btn-primary" type="button" id="btn-read-digital">Read</button>
-        </div>
+      <div class="col-lg-3 p-2 shadow-sm justify-content-center rounded border" id="pwm-sliders">
+        <h6>PWM</h6>
+        <label for="pwm-3" class="form-label">Pin 3</label>
+        <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-3">
+        <label for="pwm-5" class="form-label">Pin 5</label>
+        <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-5">
+        <label for="pwm-6" class="form-label">Pin 6</label>
+        <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-6">
+        <label for="pwm-9" class="form-label">Pin 9</label>
+        <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-9">
+        <label for="pwm-10" class="form-label">Pin 10</label>
+        <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-10">
+        <label for="pwm-11" class="form-label">Pin 11</label>
+        <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-11">
+      </div>
+      <div class="col-lg-3 p-2 shadow-sm justify-content-center rounded border">
+        <h6>AnalogRead</h6>
+        <table class="table mb-2 table-sm table-bordered table-hover">
+          <tbody>
+            <tr>
+              <th class="w-25" scope="row">A0</th>
+              <td id="analog-a0">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A1</th>
+              <td id="analog-a1">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A2</th>
+              <td id="analog-a2">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A3</th>
+              <td id="analog-a3">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A4</th>
+              <td id="analog-a4">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A5</th>
+              <td id="analog-a5">...</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary" type="button" id="btn-read-analog">Read</button>
+      </div>
+      <div class="col-lg-3 p-2 shadow-sm justify-content-center rounded border">
+        <h6>DigitalRead</h6>
+        <table class="table mb-2 table-sm table-bordered table-hover">
+          <tbody>
+            <tr>
+              <th class="w-25" scope="row">A0</th>
+              <td id="digital-a0">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A1</th>
+              <td id="digital-a1">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A2</th>
+              <td id="digital-a2">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A3</th>
+              <td id="digital-a3">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A4</th>
+              <td id="digital-a4">...</td>
+            </tr>
+            <tr>
+              <th scope="row">A5</th>
+              <td id="digital-a5">...</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-primary" type="button" id="btn-read-digital">Read</button>
       </div>
     </div>
   </div>
