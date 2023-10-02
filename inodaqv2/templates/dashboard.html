@@ -67,18 +67,40 @@
       <div class="col-lg-3 p-1 justify-content-center">
         <div class="d-flex flex-column h-100 p-2 justify-content-top border border-dark shadow panel-commands" id="pwm-sliders">
           <h6>PWM</h6>
-          <label for="pwm-3" class="form-label monospace">Pin 3</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-3">
-          <label for="pwm-5" class="form-label monospace">Pin 5</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-5">
-          <label for="pwm-6" class="form-label monospace">Pin 6</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-6">
-          <label for="pwm-9" class="form-label monospace">Pin 9</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-9">
-          <label for="pwm-10" class="form-label monospace">Pin 10</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-10">
-          <label for="pwm-11" class="form-label monospace">Pin 11</label>
-          <input type="range" class="form-range" value="0" min="0" max="100" step="1" id="pwm-11">
+          <table class="table mb-2 table-sm table-bordered table-hover monospace align-middle">
+            <tbody>
+              <tr>
+                <th class="w-20" scope="row">#3</th>
+                <td><input type="range" class="form-range align-middle" value="0" min="0" max="100" step="1" id="pwm-3"></td>
+                <td class="w-20" id="res-pwm-3">...</td>
+              </tr>
+              <tr>
+                <th scope="row">#5</th>
+                <td><input type="range" class="form-range align-middle" value="0" min="0" max="100" step="1" id="pwm-5"></td>
+                <td id="res-pwm-5">...</td>
+              </tr>
+              <tr>
+                <th scope="row">#6</th>
+                <td><input type="range" class="form-range align-middle" value="0" min="0" max="100" step="1" id="pwm-6"></td>
+                <td id="res-pwm-6">...</td>
+              </tr>
+              <tr>
+                <th scope="row">#9</th>
+                <td><input type="range" class="form-range align-middle" value="0" min="0" max="100" step="1" id="pwm-9"></td>
+                <td id="res-pwm-9">...</td>
+              </tr>
+              <tr>
+                <th scope="row">#10</th>
+                <td><input type="range" class="form-range align-middle" value="0" min="0" max="100" step="1" id="pwm-10"></td>
+                <td id="res-pwm-10">...</td>
+              </tr>
+              <tr>
+                <th scope="row">#11</th>
+                <td><input type="range" class="form-range align-middle" value="0" min="0" max="100" step="1" id="pwm-11"></td>
+                <td id="res-pwm-11">...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="col-lg-3 p-1 justify-content-center">
