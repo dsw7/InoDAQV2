@@ -50,6 +50,25 @@ TYPE_PAYLOAD_PWM = TypedDict(
     },
 )
 
+PAYLOAD_AREAD_ERR: TYPE_PAYLOAD_AREAD = {
+    "rv": False,
+    "A0": -1.00,
+    "A1": -1.00,
+    "A2": -1.00,
+    "A3": -1.00,
+    "A4": -1.00,
+    "A5": -1.00,
+}
+PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
+    "rv": False,
+    "A0": -1,
+    "A1": -1,
+    "A2": -1,
+    "A3": -1,
+    "A4": -1,
+    "A5": -1,
+}
+
 
 def run_handshake() -> None:
     LOGGER.info("Handshaking with device")
@@ -83,12 +102,17 @@ def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin_id, "state": "..."}
+        return {"rv": False, "pin": pin_id, "state": "ERR"}
 
     payload = conn.read()
     LOGGER.info('Received reply: "%s"', payload)
 
-    _, values = payload.split(";")
+    try:
+        _, values = payload.split(";")
+    except ValueError:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return {"rv": False, "pin": pin_id, "state": "ERR"}
+
     _pin, _state = values.split(",")
 
     return {"rv": True, "pin": _pin, "state": _state}
@@ -101,20 +125,17 @@ def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
         conn.write("aread")
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {
-            "rv": False,
-            "A0": -1.00,
-            "A1": -1.00,
-            "A2": -1.00,
-            "A3": -1.00,
-            "A4": -1.00,
-            "A5": -1.00,
-        }
+        return PAYLOAD_AREAD_ERR
 
     payload = conn.read()
     LOGGER.info('Received reply: "%s"', payload)
 
-    _, values = payload.split(";")
+    try:
+        _, values = payload.split(";")
+    except ValueError:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return PAYLOAD_AREAD_ERR
+
     volts = values.split(",")
 
     return {
@@ -135,20 +156,17 @@ def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
         conn.write("dread")
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {
-            "rv": False,
-            "A0": -1,
-            "A1": -1,
-            "A2": -1,
-            "A3": -1,
-            "A4": -1,
-            "A5": -1,
-        }
+        return PAYLOAD_DREAD_ERR
 
     payload = conn.read()
     LOGGER.info('Received reply: "%s"', payload)
 
-    _, values = payload.split(";")
+    try:
+        _, values = payload.split(";")
+    except ValueError:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return PAYLOAD_DREAD_ERR
+
     state = values.split(",")
 
     return {
@@ -174,12 +192,17 @@ def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin_id, "pwm": "..."}
+        return {"rv": False, "pin": pin_id, "pwm": "ERR"}
 
     payload = conn.read()
     LOGGER.info('Received reply: "%s"', payload)
 
-    _, values = payload.split(";")
+    try:
+        _, values = payload.split(";")
+    except ValueError:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return {"rv": False, "pin": pin_id, "pwm": "ERR"}
+
     _pin, _duty_cycle = values.split(",")
 
     return {
