@@ -26,27 +26,22 @@ def test_command_pwm_1(connection: InoIO, command: str, expected_msg: str) -> No
 
 
 PAIRS_PWM_2 = [
-    ("pwm:3:0", "Pin 3 emitting PWM wave with duty cycle of 0"),
-    ("pwm:5:0", "Pin 5 emitting PWM wave with duty cycle of 0"),
-    ("pwm:6:0", "Pin 6 emitting PWM wave with duty cycle of 0"),
-    ("pwm:9:0", "Pin 9 emitting PWM wave with duty cycle of 0"),
-    ("pwm:10:0", "Pin 10 emitting PWM wave with duty cycle of 0"),
-    ("pwm:11:0", "Pin 11 emitting PWM wave with duty cycle of 0"),
-    ("pwm:3:255", "Pin 3 emitting PWM wave with duty cycle of 255"),
-    ("pwm:5:255", "Pin 5 emitting PWM wave with duty cycle of 255"),
-    ("pwm:6:255", "Pin 6 emitting PWM wave with duty cycle of 255"),
-    ("pwm:9:255", "Pin 9 emitting PWM wave with duty cycle of 255"),
-    ("pwm:10:255", "Pin 10 emitting PWM wave with duty cycle of 255"),
-    ("pwm:11:255", "Pin 11 emitting PWM wave with duty cycle of 255"),
+    ("pwm:3:0", "1;3,0"),
+    ("pwm:5:0", "1;5,0"),
+    ("pwm:6:0", "1;6,0"),
+    ("pwm:9:0", "1;9,0"),
+    ("pwm:10:0", "1;10,0"),
+    ("pwm:11:0", "1;11,0"),
+    ("pwm:3:255", "1;3,255"),
+    ("pwm:5:255", "1;5,255"),
+    ("pwm:6:255", "1;6,255"),
+    ("pwm:9:255", "1;9,255"),
+    ("pwm:10:255", "1;10,255"),
+    ("pwm:11:255", "1;11,255"),
 ]
 
 
 @mark.parametrize("command, expected_msg", PAIRS_PWM_2)
 def test_command_pwm_2(connection: InoIO, command: str, expected_msg: str) -> None:
     connection.write(command)
-
-    msg = connection.read()
-    status, returned_msg = msg.split(";")
-
-    assert int(status) == 1
-    assert returned_msg == expected_msg
+    assert expected_msg == connection.read()
