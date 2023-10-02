@@ -9,6 +9,14 @@ ANALOG_TO_VOLT = 5.0 / 1023
 DUTY_CYCLE_TO_ANALOG = 255 / 100
 ANALOG_TO_DUTY_CYCLE = 100 / 255
 
+TYPE_PAYLOAD_DIG = TypedDict(
+    "TYPE_PAYLOAD_DIG",
+    {
+        "rv": bool,
+        "pin": str,
+        "state": str,
+    },
+)
 TYPE_PAYLOAD_AREAD = TypedDict(
     "TYPE_PAYLOAD_AREAD",
     {
@@ -60,7 +68,7 @@ def run_handshake() -> None:
         raise ConnectionError("Handshake returned unknown message")
 
 
-def toggle_digital_pins(pin: str, state: bool) -> dict[str, bool]:
+def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
     pin_id = pin.split("-")[1]
 
     command = f"dig:{pin_id}:"
@@ -75,10 +83,15 @@ def toggle_digital_pins(pin: str, state: bool) -> dict[str, bool]:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False}
+        return {"rv": False, "pin": pin_id, "state": "..."}
 
-    LOGGER.info('Received reply: "%s"', conn.read())
-    return {"rv": True}
+    payload = conn.read()
+    LOGGER.info('Received reply: "%s"', payload)
+
+    _, values = payload.split(";")
+    _pin, _state = values.split(",")
+
+    return {"rv": True, "pin": _pin, "state": _state}
 
 
 def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
@@ -149,10 +162,10 @@ def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
     }
 
 
-def set_pwm(pin: str, value: str) -> TYPE_PAYLOAD_PWM:
+def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
     pin_id = pin.split("-")[1]
 
-    pwm = ceil(int(value) * DUTY_CYCLE_TO_ANALOG)
+    pwm = ceil(int(duty_cycle) * DUTY_CYCLE_TO_ANALOG)
     command = f"pwm:{pin_id}:{pwm}"
 
     LOGGER.info('Sending command: "%s"', command)
@@ -161,20 +174,16 @@ def set_pwm(pin: str, value: str) -> TYPE_PAYLOAD_PWM:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {
-            "rv": False,
-            "pin": pin_id,
-            "pwm": "...",
-        }
+        return {"rv": False, "pin": pin_id, "pwm": "..."}
 
     payload = conn.read()
     LOGGER.info('Received reply: "%s"', payload)
 
     _, values = payload.split(";")
-    pin, pwm_8_bit = values.split(",")
+    _pin, _duty_cycle = values.split(",")
 
     return {
         "rv": True,
-        "pin": pin,
-        "pwm": str(floor(int(pwm_8_bit) * ANALOG_TO_DUTY_CYCLE)),
+        "pin": _pin,
+        "pwm": str(floor(int(_duty_cycle) * ANALOG_TO_DUTY_CYCLE)),
     }

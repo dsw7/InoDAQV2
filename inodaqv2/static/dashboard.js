@@ -10,6 +10,7 @@ $(document).ready(function() {
         state: $(this).is(":checked"),
       }),
       success: function(response) {
+        $("#res-dig-" + response.pin).text(response.state);
         console.log(response.rv);
       }
     });
