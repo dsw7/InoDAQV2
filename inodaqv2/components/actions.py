@@ -1,5 +1,5 @@
 from logging import getLogger
-from math import ceil
+from math import ceil, floor
 from typing import TypedDict
 from inoio import errors
 from inodaqv2.components.extensions import conn
@@ -7,6 +7,7 @@ from inodaqv2.components.extensions import conn
 LOGGER = getLogger("inodaqv2")
 ANALOG_TO_VOLT = 5.0 / 1023
 DUTY_CYCLE_TO_ANALOG = 255 / 100
+ANALOG_TO_DUTY_CYCLE = 100 / 255
 
 TYPE_PAYLOAD_AREAD = TypedDict(
     "TYPE_PAYLOAD_AREAD",
@@ -30,6 +31,14 @@ TYPE_PAYLOAD_DREAD = TypedDict(
         "A3": int,
         "A4": int,
         "A5": int,
+    },
+)
+TYPE_PAYLOAD_PWM = TypedDict(
+    "TYPE_PAYLOAD_PWM",
+    {
+        "rv": bool,
+        "pin": str,
+        "pwm": str,
     },
 )
 
@@ -127,20 +136,20 @@ def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
     LOGGER.info('Received reply: "%s"', payload)
 
     _, values = payload.split(";")
-    volts = values.split(",")
+    state = values.split(",")
 
     return {
         "rv": True,
-        "A0": int(volts[0]),
-        "A1": int(volts[1]),
-        "A2": int(volts[2]),
-        "A3": int(volts[3]),
-        "A4": int(volts[4]),
-        "A5": int(volts[5]),
+        "A0": int(state[0]),
+        "A1": int(state[1]),
+        "A2": int(state[2]),
+        "A3": int(state[3]),
+        "A4": int(state[4]),
+        "A5": int(state[5]),
     }
 
 
-def set_pwm(pin: str, value: str) -> dict[str, bool]:
+def set_pwm(pin: str, value: str) -> TYPE_PAYLOAD_PWM:
     pin_id = pin.split("-")[1]
 
     pwm = ceil(int(value) * DUTY_CYCLE_TO_ANALOG)
@@ -152,7 +161,20 @@ def set_pwm(pin: str, value: str) -> dict[str, bool]:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False}
+        return {
+            "rv": False,
+            "pin": pin_id,
+            "pwm": "...",
+        }
 
-    LOGGER.info('Received reply: "%s"', conn.read())
-    return {"rv": True}
+    payload = conn.read()
+    LOGGER.info('Received reply: "%s"', payload)
+
+    _, values = payload.split(";")
+    pin, pwm_8_bit = values.split(",")
+
+    return {
+        "rv": True,
+        "pin": pin,
+        "pwm": str(floor(int(pwm_8_bit) * ANALOG_TO_DUTY_CYCLE)),
+    }

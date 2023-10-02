@@ -72,6 +72,7 @@ $(document).ready(function() {
         value: $(this).val(),
       }),
       success: function(response) {
+        $("#res-pwm-" + response.pin).text(response.pwm);
         console.log(response.rv);
       }
     });
