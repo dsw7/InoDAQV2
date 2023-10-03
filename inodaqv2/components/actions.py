@@ -88,14 +88,14 @@ def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin_id, "state": "ERR"}
+        return {"rv": False, "pin": pin_id, "state": ""}
 
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
     if re.match(PAT_VALID_DIG, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {"rv": False, "pin": pin_id, "state": "ERR"}
+        return {"rv": False, "pin": pin_id, "state": ""}
 
     _, values = reply.split(";")
     _pin, _state = values.split(",")

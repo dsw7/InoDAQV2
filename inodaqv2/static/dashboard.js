@@ -10,8 +10,11 @@ $(document).ready(function() {
         state: $(this).is(":checked"),
       }),
       success: function(response) {
-        $("#res-dig-" + response.pin).text(response.state);
-        if (!response.rv) {
+        if (response.rv) {
+          $("#res-dig-" + response.pin).text(response.state);
+        }
+        else {
+          $("#res-dig-" + response.pin).text("ERR");
           $("#row-alert-msg").text("Failed to set digital pin. Check terminal for error");
           $("#row-alert").fadeIn(250);
         }
