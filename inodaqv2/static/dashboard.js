@@ -77,16 +77,24 @@ $(document).ready(function() {
         action: "dread",
       }),
       success: function(response) {
-        if (!response.rv) {
+        if (response.rv) {
+          $("#digital-a0").text(response.A0);
+          $("#digital-a1").text(response.A1);
+          $("#digital-a2").text(response.A2);
+          $("#digital-a3").text(response.A3);
+          $("#digital-a4").text(response.A4);
+          $("#digital-a5").text(response.A5);
+        }
+        else {
           $("#row-alert-msg").text("Failed to read digital pins. Check terminal for error");
           $("#row-alert").fadeIn(250);
+          $("#digital-a0").text("ERR");
+          $("#digital-a1").text("ERR");
+          $("#digital-a2").text("ERR");
+          $("#digital-a3").text("ERR");
+          $("#digital-a4").text("ERR");
+          $("#digital-a5").text("ERR");
         }
-        $("#digital-a0").text(response.A0);
-        $("#digital-a1").text(response.A1);
-        $("#digital-a2").text(response.A2);
-        $("#digital-a3").text(response.A3);
-        $("#digital-a4").text(response.A4);
-        $("#digital-a5").text(response.A5);
       }
     });
   });

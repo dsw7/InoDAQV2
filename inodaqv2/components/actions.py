@@ -1,7 +1,7 @@
 import re
 from logging import getLogger
 from math import ceil, floor
-from typing import TypedDict
+from typing import TypedDict, Union
 from inoio import errors
 from inodaqv2.components.extensions import conn
 
@@ -58,15 +58,6 @@ PAYLOAD_AREAD_ERR: TYPE_PAYLOAD_AREAD = {
     "A3": -1.00,
     "A4": -1.00,
     "A5": -1.00,
-}
-PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
-    "rv": False,
-    "A0": -1,
-    "A1": -1,
-    "A2": -1,
-    "A3": -1,
-    "A4": -1,
-    "A5": -1,
 }
 PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
@@ -151,21 +142,21 @@ def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
     }
 
 
-def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
+def read_digital_pins() -> Union[TYPE_PAYLOAD_DREAD, dict[str, bool]]:
     LOGGER.info('Sending command: "dread"')
 
     try:
         conn.write("dread")
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return PAYLOAD_DREAD_ERR
+        return {'rv': False}
 
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
     if re.match(PAT_VALID_DREAD, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return PAYLOAD_DREAD_ERR
+        return {'rv': False}
 
     _, values = reply.split(";")
     state = values.split(",")
