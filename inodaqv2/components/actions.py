@@ -70,6 +70,7 @@ PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
 }
 PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
+PAT_VALID_AREAD = re.compile(r"^1;\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4}$")
 
 
 def run_handshake() -> None:
@@ -161,12 +162,11 @@ def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
-    try:
-        _, values = reply.split(";")
-    except ValueError:
+    if re.match(PAT_VALID_PWM, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return PAYLOAD_DREAD_ERR
 
+    _, values = reply.split(";")
     state = values.split(",")
 
     return {
