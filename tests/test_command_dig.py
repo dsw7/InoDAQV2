@@ -62,13 +62,13 @@ def test_command_dig_valid(connection: InoIO, command: str, expected_msg: str) -
 
 
 INVALID_REPLIES = [
-    ("0;13,off"),
-    ("1;133,off"),
-    ("1;abc,off"),
-    ("1;13,"),
-    ("1;13,of"),
-    ("1;13,offf"),
-    ("1;13,off,on"),
+    "0;13,off",
+    "1;133,off",
+    "1;abc,off",
+    "1;13,",
+    "1;13,of",
+    "1;13,offf",
+    "1;13,off,on",
 ]
 
 

@@ -50,11 +50,11 @@ def test_command_dig_valid(connection: InoIO, command: str, expected_msg: str) -
 
 
 INVALID_REPLIES = [
-    ("0;3,255"),
-    ("1;333,255"),
-    ("1;3,2555"),
-    ("1;3,"),
-    ("1;3,255,255"),
+    "0;3,255",
+    "1;333,255",
+    "1;3,2555",
+    "1;3,",
+    "1;3,255,255",
 ]
 
 
