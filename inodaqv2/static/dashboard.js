@@ -11,7 +11,32 @@ $(document).ready(function() {
       }),
       success: function(response) {
         $("#res-dig-" + response.pin).text(response.state);
-        console.log(response.rv);
+        if (!response.rv) {
+          $("#row-alert-msg").text("Failed to set digital pin. Check terminal for error");
+          $("#row-alert").fadeIn(250);
+        }
+      }
+    });
+  });
+});
+
+$(document).ready(function() {
+  $('#pwm-sliders input[type="range"]').click(function() {
+    $.ajax({
+      url: "",
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify({
+        action: "pwm",
+        pin: $(this).attr("id"),
+        value: $(this).val(),
+      }),
+      success: function(response) {
+        $("#res-pwm-" + response.pin).text(response.pwm);
+        if (!response.rv) {
+          $("#row-alert-msg").text("Failed to set PWM duty cycle. Check terminal for error");
+          $("#row-alert").fadeIn(250);
+        }
       }
     });
   });
@@ -27,7 +52,10 @@ $(document).ready(function() {
         action: "aread",
       }),
       success: function(response) {
-        console.log(response.rv);
+        if (!response.rv) {
+          $("#row-alert-msg").text("Failed to read analog pins. Check terminal for error");
+          $("#row-alert").fadeIn(250);
+        }
         $("#analog-a0").text(response.A0);
         $("#analog-a1").text(response.A1);
         $("#analog-a2").text(response.A2);
@@ -49,32 +77,16 @@ $(document).ready(function() {
         action: "dread",
       }),
       success: function(response) {
-        console.log(response.rv);
+        if (!response.rv) {
+          $("#row-alert-msg").text("Failed to read digital pins. Check terminal for error");
+          $("#row-alert").fadeIn(250);
+        }
         $("#digital-a0").text(response.A0);
         $("#digital-a1").text(response.A1);
         $("#digital-a2").text(response.A2);
         $("#digital-a3").text(response.A3);
         $("#digital-a4").text(response.A4);
         $("#digital-a5").text(response.A5);
-      }
-    });
-  });
-});
-
-$(document).ready(function() {
-  $('#pwm-sliders input[type="range"]').click(function() {
-    $.ajax({
-      url: "",
-      type: "post",
-      contentType: "application/json",
-      data: JSON.stringify({
-        action: "pwm",
-        pin: $(this).attr("id"),
-        value: $(this).val(),
-      }),
-      success: function(response) {
-        $("#res-pwm-" + response.pin).text(response.pwm);
-        console.log(response.rv);
       }
     });
   });
