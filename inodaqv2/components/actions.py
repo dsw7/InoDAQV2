@@ -115,14 +115,14 @@ def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin_id, "pwm": "ERR"}
+        return {"rv": False, "pin": pin_id, "pwm": ""}
 
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
     if re.match(PAT_VALID_PWM, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {"rv": False, "pin": pin_id, "pwm": "ERR"}
+        return {"rv": False, "pin": pin_id, "pwm": ""}
 
     _, values = reply.split(";")
     _pin, _duty_cycle = values.split(",")

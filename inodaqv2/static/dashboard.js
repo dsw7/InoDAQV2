@@ -32,8 +32,11 @@ $(document).ready(function() {
         value: $(this).val(),
       }),
       success: function(response) {
-        $("#res-pwm-" + response.pin).text(response.pwm);
-        if (!response.rv) {
+        if (response.rv) {
+          $("#res-pwm-" + response.pin).text(response.pwm);
+        }
+        else {
+          $("#res-pwm-" + response.pin).text("ERR");
           $("#row-alert-msg").text("Failed to set PWM duty cycle. Check terminal for error");
           $("#row-alert").fadeIn(250);
         }
