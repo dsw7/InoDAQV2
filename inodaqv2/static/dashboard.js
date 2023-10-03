@@ -17,6 +17,7 @@ $(document).ready(function() {
           $("#res-dig-" + response.pin).text("ERR");
           $("#row-alert-msg").text("Failed to set digital pin. Check terminal for error");
           $("#row-alert").fadeIn(250);
+          $("#row-alert").delay(2000).fadeOut(250);
         }
       }
     });
@@ -42,6 +43,7 @@ $(document).ready(function() {
           $("#res-pwm-" + response.pin).text("ERR");
           $("#row-alert-msg").text("Failed to set PWM duty cycle. Check terminal for error");
           $("#row-alert").fadeIn(250);
+          $("#row-alert").delay(2000).fadeOut(250);
         }
       }
     });
@@ -69,6 +71,7 @@ $(document).ready(function() {
         else {
           $("#row-alert-msg").text("Failed to read analog pins. Check terminal for error");
           $("#row-alert").fadeIn(250);
+          $("#row-alert").delay(2000).fadeOut(250);
           $("#analog-a0").text("ERR");
           $("#analog-a1").text("ERR");
           $("#analog-a2").text("ERR");
@@ -102,6 +105,7 @@ $(document).ready(function() {
         else {
           $("#row-alert-msg").text("Failed to read digital pins. Check terminal for error");
           $("#row-alert").fadeIn(250);
+          $("#row-alert").delay(2000).fadeOut(250);
           $("#digital-a0").text("ERR");
           $("#digital-a1").text("ERR");
           $("#digital-a2").text("ERR");
