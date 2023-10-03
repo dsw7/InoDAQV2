@@ -1,5 +1,6 @@
 from logging import getLogger
 from math import ceil, floor
+from re import compile
 from typing import TypedDict
 from inoio import errors
 from inodaqv2.components.extensions import conn
@@ -68,6 +69,8 @@ PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
     "A4": -1,
     "A5": -1,
 }
+
+PAT_VALID_DIG = compile("^1;\d{1,2},(on|off)$")
 
 
 def run_handshake() -> None:
