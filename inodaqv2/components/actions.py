@@ -71,6 +71,7 @@ PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
 PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
 PAT_VALID_AREAD = re.compile(r"^1;\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4}$")
+PAT_VALID_DREAD = re.compile(r"^1;\d{1},\d{1},\d{1},\d{1},\d{1},\d{1}$")
 
 
 def run_handshake() -> None:
@@ -132,7 +133,7 @@ def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
-    if re.match(PAT_VALID_PWM, reply) is None:
+    if re.match(PAT_VALID_AREAD, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return PAYLOAD_AREAD_ERR
 
@@ -162,7 +163,7 @@ def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
-    if re.match(PAT_VALID_PWM, reply) is None:
+    if re.match(PAT_VALID_DREAD, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return PAYLOAD_DREAD_ERR
 
@@ -197,12 +198,11 @@ def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
-    try:
-        _, values = reply.split(";")
-    except ValueError:
+    if re.match(PAT_VALID_PWM, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return {"rv": False, "pin": pin_id, "pwm": "ERR"}
 
+    _, values = reply.split(";")
     _pin, _duty_cycle = values.split(",")
 
     return {
