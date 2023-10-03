@@ -9,7 +9,6 @@ LOGGER = getLogger("inodaqv2")
 ANALOG_TO_VOLT = 5.0 / 1023
 DUTY_CYCLE_TO_ANALOG = 255 / 100
 ANALOG_TO_DUTY_CYCLE = 100 / 255
-
 TYPE_PAYLOAD_DIG = TypedDict(
     "TYPE_PAYLOAD_DIG",
     {
@@ -69,8 +68,8 @@ PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
     "A4": -1,
     "A5": -1,
 }
-
 PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
+PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
 
 
 def run_handshake() -> None:
@@ -132,12 +131,11 @@ def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
-    try:
-        _, values = reply.split(";")
-    except ValueError:
+    if re.match(PAT_VALID_PWM, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return PAYLOAD_AREAD_ERR
 
+    _, values = reply.split(";")
     volts = values.split(",")
 
     return {

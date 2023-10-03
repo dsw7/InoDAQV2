@@ -1,28 +1,27 @@
+from re import match
 from pytest import mark
 from inoio import InoIO
+from inodaqv2.components.actions import PAT_VALID_PWM
 
 PAIRS_PWM_1 = [
-    ("pwm", "Unknown command: pwm"),
-    ("pwm:", "Malformed command. Missing second colon!"),
-    ("pwm:3", "Malformed command. Missing second colon!"),
-    ("pwm:a:", "Malformed command. Could not parse digital pin!"),
-    ("pwm:-2:", "Digital pin must be one of 3, 5, 6, 9, 10 or 11"),
-    ("pwm:2:", "Digital pin must be one of 3, 5, 6, 9, 10 or 11"),
-    ("pwm:3:a", "Could not parse duty cycle!"),
-    ("pwm:3:-100", "Duty cycle must be between 0 and 255"),
-    ("pwm:3:256", "Duty cycle must be between 0 and 255"),
+    ("pwm", "0;Unknown command: pwm"),
+    ("pwm:", "0;Malformed command. Missing second colon!"),
+    ("pwm:3", "0;Malformed command. Missing second colon!"),
+    ("pwm:a:", "0;Malformed command. Could not parse digital pin!"),
+    ("pwm:-2:", "0;Digital pin must be one of 3, 5, 6, 9, 10 or 11"),
+    ("pwm:2:", "0;Digital pin must be one of 3, 5, 6, 9, 10 or 11"),
+    ("pwm:3:a", "0;Could not parse duty cycle!"),
+    ("pwm:3:-100", "0;Duty cycle must be between 0 and 255"),
+    ("pwm:3:256", "0;Duty cycle must be between 0 and 255"),
 ]
 
 
 @mark.parametrize("command, expected_msg", PAIRS_PWM_1)
-def test_command_pwm_1(connection: InoIO, command: str, expected_msg: str) -> None:
+def test_command_pwm_invalid(
+    connection: InoIO, command: str, expected_msg: str
+) -> None:
     connection.write(command)
-
-    msg = connection.read()
-    status, returned_msg = msg.split(";")
-
-    assert int(status) == 0
-    assert returned_msg == expected_msg
+    assert expected_msg == connection.read()
 
 
 PAIRS_PWM_2 = [
@@ -42,6 +41,23 @@ PAIRS_PWM_2 = [
 
 
 @mark.parametrize("command, expected_msg", PAIRS_PWM_2)
-def test_command_pwm_2(connection: InoIO, command: str, expected_msg: str) -> None:
+def test_command_dig_valid(connection: InoIO, command: str, expected_msg: str) -> None:
     connection.write(command)
-    assert expected_msg == connection.read()
+    reply = connection.read()
+
+    assert expected_msg == reply
+    assert match(PAT_VALID_PWM, reply) is not None
+
+
+INVALID_REPLIES = [
+    ("0;3,255"),
+    ("1;333,255"),
+    ("1;3,2555"),
+    ("1;3,"),
+    ("1;3,255,255"),
+]
+
+
+@mark.parametrize("reply", INVALID_REPLIES)
+def test_regex_invalid_reply(reply: str) -> None:
+    assert match(PAT_VALID_PWM, reply) is None
