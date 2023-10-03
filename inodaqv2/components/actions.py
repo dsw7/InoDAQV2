@@ -50,15 +50,6 @@ TYPE_PAYLOAD_PWM = TypedDict(
     },
 )
 
-PAYLOAD_AREAD_ERR: TYPE_PAYLOAD_AREAD = {
-    "rv": False,
-    "A0": -1.00,
-    "A1": -1.00,
-    "A2": -1.00,
-    "A3": -1.00,
-    "A4": -1.00,
-    "A5": -1.00,
-}
 PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
 PAT_VALID_AREAD = re.compile(r"^1;\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4}$")
@@ -112,66 +103,6 @@ def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
     return {"rv": True, "pin": _pin, "state": _state}
 
 
-def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
-    LOGGER.info('Sending command: "aread"')
-
-    try:
-        conn.write("aread")
-    except errors.InoIOTransmissionError:
-        LOGGER.exception("Failed to send command")
-        return PAYLOAD_AREAD_ERR
-
-    reply = conn.read()
-    LOGGER.info('Received reply: "%s"', reply)
-
-    if re.match(PAT_VALID_AREAD, reply) is None:
-        LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return PAYLOAD_AREAD_ERR
-
-    _, values = reply.split(";")
-    volts = values.split(",")
-
-    return {
-        "rv": True,
-        "A0": round(int(volts[0]) * ANALOG_TO_VOLT, 3),
-        "A1": round(int(volts[1]) * ANALOG_TO_VOLT, 3),
-        "A2": round(int(volts[2]) * ANALOG_TO_VOLT, 3),
-        "A3": round(int(volts[3]) * ANALOG_TO_VOLT, 3),
-        "A4": round(int(volts[4]) * ANALOG_TO_VOLT, 3),
-        "A5": round(int(volts[5]) * ANALOG_TO_VOLT, 3),
-    }
-
-
-def read_digital_pins() -> Union[TYPE_PAYLOAD_DREAD, dict[str, bool]]:
-    LOGGER.info('Sending command: "dread"')
-
-    try:
-        conn.write("dread")
-    except errors.InoIOTransmissionError:
-        LOGGER.exception("Failed to send command")
-        return {'rv': False}
-
-    reply = conn.read()
-    LOGGER.info('Received reply: "%s"', reply)
-
-    if re.match(PAT_VALID_DREAD, reply) is None:
-        LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {'rv': False}
-
-    _, values = reply.split(";")
-    state = values.split(",")
-
-    return {
-        "rv": True,
-        "A0": int(state[0]),
-        "A1": int(state[1]),
-        "A2": int(state[2]),
-        "A3": int(state[3]),
-        "A4": int(state[4]),
-        "A5": int(state[5]),
-    }
-
-
 def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
     pin_id = pin.split("-")[1]
 
@@ -200,4 +131,64 @@ def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
         "rv": True,
         "pin": _pin,
         "pwm": str(floor(int(_duty_cycle) * ANALOG_TO_DUTY_CYCLE)),
+    }
+
+
+def read_analog_pins() -> Union[TYPE_PAYLOAD_AREAD, dict[str, bool]]:
+    LOGGER.info('Sending command: "aread"')
+
+    try:
+        conn.write("aread")
+    except errors.InoIOTransmissionError:
+        LOGGER.exception("Failed to send command")
+        return {"rv": False}
+
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
+
+    if re.match(PAT_VALID_AREAD, reply) is None:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return {"rv": False}
+
+    _, values = reply.split(";")
+    volts = values.split(",")
+
+    return {
+        "rv": True,
+        "A0": round(int(volts[0]) * ANALOG_TO_VOLT, 3),
+        "A1": round(int(volts[1]) * ANALOG_TO_VOLT, 3),
+        "A2": round(int(volts[2]) * ANALOG_TO_VOLT, 3),
+        "A3": round(int(volts[3]) * ANALOG_TO_VOLT, 3),
+        "A4": round(int(volts[4]) * ANALOG_TO_VOLT, 3),
+        "A5": round(int(volts[5]) * ANALOG_TO_VOLT, 3),
+    }
+
+
+def read_digital_pins() -> Union[TYPE_PAYLOAD_DREAD, dict[str, bool]]:
+    LOGGER.info('Sending command: "dread"')
+
+    try:
+        conn.write("dread")
+    except errors.InoIOTransmissionError:
+        LOGGER.exception("Failed to send command")
+        return {"rv": False}
+
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
+
+    if re.match(PAT_VALID_DREAD, reply) is None:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return {"rv": False}
+
+    _, values = reply.split(";")
+    state = values.split(",")
+
+    return {
+        "rv": True,
+        "A0": int(state[0]),
+        "A1": int(state[1]),
+        "A2": int(state[2]),
+        "A3": int(state[3]),
+        "A4": int(state[4]),
+        "A5": int(state[5]),
     }

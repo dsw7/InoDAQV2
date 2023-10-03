@@ -52,16 +52,24 @@ $(document).ready(function() {
         action: "aread",
       }),
       success: function(response) {
-        if (!response.rv) {
+        if (response.rv) {
+          $("#analog-a0").text(response.A0);
+          $("#analog-a1").text(response.A1);
+          $("#analog-a2").text(response.A2);
+          $("#analog-a3").text(response.A3);
+          $("#analog-a4").text(response.A4);
+          $("#analog-a5").text(response.A5);
+        }
+        else {
           $("#row-alert-msg").text("Failed to read analog pins. Check terminal for error");
           $("#row-alert").fadeIn(250);
+          $("#analog-a0").text("ERR");
+          $("#analog-a1").text("ERR");
+          $("#analog-a2").text("ERR");
+          $("#analog-a3").text("ERR");
+          $("#analog-a4").text("ERR");
+          $("#analog-a5").text("ERR");
         }
-        $("#analog-a0").text(response.A0);
-        $("#analog-a1").text(response.A1);
-        $("#analog-a2").text(response.A2);
-        $("#analog-a3").text(response.A3);
-        $("#analog-a4").text(response.A4);
-        $("#analog-a5").text(response.A5);
       }
     });
   });
