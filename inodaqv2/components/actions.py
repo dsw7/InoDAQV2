@@ -1,6 +1,6 @@
+import re
 from logging import getLogger
 from math import ceil, floor
-from re import compile
 from typing import TypedDict
 from inoio import errors
 from inodaqv2.components.extensions import conn
@@ -70,7 +70,7 @@ PAYLOAD_DREAD_ERR: TYPE_PAYLOAD_DREAD = {
     "A5": -1,
 }
 
-PAT_VALID_DIG = compile("^1;\d{1,2},(on|off)$")
+PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 
 
 def run_handshake() -> None:
@@ -107,15 +107,14 @@ def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
         LOGGER.exception("Failed to send command")
         return {"rv": False, "pin": pin_id, "state": "ERR"}
 
-    payload = conn.read()
-    LOGGER.info('Received reply: "%s"', payload)
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
 
-    try:
-        _, values = payload.split(";")
-    except ValueError:
+    if re.match(PAT_VALID_DIG, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return {"rv": False, "pin": pin_id, "state": "ERR"}
 
+    _, values = reply.split(";")
     _pin, _state = values.split(",")
 
     return {"rv": True, "pin": _pin, "state": _state}
@@ -130,11 +129,11 @@ def read_analog_pins() -> TYPE_PAYLOAD_AREAD:
         LOGGER.exception("Failed to send command")
         return PAYLOAD_AREAD_ERR
 
-    payload = conn.read()
-    LOGGER.info('Received reply: "%s"', payload)
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
 
     try:
-        _, values = payload.split(";")
+        _, values = reply.split(";")
     except ValueError:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return PAYLOAD_AREAD_ERR
@@ -161,11 +160,11 @@ def read_digital_pins() -> TYPE_PAYLOAD_DREAD:
         LOGGER.exception("Failed to send command")
         return PAYLOAD_DREAD_ERR
 
-    payload = conn.read()
-    LOGGER.info('Received reply: "%s"', payload)
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
 
     try:
-        _, values = payload.split(";")
+        _, values = reply.split(";")
     except ValueError:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return PAYLOAD_DREAD_ERR
@@ -197,11 +196,11 @@ def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
         LOGGER.exception("Failed to send command")
         return {"rv": False, "pin": pin_id, "pwm": "ERR"}
 
-    payload = conn.read()
-    LOGGER.info('Received reply: "%s"', payload)
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
 
     try:
-        _, values = payload.split(";")
+        _, values = reply.split(";")
     except ValueError:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
         return {"rv": False, "pin": pin_id, "pwm": "ERR"}
