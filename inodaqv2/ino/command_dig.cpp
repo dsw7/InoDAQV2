@@ -48,8 +48,9 @@ void command_dig(const ::String &command)
         return;
     }
 
-    ::String msg = "Pin " + ::String(pin) + " set to " + state;
+    // Return payload of form: "1;<pin>,<on|off>"
 
+    ::String msg = ::String(pin) + "," + state;
     Helpers::info(msg);
 }
 

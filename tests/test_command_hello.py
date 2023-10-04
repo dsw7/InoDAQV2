@@ -1,9 +1,10 @@
-from inodaqv2.serial_connection import SerialConnection
+from inoio import InoIO
 
 
-def test_command_hello(connection: SerialConnection) -> None:
-    connection.send_message("hello")
-    status, returned_msg = connection.receive_message()
+def test_command_hello(connection: InoIO) -> None:
+    connection.write("hello")
+    msg = connection.read()
 
-    assert status
+    status, returned_msg = msg.split(";")
+    assert int(status) == 1
     assert returned_msg == "Hello from InoDAQV2"

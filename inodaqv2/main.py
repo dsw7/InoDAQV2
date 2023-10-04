@@ -1,58 +1,61 @@
 import sys
-import logging
-from pathlib import Path
-from tkinter import Tk, _tkinter
-from configparser import ConfigParser
-from inodaqv2.serial_connection import SerialConnection
-from inodaqv2.command_dig import PanelDig
-from inodaqv2.command_pwm import PanelPWM
-from inodaqv2.command_aread import PanelAread
-from inodaqv2.command_dread import PanelDread
+from json import loads
+from typing import Union
+from flask import Flask, render_template, request, jsonify
+from werkzeug.wrappers.response import Response
+from click import command, option
+from inoio import errors
+from inodaqv2.components import actions
+from inodaqv2.components.extensions import conn
+from inodaqv2.components.logger import setup_logger
+
+app = Flask(__name__)
 
 
-def read_ini() -> ConfigParser:
-    path_ini = Path.home() / ".inodaqv2.ini"
+@app.route("/", methods=["GET", "POST"])
+def dashboard() -> Union[Response, str]:
+    if request.is_json:
+        if request.method == "POST":
+            payload = loads(request.data)
 
-    if not path_ini.exists():
-        sys.exit(f'Path "{path_ini}" does not exist')
+            if payload["action"] == "dig":
+                return jsonify(
+                    actions.toggle_digital_pins(payload["pin"], payload["state"])
+                )
 
-    configs = ConfigParser()
-    configs.read(path_ini)
+            if payload["action"] == "aread":
+                return jsonify(actions.read_analog_pins())
 
-    return configs
+            if payload["action"] == "dread":
+                return jsonify(actions.read_digital_pins())
 
+            if payload["action"] == "pwm":
+                return jsonify(actions.set_pwm(payload["pin"], payload["value"]))
 
-def setup_logger() -> None:
-    logger = logging.getLogger("inodaqv2")
-    logger.setLevel(logging.DEBUG)
-
-    stream = logging.StreamHandler()
-    formatter = logging.Formatter(
-        fmt="%(asctime)s.%(msecs)03d %(levelname)s %(message)s",
-        datefmt="%Y-%m-%d %I:%M:%S",
-    )
-    stream.setFormatter(formatter)
-
-    logger.addHandler(stream)
+    return render_template("dashboard.html")
 
 
-def main() -> None:
-    configs = read_ini()
+@command()
+@option("--host", default="localhost", help="Which host to bind to")
+@option("--port", default=8045, help="Which TCP port to listen on")
+@option(
+    "--serial-port", default="/dev/ttyS2", help="Specify which USB device to connect to"
+)
+def main(host: str, port: int, serial_port: str) -> None:
     setup_logger()
+    conn.init_app(port=serial_port)
 
     try:
-        root = Tk()
-    except _tkinter.TclError as exception:
-        sys.exit(f'Missing X11 graphic layer: "{exception}"')
+        conn.connect()
+    except errors.InoIOConnectionError as e:
+        sys.exit(e)
 
-    root.title("InoDAQV2")
+    try:
+        actions.run_handshake()
+    except ConnectionError as e:
+        sys.exit(str(e))
 
-    with SerialConnection(configs["connection"]) as connection:
-        PanelDig(root, connection)
-        PanelPWM(root, connection)
-        PanelAread(root, connection)
-        PanelDread(root, connection)
-        root.mainloop()
+    app.run(host=host, port=port)
 
 
 if __name__ == "__main__":

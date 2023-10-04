@@ -1,11 +1,22 @@
-from inodaqv2.serial_connection import SerialConnection
+from re import match
+from inoio import InoIO
+from pytest import mark
+from inodaqv2.components.actions import PAT_VALID_AREAD
 
 
-def test_command_aread(connection: SerialConnection) -> None:
-    connection.send_message("aread")
-    status, returned_msg = connection.receive_message()
+def test_command_aread(connection: InoIO) -> None:
+    connection.write("aread")
+    assert match(PAT_VALID_AREAD, connection.read()) is not None
 
-    assert status
 
-    for val in returned_msg.split(","):
-        assert 0 <= int(val) <= 1023
+INVALID_REPLIES = [
+    "0;100,200,300,400,500,600",
+    "1;100,200,300,400,500,",
+    "1;100,200,300,400,500,10233",
+    "1;abc,200,300,400,500,600",
+]
+
+
+@mark.parametrize("reply", INVALID_REPLIES)
+def test_regex_invalid_reply(reply: str) -> None:
+    assert match(PAT_VALID_AREAD, reply) is None

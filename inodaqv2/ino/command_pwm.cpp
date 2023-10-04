@@ -65,7 +65,9 @@ void command_pwm(const ::String &command)
 
     ::analogWrite(pin, duty_cycle);
 
-    ::String msg = "Pin " + ::String(pin) + " emitting PWM wave with duty cycle of " + ::String(duty_cycle);
+    // Return payload of form: "1;<pin>,<duty-cycle>"
+
+    ::String msg = ::String(pin) + "," + ::String(duty_cycle);
     Helpers::info(msg);
 }
 
