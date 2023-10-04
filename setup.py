@@ -10,5 +10,10 @@ setup(
         "flask",
         "inoio",
     ],
-    entry_points={"console_scripts": ["inodaq = inodaqv2.main:main"]},
+    entry_points={
+        "console_scripts": [
+            "inodaq = inodaqv2.main:main",
+            "inodaq-upload = inodaqv2.upload:main",
+        ]
+    },
 )

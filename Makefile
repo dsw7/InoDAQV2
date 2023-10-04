@@ -46,10 +46,10 @@ clean:
 	@rm -rfv build/ dist/ *.egg-info/
 
 black:
-	@black inodaqv2 tests ino
+	@black inodaqv2 tests
 
 mypy:
-	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests ino
+	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
 
 tidy:
 	@tidy -errors inodaqv2/templates/*html
