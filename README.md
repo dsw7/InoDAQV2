@@ -20,13 +20,6 @@ This project uses [arduino-cli](https://github.com/arduino/arduino-cli) to uploa
 target device.  To install `arduino-cli`, follow the
 [Quickstart](https://github.com/arduino/arduino-cli#quickstart) section provided by the `arduino-cli`
 developers.
-
-If using `arduino-cli`, ensure that the Fully Qualified Board Name (FQBN) variable is updated in the
-`Makefile`. This project was built atop an Uno which is reflected in the `Makefile`. If not working with an
-Uno, change the FQBN as follows:
-```
-sed -i 's/FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno/FULLY_QUALIFIED_BOARD_NAME = <your-fqbn>/' Makefile
-```
 **NOTE:** This project was only tested with the Arduino Uno. Other boards may or may not be compatible.
 ### Step 2 - Install package
 To install the `inodaqv2` Python package, run:
@@ -41,14 +34,14 @@ make clean
 The `inodaqv2` Python package includes utilities for uploading Arduino source code to the target device. To
 upload the source, run:
 ```
-inodaq-upload <serial-port>
+inodaq-upload --serial-port=<serial-port>
 ```
 Where `<serial-port>` would refer to a valid serial device, such as `COM3` on Windows or `/dev/ttyS2` on
 Linux.
 ### Step 4 - Start webserver
 As a final sanity check, run the webserver:
 ```
-inodaq <serial-port>
+inodaq --serial-port=<serial-port>
 ```
 This command will host a site locally using Flask's internal development server. Note that this webserver
 should not be used in a production environment. A URL will be printed to the console if a connection to the
