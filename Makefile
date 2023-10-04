@@ -4,12 +4,12 @@ define HELP_LIST_TARGETS
 
   To display all targets:
     $$ make help
-  Upload compiled Arduino code to board:
-    $$ make upload
   To build the latest wheel from Python code:
     $$ make wheel
   To set up the Python package:
     $$ make setup
+  To upload compiled Arduino code to board:
+    $$ make upload
   Test compiled Arduino code:
     $$ make test
   To remove Python installation artifacts:
@@ -28,9 +28,6 @@ export HELP_LIST_TARGETS
 help:
 	@echo "$$HELP_LIST_TARGETS"
 
-upload:
-	@python3 ino/upload.py COM3
-
 wheel:
 	@pip3 install wheel
 	@python3 setup.py clean --all bdist_wheel
@@ -38,7 +35,10 @@ wheel:
 setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
-test: upload setup
+upload: setup
+	@inodaq-upload
+
+test: upload
 	@python3 -m pip install pytest
 	@python3 -m pytest --verbose --capture=no tests
 

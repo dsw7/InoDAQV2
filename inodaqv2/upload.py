@@ -47,7 +47,7 @@ def upload_source(port: str) -> None:
 
 
 @command()
-@argument("serial-port", default="/dev/ttyS2")
+@argument("serial-port", default="COM3")
 def main(serial_port: str) -> None:
     compile_source(serial_port)
     upload_source(serial_port)
