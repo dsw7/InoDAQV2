@@ -4,24 +4,22 @@
 A multifunction I/O device built atop the ATmega328P microprocessor.
 ## Table of Contents
 - [Setup](#setup)
-    - [Hardware requirements](#hardware-requirements)
-    - [Prepare configuration file](#prepare-configuration-file)
-    - [Install software](#install-software)
-    - [Testing device connectivity](#testing-device-connectivity)
+  - [Step 1](#step-1)
+  - [Step 2 - Install package](#step-2-install-package)
+  - [Step 3 - Upload source](#step-3-upload-source)
+  - [Step 4 - Start webserver](#step-4-start-webserver)
 - [Usage](#usage)
-    - [Window: Digital](#window-digital)
-    - [Window: PWM](#window-pwm)
-    - [Window: AnalogRead](#window-analogread)
-    - [Window: DigitalRead](#window-digitalread)
+  - [Window: Digital](#window-digital)
+  - [Window: PWM](#window-pwm)
+  - [Window: AnalogRead](#window-analogread)
+  - [Window: DigitalRead](#window-digitalread)
 
 ## Setup
-
-### Hardware requirements
-While optional, it is strongly recommended to install [arduino-cli](https://github.com/arduino/arduino-cli).
-This project's build system is based upon `arduino-cli`. To install `arduino-cli`, follow the
+### Step 1
+This project uses [arduino-cli](https://github.com/arduino/arduino-cli) to upload Arduino source code to the
+target device.  To install `arduino-cli`, follow the
 [Quickstart](https://github.com/arduino/arduino-cli#quickstart) section provided by the `arduino-cli`
-developers. Alternatively, the `src/ino/ino.ino` "sketch" can be manually uploaded to the device via the
-Arduino IDE.
+developers.
 
 If using `arduino-cli`, ensure that the Fully Qualified Board Name (FQBN) variable is updated in the
 `Makefile`. This project was built atop an Uno which is reflected in the `Makefile`. If not working with an
@@ -30,40 +28,32 @@ Uno, change the FQBN as follows:
 sed -i 's/FULLY_QUALIFIED_BOARD_NAME = arduino:avr:uno/FULLY_QUALIFIED_BOARD_NAME = <your-fqbn>/' Makefile
 ```
 **NOTE:** This project was only tested with the Arduino Uno. Other boards may or may not be compatible.
-### Prepare configuration file
-Copy the configuration file to the host's home directory:
+### Step 2 - Install package
+To install the `inodaqv2` Python package, run:
 ```
-cp .inodaqv2.ini ~/
+make setup
 ```
-And then specify the serial by which the device will communicate by modifying the "port" field. On Windows
-this field would refer to a COM port (i.e. `COM3`) and on Linux based systems this field would refer to the
-full path to a device file (i.e. `/dev/ttyS2`).
-### Install software
-To install the software, run:
-```
-make install
-```
-This will compile and upload the Arduino code, in addition to installing a GUI for controlling I/O. If the
-installation succeeded, any remaining build artifacts can be cleaned by running:
+The installation process will produce some build artifacts. These artifacts can be cleaned up by running:
 ```
 make clean
 ```
-### Testing device connectivity
-Unit tests can be run against the device as a final sanity check. Ensure that the device is plugged into a
-free serial port and run the following `make` target:
+### Step 3 - Upload source
+The `inodaqv2` Python package includes utilities for uploading Arduino source code to the target device. To
+upload the source, run:
 ```
-make test
+inodaq-upload <serial-port>
 ```
+Where `<serial-port>` would refer to a valid serial device, such as `COM3` on Windows or `/dev/ttyS2` on
+Linux.
+### Step 4 - Start webserver
+As a final sanity check, run the webserver:
+```
+inodaq <serial-port>
+```
+This command will host a site locally using Flask's internal development server. Note that this webserver
+should not be used in a production environment. A URL will be printed to the console if a connection to the
+serial device is successfully established. Navigate to this URL to use the product.
 ## Usage
-To use the product, run:
-```
-inodaq
-```
-If the unit tests under the [Testing device connectivity](#testing-device-connectivity) section passed, this
-invocation should start a GUI. Additionally, the program should begin to log to the command line. If the
-device is not plugged in, the command line will log an error indicating that the target serial port could not
-be opened. The GUI is broken up into several "windows" - with each window serving a specific role. The
-following sections describe the windows in more detail.
 ### Window: Digital
 This window is used to toggle digital pins 2 through 13 on the device. The pins toggle to either a HIGH or LOW
 state. Toggling pin 13 on an Uno device should turn the onboard LED either on or off. This behaviour can be
