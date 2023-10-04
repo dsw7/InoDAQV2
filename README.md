@@ -4,7 +4,7 @@
 A multifunction I/O device built atop the ATmega328P microprocessor.
 ## Table of Contents
 - [Setup](#setup)
-  - [Step 1 - Install `arduino-cli`](#step-1)
+  - [Step 1 - Install `arduino-cli`](#step-1---install-arduino-cli)
   - [Step 2 - Install package](#step-2---install-package)
   - [Step 3 - Upload source](#step-3---upload-source)
   - [Step 4 - Start webserver](#step-4---start-webserver)
