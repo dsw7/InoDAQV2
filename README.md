@@ -4,10 +4,10 @@
 A multifunction I/O device built atop the ATmega328P microprocessor.
 ## Table of Contents
 - [Setup](#setup)
-  - [Step 1](#step-1)
-  - [Step 2 - Install package](#step-2-install-package)
-  - [Step 3 - Upload source](#step-3-upload-source)
-  - [Step 4 - Start webserver](#step-4-start-webserver)
+  - [Step 1 - Install `arduino-cli`](#step-1)
+  - [Step 2 - Install package](#step-2---install-package)
+  - [Step 3 - Upload source](#step-3---upload-source)
+  - [Step 4 - Start webserver](#step-4---start-webserver)
 - [Usage](#usage)
   - [Window: Digital](#window-digital)
   - [Window: PWM](#window-pwm)
@@ -15,7 +15,7 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
   - [Window: DigitalRead](#window-digitalread)
 
 ## Setup
-### Step 1
+### Step 1 - Install `arduino-cli`
 This project uses [arduino-cli](https://github.com/arduino/arduino-cli) to upload Arduino source code to the
 target device.  To install `arduino-cli`, follow the
 [Quickstart](https://github.com/arduino/arduino-cli#quickstart) section provided by the `arduino-cli`
