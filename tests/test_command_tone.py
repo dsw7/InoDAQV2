@@ -42,3 +42,27 @@ PAIRS_TONE_2 = [
 def test_command_tone_valid(connection: InoIO, command: str, expected_msg: str) -> None:
     connection.write(command)
     assert expected_msg == connection.read()
+
+
+def test_command_tone_duplicate_calls(connection: InoIO) -> None:
+    connection.write("tone:2:100")
+    connection.read()
+
+    connection.write("tone:3:100")
+    assert connection.read() == "1;3,100,2"
+
+    connection.write("tone:3:100")
+    assert connection.read() == "1;3,100,3"
+
+
+def test_command_tone_dig(connection: InoIO) -> None:
+    # Ensure that we can still set a dig after a tone and vice versa
+
+    connection.write("tone:2:100")
+    connection.read()
+
+    connection.write("dig:2:on")
+    assert connection.read() == "1;2,on"
+
+    connection.write("tone:2:100")
+    assert connection.read() == "1;2,100,2"
