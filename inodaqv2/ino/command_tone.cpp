@@ -46,23 +46,22 @@ void command_tone(const ::String &command)
         return;
     }
 
-    static int curr_pin = -1;
-    ::String str_curr_pin = ::String(curr_pin);
+    static int pin_to_no_tone = -1;
+    ::String str_pin_to_no_tone = ::String(pin_to_no_tone);
 
-    if (curr_pin != -1)
+    if (pin_to_no_tone != -1)
     {
         // See https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
-        if (curr_pin != pin) {
-            ::noTone(curr_pin);
-        }
+        // See https://www.arduino.cc/reference/en/language/functions/advanced-io/notone/
+        ::noTone(pin_to_no_tone);
     }
 
     ::tone(pin, freq);
-    curr_pin = pin;
+    pin_to_no_tone = pin;
 
-    // Return payload of form: "1;<pin>,<frequency>,<killed-pin>"
+    // Return payload of form: "1;<pin>,<frequency>,<pin-that-was-noTone()-ed>"
 
-    ::String msg = ::String(pin) + "," + ::String(freq) + "," + str_curr_pin;
+    ::String msg = ::String(pin) + "," + ::String(freq) + "," + str_pin_to_no_tone;
     Helpers::info(msg);
 }
 
