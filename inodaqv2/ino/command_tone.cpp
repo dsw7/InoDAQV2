@@ -46,6 +46,19 @@ void command_tone(const ::String &command)
         return;
     }
 
+    static int pin_existing_tone = -1;
+
+    if (pin_existing_tone != -1)
+    {
+        // See https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
+        if (pin_existing_tone != pin) {
+            ::noTone(pin_existing_tone);
+        }
+    }
+
+    ::tone(pin, freq);
+    pin_existing_tone = pin;
+
     // Return payload of form: "1;<pin>,<frequency>"
 
     ::String msg = ::String(pin) + "," + ::String(freq);
