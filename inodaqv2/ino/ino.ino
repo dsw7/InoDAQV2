@@ -3,6 +3,7 @@
 #include "command_dread.h"
 #include "command_ping.h"
 #include "command_pwm.h"
+#include "command_tone.h"
 #include "helpers.h"
 
 void setup()
@@ -59,6 +60,10 @@ void loop()
         else if (command == F("dread"))
         {
             Command::command_dread();
+        }
+        else if (command.startsWith(F("tone:")))
+        {
+            Command::command_tone(command);
         }
         else if (command == F("exit"))
         {
