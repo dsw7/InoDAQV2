@@ -181,7 +181,7 @@
           </table>
         </div>
       </div>
-      <div class="col-lg-3 p-1">
+      <div class="col-lg-2 p-1">
         <div class="d-flex flex-column h-100 p-2 justify-content-top border border-dark shadow panel-commands">
           <h6>AnalogRead</h6>
           <table class="table mb-2 table-sm table-bordered monospace">
@@ -221,7 +221,7 @@
           <button class="btn btn-primary w-100 rounded-0 monospace" type="button" id="btn-read-analog">READ</button>
         </div>
       </div>
-      <div class="col-lg-3 p-1">
+      <div class="col-lg-2 p-1">
         <div class="d-flex flex-column h-100 p-2 justify-content-top border border-dark shadow panel-commands">
           <h6>DigitalRead</h6>
           <table class="table mb-2 table-sm table-bordered monospace">
@@ -259,6 +259,31 @@
             </tbody>
           </table>
           <button class="btn btn-primary w-100 rounded-0 monospace" type="button" id="btn-read-digital">READ</button>
+        </div>
+      </div>
+      <div class="col-lg-2 p-1">
+        <div class="d-flex flex-column h-100 p-2 justify-content-top border border-dark shadow panel-commands" id="tone-radios">
+          <h6>Tone</h6>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="tone-2">
+            <label class="form-check-label monospace" for="tone-2">Pin 2</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="tone-4">
+            <label class="form-check-label monospace" for="tone-4">Pin 4</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="tone-7">
+            <label class="form-check-label monospace" for="tone-7">Pin 7</label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="tone-8">
+            <label class="form-check-label monospace" for="tone-8">Pin 8</label>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text monospace" id="tone-freq-text">Frequency</span>
+            <input type="text" class="form-control monospace" id="tone-freq" placeholder="<freq-in-hz>" aria-describedby="tone-freq-text">
+          </div>
         </div>
       </div>
     </div>
