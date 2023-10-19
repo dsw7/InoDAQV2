@@ -32,6 +32,9 @@ def dashboard() -> Union[Response, str]:
             if payload["action"] == "pwm":
                 return jsonify(actions.set_pwm(payload["pin"], payload["value"]))
 
+            if payload["action"] == "tone":
+                return jsonify(actions.set_tone(payload["pin"], payload["frequency"]))
+
     return render_template("dashboard.html")
 
 
