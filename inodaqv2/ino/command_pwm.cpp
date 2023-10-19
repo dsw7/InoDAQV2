@@ -63,6 +63,9 @@ void command_pwm(const ::String &command)
         return;
     }
 
+    // Tone on any pin will interfere with PWM on pins 3 and 11
+    // See https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
+    Helpers::disable_tone();
     ::analogWrite(pin, duty_cycle);
 
     // Return payload of form: "1;<pin>,<duty-cycle>"
