@@ -117,3 +117,25 @@ $(document).ready(function() {
     });
   });
 });
+
+$(document).ready(function() {
+  $('#tone-radios input[type="radio"]').click(function() {
+    $.ajax({
+      url: "",
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify({
+        action: "tone",
+        pin: $(this).attr("id"),
+        frequency: $("#tone-freq").val(),
+      }),
+      success: function(response) {
+        if (!response.rv) {
+          $("#row-alert-msg").text("Failed to set tone. Check terminal for error");
+          $("#row-alert").fadeIn(250);
+          $("#row-alert").delay(2000).fadeOut(250);
+        }
+      }
+    });
+  });
+});
