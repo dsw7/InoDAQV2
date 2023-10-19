@@ -26,9 +26,20 @@ void command_tone(const ::String &command)
         return;
     }
 
-    if ((pin < 2) or (pin > 13))
+    static int valid_tone_pins[4] = {2, 4, 7, 8};
+    bool is_invalid_pin = true;
+
+    for (unsigned int i = 0; i < 4; ++i)
     {
-        Helpers::error(F("Must select a digital pin between 2 and 13!"));
+        if (valid_tone_pins[i] == pin)
+        {
+            is_invalid_pin = false;
+        }
+    }
+
+    if (is_invalid_pin)
+    {
+        Helpers::error(F("Tone pin must be one of 2, 4, 7 or 8"));
         return;
     }
 
