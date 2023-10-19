@@ -36,10 +36,12 @@ void command_dig(const ::String &command)
 
     if (state.equals(F("on")))
     {
+        ::noTone(pin);
         ::digitalWrite(pin, HIGH);
     }
     else if (state.equals(F("off")))
     {
+        ::noTone(pin);
         ::digitalWrite(pin, LOW);
     }
     else
