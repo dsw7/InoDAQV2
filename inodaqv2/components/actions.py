@@ -49,11 +49,19 @@ TYPE_PAYLOAD_PWM = TypedDict(
         "pwm": str,
     },
 )
+TYPE_PAYLOAD_TONE = TypedDict(
+    "TYPE_PAYLOAD_TONE",
+    {
+        "rv": bool,
+        "pin": str,
+    },
+)
 
 PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
 PAT_VALID_AREAD = re.compile(r"^1;\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4}$")
 PAT_VALID_DREAD = re.compile(r"^1;\d{1},\d{1},\d{1},\d{1},\d{1},\d{1}$")
+PAT_VALID_TONE = re.compile(r"^1;\d{1,2},\d{1,5}$")
 
 
 def run_handshake() -> None:
@@ -192,3 +200,26 @@ def read_digital_pins() -> Union[TYPE_PAYLOAD_DREAD, dict[str, bool]]:
         "A4": int(state[4]),
         "A5": int(state[5]),
     }
+
+
+def set_tone(pin: str, frequency: str) -> TYPE_PAYLOAD_TONE:
+    pin_id = pin.split("-")[1]
+
+    command = f"tone:{pin_id}:{frequency}"
+
+    LOGGER.info('Sending command: "%s"', command)
+
+    try:
+        conn.write(command)
+    except errors.InoIOTransmissionError:
+        LOGGER.exception("Failed to send command")
+        return {"rv": False, "pin": pin_id}
+
+    reply = conn.read()
+    LOGGER.info('Received reply: "%s"', reply)
+
+    if re.match(PAT_VALID_TONE, reply) is None:
+        LOGGER.exception("Could not parse message. Reply is likely garbled")
+        return {"rv": False, "pin": pin_id}
+
+    return {"rv": True, "pin": pin_id}
