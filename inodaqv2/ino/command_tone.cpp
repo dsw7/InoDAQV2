@@ -43,7 +43,7 @@ void command_tone(const ::String &command)
         return;
     }
 
-    int freq = command.substring(idx_freq + 1).toInt();
+    long freq = command.substring(idx_freq + 1).toInt();
 
     if (freq == 0)
     {
