@@ -67,3 +67,8 @@ def test_command_tone_dig(connection: InoIO) -> None:
 
     connection.write("tone:2:100")
     assert connection.read() == "1;2,100"
+
+
+def test_command_tone_max_freq(connection: InoIO) -> None:
+    connection.write("tone:2:65535")
+    assert connection.read() == "1;2,65535"
