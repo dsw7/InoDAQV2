@@ -23,10 +23,10 @@ def test_command_tone_invalid_commands(
 
 
 PAIRS_TONE_2 = [
-    ("tone:2:31", "1;2,31"),
-    ("tone:4:33", "1;4,33"),
-    ("tone:7:36", "1;7,36"),
-    ("tone:8:37", "1;8,37"),
+    ("tone:2:100", "1;2,100"),
+    ("tone:4:100", "1;4,100"),
+    ("tone:7:100", "1;7,100"),
+    ("tone:8:100", "1;8,100"),
 ]
 
 
@@ -37,14 +37,14 @@ def test_command_tone_valid(connection: InoIO, command: str, expected_msg: str) 
 
 
 PAIRS_TONE_3 = [
-    ("tone:3:32", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:5:34", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:6:35", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:9:38", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:10:39", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:11:40", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:12:41", "0;Tone pin must be one of 2, 4, 7 or 8"),
-    ("tone:13:42", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:3:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:5:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:6:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:9:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:10:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:11:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:12:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
+    ("tone:13:100", "0;Tone pin must be one of 2, 4, 7 or 8"),
 ]
 
 
