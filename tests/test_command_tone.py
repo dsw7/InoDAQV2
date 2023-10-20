@@ -10,7 +10,6 @@ PAIRS_TONE_1 = [
     ("tone:2:", "0;Malformed command. Could not parse frequency!"),
     ("tone:2:a", "0;Malformed command. Could not parse frequency!"),
     ("tone:2:-100", "0;Frequency must be between 31 and 65535 Hz"),
-    ("tone:2:100000", "0;Frequency must be between 31 and 65535 Hz"),
 ]
 
 
@@ -69,6 +68,17 @@ def test_command_tone_dig(connection: InoIO) -> None:
     assert connection.read() == "1;2,100"
 
 
-def test_command_tone_max_freq(connection: InoIO) -> None:
-    connection.write("tone:2:65535")
-    assert connection.read() == "1;2,65535"
+PAIRS_TONE_3 = [
+    ("tone:2:30", "0;Frequency must be between 31 and 65535 Hz"),
+    ("tone:2:31", "1;2,31"),
+    ("tone:2:65535", "1;2,65535"),
+    ("tone:2:65536", "0;Frequency must be between 31 and 65535 Hz"),
+]
+
+
+@mark.parametrize("command, expected_msg", PAIRS_TONE_3)
+def test_command_tone_bounds(
+    connection: InoIO, command: str, expected_msg: str
+) -> None:
+    connection.write(command)
+    assert expected_msg == connection.read()
