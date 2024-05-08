@@ -10,11 +10,7 @@ def run_test() -> None:
     print(actions.read_analog_pins())
     print(actions.read_digital_pins())
     print(actions.set_pwm(pin=3, duty_cycle=50))
-
-    """
-    if payload["action"] == "tone":
-        print(actions.set_tone(payload["pin"], payload["frequency"]))
-    """
+    print(actions.set_tone(pin=4, frequency="25"))
 
 
 def main() -> None:

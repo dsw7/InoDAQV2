@@ -190,14 +190,12 @@ def read_digital_pins() -> Union[TYPE_PAYLOAD_DREAD, dict[str, bool]]:
     }
 
 
-def set_tone(pin: str, frequency: str) -> dict[str, bool]:
+def set_tone(pin: int, frequency: str) -> dict[str, bool]:
     if not frequency.isnumeric():
         LOGGER.exception("Cannot convert '%s' to a frequency", frequency)
         return {"rv": False}
 
-    pin_id = pin.split("-")[1]
-
-    command = f"tone:{pin_id}:{frequency}"
+    command = f"tone:{pin}:{frequency}"
     LOGGER.info('Sending command: "%s"', command)
 
     try:
