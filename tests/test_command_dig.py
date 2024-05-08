@@ -1,7 +1,7 @@
 from re import match
 from pytest import mark
 from inoio import InoIO
-from gui.components.actions import PAT_VALID_DIG
+from gui.actions import PAT_VALID_DIG
 
 PAIRS_DIG_1 = [
     ("dig", "0;Unknown command: dig"),
