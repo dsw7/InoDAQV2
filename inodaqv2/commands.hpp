@@ -1,3 +1,6 @@
 #pragma once
 
+#include "Arduino.h"
+
 void command_aread();
+void command_dig(const ::String &command);

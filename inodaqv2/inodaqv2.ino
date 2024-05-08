@@ -47,7 +47,7 @@ void loop()
         }
         else if (command.startsWith(F("dig:")))
         {
-            Command::command_dig(command);
+            ::command_dig(command);
         }
         else if (command.startsWith(F("pwm:")))
         {
