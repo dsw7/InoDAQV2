@@ -106,6 +106,18 @@ void command_ping()
     helpers::info(F("Built in LED is OFF"));
 }
 
+void disable_tone()
+{
+    // Tone needs to be disabled to free the pin for other uses
+    // See https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
+    static int valid_tone_pins[4] = {2, 4, 7, 8};
+
+    for (unsigned int i = 0; i < 4; ++i)
+    {
+        ::noTone(valid_tone_pins[i]);
+    }
+}
+
 void command_pwm(const ::String &command)
 {
     // Parse command of form: "pwm:<3|5|6|9|10|11>:<0-255>"
@@ -166,7 +178,7 @@ void command_pwm(const ::String &command)
 
     // Tone on any pin will interfere with PWM on pins 3 and 11
     // See https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
-    helpers::disable_tone();
+    ::disable_tone();
     ::analogWrite(pin, duty_cycle);
 
     // Return payload of form: "1;<pin>,<duty-cycle>"
@@ -227,7 +239,7 @@ void command_tone(const ::String &command)
         return;
     }
 
-    helpers::disable_tone();
+    ::disable_tone();
     ::tone(pin, freq);
 
     // Return payload of form: "1;<pin>,<frequency>"
