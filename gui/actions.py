@@ -101,11 +101,9 @@ def toggle_digital_pins(pin: int, state: bool) -> TYPE_PAYLOAD_DIG:
     return {"rv": True, "pin": _pin, "state": _state}
 
 
-def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
-    pin_id = pin.split("-")[1]
-
-    pwm = ceil(int(duty_cycle) * DUTY_CYCLE_TO_ANALOG)
-    command = f"pwm:{pin_id}:{pwm}"
+def set_pwm(pin: int, duty_cycle: int) -> TYPE_PAYLOAD_PWM:
+    pwm = ceil(duty_cycle * DUTY_CYCLE_TO_ANALOG)
+    command = f"pwm:{pin}:{pwm}"
 
     LOGGER.info('Sending command: "%s"', command)
 
@@ -113,14 +111,14 @@ def set_pwm(pin: str, duty_cycle: str) -> TYPE_PAYLOAD_PWM:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin_id, "pwm": ""}
+        return {"rv": False, "pin": pin, "pwm": ""}
 
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
     if re.match(PAT_VALID_PWM, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {"rv": False, "pin": pin_id, "pwm": ""}
+        return {"rv": False, "pin": pin, "pwm": ""}
 
     _, values = reply.split(";")
     _pin, _duty_cycle = values.split(",")

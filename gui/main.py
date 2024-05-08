@@ -9,11 +9,9 @@ def run_test() -> None:
     print(actions.toggle_digital_pins(pin=2, state=True))
     print(actions.read_analog_pins())
     print(actions.read_digital_pins())
+    print(actions.set_pwm(pin=3, duty_cycle=50))
 
     """
-    if payload["action"] == "pwm":
-        print(actions.set_pwm(payload["pin"], payload["value"]))
-
     if payload["action"] == "tone":
         print(actions.set_tone(payload["pin"], payload["frequency"]))
     """
