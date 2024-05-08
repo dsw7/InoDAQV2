@@ -45,7 +45,7 @@ format:
 	@clang-format -i --verbose --style=file inodaqv2/*.cpp inodaqv2/*.hpp
 
 mypy:
-	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
+	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 gui tests
 
 lint:
 	@cppcheck inodaqv2 --enable=all
