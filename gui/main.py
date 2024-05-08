@@ -7,14 +7,10 @@ from gui.extensions import conn
 def run_test() -> None:
 
     print(actions.toggle_digital_pins(pin=2, state=True))
+    print(actions.read_analog_pins())
+    print(actions.read_digital_pins())
 
     """
-    if payload["action"] == "aread":
-        print(actions.read_analog_pins())
-
-    if payload["action"] == "dread":
-        print(actions.read_digital_pins())
-
     if payload["action"] == "pwm":
         print(actions.set_pwm(payload["pin"], payload["value"]))
 
