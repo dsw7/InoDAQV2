@@ -1,4 +1,4 @@
-.PHONY = help wheel setup test black mypy tidy
+.PHONY = help wheel setup test black mypy
 
 define HELP_LIST_TARGETS
 
@@ -16,8 +16,6 @@ define HELP_LIST_TARGETS
     $$ make black
   To run mypy over Python code:
     $$ make mypy
-  To lint HTML code:
-    $$ make tidy
 
 endef
 
@@ -45,6 +43,3 @@ black:
 
 mypy:
 	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
-
-tidy:
-	@tidy -errors inodaqv2/templates/*html
