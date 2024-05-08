@@ -1,4 +1,4 @@
-.PHONY = help upload wheel setup test black mypy tidy
+.PHONY = help wheel setup test black mypy tidy
 
 define HELP_LIST_TARGETS
 
@@ -8,8 +8,6 @@ define HELP_LIST_TARGETS
     $$ make wheel
   To set up the Python package:
     $$ make setup
-  To upload compiled Arduino code to board:
-    $$ make upload
   Test compiled Arduino code:
     $$ make test
   To remove Python installation artifacts:
@@ -35,10 +33,7 @@ wheel:
 setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
-upload: setup
-	@inodaq-upload
-
-test: upload
+test:
 	@python3 -m pip install pytest
 	@python3 -m pytest --verbose --capture=no tests
 
