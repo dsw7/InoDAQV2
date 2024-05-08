@@ -71,3 +71,21 @@ void command_dig(const ::String &command)
     ::String msg = ::String(pin) + "," + state;
     Helpers::info(msg);
 }
+
+void command_dread()
+{
+    ::String msg = ::String(::digitalRead(A0));
+
+    msg += ',';
+    msg += ::String(::digitalRead(A1));
+    msg += ',';
+    msg += ::String(::digitalRead(A2));
+    msg += ',';
+    msg += ::String(::digitalRead(A3));
+    msg += ',';
+    msg += ::String(::digitalRead(A4));
+    msg += ',';
+    msg += ::String(::digitalRead(A5));
+
+    Helpers::info(msg);
+}

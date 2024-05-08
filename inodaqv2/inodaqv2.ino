@@ -1,6 +1,4 @@
 #include "commands.hpp"
-#include "command_dig.h"
-#include "command_dread.h"
 #include "command_ping.h"
 #include "command_pwm.h"
 #include "command_tone.h"
@@ -59,7 +57,7 @@ void loop()
         }
         else if (command == F("dread"))
         {
-            Command::command_dread();
+            ::command_dread();
         }
         else if (command.startsWith(F("tone:")))
         {
