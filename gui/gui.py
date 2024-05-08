@@ -10,35 +10,36 @@ except _tkinter.TclError as exception:
 
 def panel_dig() -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Digital")
-    frame.grid(row=0, column=0)
+    frame.grid(row=0, column=0, sticky="ns")
 
     ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
 
 
 def panel_pwm() -> None:
     frame = ttk.LabelFrame(root, padding=10, text="PWM")
-    frame.grid(row=0, column=1)
+    frame.grid(row=0, column=1, sticky="ns")
 
     ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
 
 
 def panel_analog_read() -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Analog Read")
-    frame.grid(row=0, column=2)
+    frame.grid(row=0, column=2, sticky="ns")
 
     ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
 
 
 def panel_digital_read() -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Digital Read")
-    frame.grid(row=0, column=3)
+    frame.grid(row=0, column=3, sticky="ns")
 
     ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
+    ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=1)
 
 
 def panel_tone() -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Tone")
-    frame.grid(row=0, column=4)
+    frame.grid(row=0, column=4, sticky="ns")
 
     ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
 
