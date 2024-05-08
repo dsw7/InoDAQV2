@@ -1,5 +1,4 @@
 #include "commands.hpp"
-#include "command_pwm.h"
 #include "command_tone.h"
 #include "helpers.h"
 
@@ -48,7 +47,7 @@ void loop()
         }
         else if (command.startsWith(F("pwm:")))
         {
-            Command::command_pwm(command);
+            ::command_pwm(command);
         }
         else if (command == F("aread"))
         {
