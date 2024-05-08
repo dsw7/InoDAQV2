@@ -5,9 +5,9 @@ from flask import Flask, render_template, request, jsonify
 from werkzeug.wrappers.response import Response
 from click import command, option
 from inoio import errors
-from inodaqv2.components import actions
-from inodaqv2.components.extensions import conn
-from inodaqv2.components.logger import setup_logger
+from gui.components import actions
+from gui.components.extensions import conn
+from gui.components.logger import setup_logger
 
 app = Flask(__name__)
 
