@@ -27,7 +27,6 @@ echo "Will attempt operations against FQBN: $FQBN"
 
 BUILD_DIR="/tmp/inodaq-v2-build"
 CACHE_DIR="/tmp/inodaq-v2-core-cache"
-SRC_DIR="inodaqv2/ino"
 
 arduino-cli compile \
   --verbose \
@@ -36,4 +35,4 @@ arduino-cli compile \
   --fqbn="$FQBN" \
   --build-path="$BUILD_DIR" \
   --build-cache-path="$CACHE_DIR" \
-  "$SRC_DIR"
+  inodaqv2
