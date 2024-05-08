@@ -17,7 +17,7 @@ void command_aread()
     msg += ',';
     msg += ::String(::analogRead(A5));
 
-    Helpers::info(msg);
+    helpers::info(msg);
 }
 
 void command_dig(const ::String &command)
@@ -29,7 +29,7 @@ void command_dig(const ::String &command)
 
     if (idx_state < 0)
     {
-        Helpers::error(F("Malformed command. Missing second colon!"));
+        helpers::error(F("Malformed command. Missing second colon!"));
         return;
     }
 
@@ -37,13 +37,13 @@ void command_dig(const ::String &command)
 
     if (pin == 0)
     {
-        Helpers::error(F("Malformed command. Could not parse digital pin!"));
+        helpers::error(F("Malformed command. Could not parse digital pin!"));
         return;
     }
 
     if ((pin < 2) or (pin > 13))
     {
-        Helpers::error(F("Must select a digital pin between 2 and 13!"));
+        helpers::error(F("Must select a digital pin between 2 and 13!"));
         return;
     }
 
@@ -62,14 +62,14 @@ void command_dig(const ::String &command)
     }
     else
     {
-        Helpers::error(F("Valid states are 'on' and 'off'"));
+        helpers::error(F("Valid states are 'on' and 'off'"));
         return;
     }
 
     // Return payload of form: "1;<pin>,<on|off>"
 
     ::String msg = ::String(pin) + "," + state;
-    Helpers::info(msg);
+    helpers::info(msg);
 }
 
 void command_dread()
@@ -87,7 +87,7 @@ void command_dread()
     msg += ',';
     msg += ::String(::digitalRead(A5));
 
-    Helpers::info(msg);
+    helpers::info(msg);
 }
 
 void command_ping()
@@ -99,11 +99,11 @@ void command_ping()
 
     if (status)
     {
-        Helpers::info(F("Built in LED is ON"));
+        helpers::info(F("Built in LED is ON"));
         return;
     }
 
-    Helpers::info(F("Built in LED is OFF"));
+    helpers::info(F("Built in LED is OFF"));
 }
 
 void command_pwm(const ::String &command)
@@ -115,7 +115,7 @@ void command_pwm(const ::String &command)
 
     if (idx_duty_cycle < 0)
     {
-        Helpers::error(F("Malformed command. Missing second colon!"));
+        helpers::error(F("Malformed command. Missing second colon!"));
         return;
     }
 
@@ -123,7 +123,7 @@ void command_pwm(const ::String &command)
 
     if (pin == 0)
     {
-        Helpers::error(F("Malformed command. Could not parse digital pin!"));
+        helpers::error(F("Malformed command. Could not parse digital pin!"));
         return;
     }
 
@@ -140,7 +140,7 @@ void command_pwm(const ::String &command)
 
     if (is_invalid_pin)
     {
-        Helpers::error(F("Digital pin must be one of 3, 5, 6, 9, 10 or 11"));
+        helpers::error(F("Digital pin must be one of 3, 5, 6, 9, 10 or 11"));
         return;
     }
 
@@ -153,26 +153,26 @@ void command_pwm(const ::String &command)
 
         if (duty_cycle == 0)
         {
-            Helpers::error(F("Could not parse duty cycle!"));
+            helpers::error(F("Could not parse duty cycle!"));
             return;
         }
     }
 
     if ((duty_cycle < 0) or (duty_cycle > 255))
     {
-        Helpers::error(F("Duty cycle must be between 0 and 255"));
+        helpers::error(F("Duty cycle must be between 0 and 255"));
         return;
     }
 
     // Tone on any pin will interfere with PWM on pins 3 and 11
     // See https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
-    Helpers::disable_tone();
+    helpers::disable_tone();
     ::analogWrite(pin, duty_cycle);
 
     // Return payload of form: "1;<pin>,<duty-cycle>"
 
     ::String msg = ::String(pin) + "," + ::String(duty_cycle);
-    Helpers::info(msg);
+    helpers::info(msg);
 }
 
 void command_tone(const ::String &command)
@@ -184,7 +184,7 @@ void command_tone(const ::String &command)
 
     if (idx_freq < 0)
     {
-        Helpers::error(F("Malformed command. Missing second colon!"));
+        helpers::error(F("Malformed command. Missing second colon!"));
         return;
     }
 
@@ -192,7 +192,7 @@ void command_tone(const ::String &command)
 
     if (pin == 0)
     {
-        Helpers::error(F("Malformed command. Could not parse digital pin!"));
+        helpers::error(F("Malformed command. Could not parse digital pin!"));
         return;
     }
 
@@ -209,7 +209,7 @@ void command_tone(const ::String &command)
 
     if (is_invalid_pin)
     {
-        Helpers::error(F("Tone pin must be one of 2, 4, 7 or 8"));
+        helpers::error(F("Tone pin must be one of 2, 4, 7 or 8"));
         return;
     }
 
@@ -217,21 +217,21 @@ void command_tone(const ::String &command)
 
     if (freq == 0)
     {
-        Helpers::error(F("Malformed command. Could not parse frequency!"));
+        helpers::error(F("Malformed command. Could not parse frequency!"));
         return;
     }
 
     if ((freq < 31) or (freq > 65535))
     {
-        Helpers::error(F("Frequency must be between 31 and 65535 Hz"));
+        helpers::error(F("Frequency must be between 31 and 65535 Hz"));
         return;
     }
 
-    Helpers::disable_tone();
+    helpers::disable_tone();
     ::tone(pin, freq);
 
     // Return payload of form: "1;<pin>,<frequency>"
 
     ::String msg = ::String(pin) + "," + ::String(freq);
-    Helpers::info(msg);
+    helpers::info(msg);
 }

@@ -34,7 +34,7 @@ void loop()
 
         if (command == F("hello"))
         {
-            Helpers::info(F("Hello from InoDAQV2"));
+            helpers::info(F("Hello from InoDAQV2"));
         }
         else if (command == F("ping"))
         {
@@ -62,13 +62,13 @@ void loop()
         }
         else if (command == F("exit"))
         {
-            Helpers::info(F("Closing connection. Goodbye!"));
+            helpers::info(F("Closing connection. Goodbye!"));
             ::Serial.end();
             break;
         }
         else
         {
-            Helpers::error("Unknown command: " + command);
+            helpers::error("Unknown command: " + command);
         }
     }
 }

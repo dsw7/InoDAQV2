@@ -1,6 +1,6 @@
 #include "helpers.h"
 
-namespace Helpers
+namespace helpers
 {
 
 void info(const ::String &message)
@@ -27,4 +27,4 @@ void disable_tone()
     }
 }
 
-} // namespace Helpers
+} // namespace helpers
