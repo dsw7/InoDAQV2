@@ -2,5 +2,5 @@
 
 namespace Command
 {
-    void command_dread();
+void command_dread();
 }

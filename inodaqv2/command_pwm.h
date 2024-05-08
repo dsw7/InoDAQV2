@@ -4,5 +4,5 @@
 
 namespace Command
 {
-    void command_pwm(const ::String &command);
+void command_pwm(const ::String &command);
 }

@@ -23,4 +23,4 @@ void command_ping()
     Helpers::info(F("Built in LED is OFF"));
 }
 
-} // Command
+} // namespace Command

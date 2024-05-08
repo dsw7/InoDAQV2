@@ -66,4 +66,4 @@ void command_tone(const ::String &command)
     Helpers::info(msg);
 }
 
-} // Command
+} // namespace Command

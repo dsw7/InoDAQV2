@@ -2,5 +2,5 @@
 
 namespace Command
 {
-    void command_aread();
+void command_aread();
 }

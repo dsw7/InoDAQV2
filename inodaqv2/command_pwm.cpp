@@ -74,4 +74,4 @@ void command_pwm(const ::String &command)
     Helpers::info(msg);
 }
 
-} // Command
+} // namespace Command

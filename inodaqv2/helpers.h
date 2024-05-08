@@ -4,7 +4,7 @@
 
 namespace Helpers
 {
-    void info(const ::String &message);
-    void error(const ::String &message);
-    void disable_tone();
-}
+void info(const ::String &message);
+void error(const ::String &message);
+void disable_tone();
+} // namespace Helpers

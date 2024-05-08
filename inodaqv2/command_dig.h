@@ -4,5 +4,5 @@
 
 namespace Command
 {
-    void command_dig(const ::String &command);
+void command_dig(const ::String &command);
 }

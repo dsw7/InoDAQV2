@@ -57,4 +57,4 @@ void command_dig(const ::String &command)
     Helpers::info(msg);
 }
 
-} // Command
+} // namespace Command

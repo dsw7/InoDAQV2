@@ -4,5 +4,5 @@
 
 namespace Command
 {
-    void command_tone(const ::String &command);
+void command_tone(const ::String &command);
 }

@@ -2,5 +2,5 @@
 
 namespace Command
 {
-    void command_ping();
+void command_ping();
 }

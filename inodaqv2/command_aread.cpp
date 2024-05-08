@@ -25,4 +25,4 @@ void command_aread()
     Helpers::info(msg);
 }
 
-} // Command
+} // namespace Command

@@ -25,4 +25,4 @@ void command_dread()
     Helpers::info(msg);
 }
 
-} // Command
+} // namespace Command
