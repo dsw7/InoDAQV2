@@ -1,16 +1,14 @@
 import sys
-from json import loads
 from inoio import errors
 from gui import actions
 from gui.extensions import conn
 
 
-def dashboard() -> None:
-    payload = loads(request.data)
+def run_test() -> None:
 
-    if payload["action"] == "dig":
-        print(actions.toggle_digital_pins(payload["pin"], payload["state"]))
+    print(actions.toggle_digital_pins(pin=2, state=True))
 
+    """
     if payload["action"] == "aread":
         print(actions.read_analog_pins())
 
@@ -22,6 +20,7 @@ def dashboard() -> None:
 
     if payload["action"] == "tone":
         print(actions.set_tone(payload["pin"], payload["frequency"]))
+    """
 
 
 def main() -> None:
@@ -37,6 +36,8 @@ def main() -> None:
         actions.run_handshake()
     except ConnectionError as e:
         sys.exit(str(e))
+
+    run_test()
 
 
 if __name__ == "__main__":

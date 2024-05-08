@@ -73,10 +73,8 @@ def run_handshake() -> None:
         raise ConnectionError("Handshake returned unknown message")
 
 
-def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
-    pin_id = pin.split("-")[1]
-
-    command = f"dig:{pin_id}:"
+def toggle_digital_pins(pin: int, state: bool) -> TYPE_PAYLOAD_DIG:
+    command = f"dig:{pin}:"
 
     if state:
         command += "on"
@@ -88,14 +86,14 @@ def toggle_digital_pins(pin: str, state: bool) -> TYPE_PAYLOAD_DIG:
         conn.write(command)
     except errors.InoIOTransmissionError:
         LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin_id, "state": ""}
+        return {"rv": False, "pin": pin, "state": ""}
 
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
     if re.match(PAT_VALID_DIG, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {"rv": False, "pin": pin_id, "state": ""}
+        return {"rv": False, "pin": pin, "state": ""}
 
     _, values = reply.split(";")
     _pin, _state = values.split(",")
