@@ -1,4 +1,4 @@
-.PHONY = help wheel setup test black mypy lint
+.PHONY = help wheel setup test clean format mypy lint
 
 define HELP_LIST_TARGETS
 
@@ -12,8 +12,8 @@ define HELP_LIST_TARGETS
     $$ make test
   To remove Python installation artifacts:
     $$ make clean
-  To run black over Python code:
-    $$ make black
+  To run all formatters:
+    $$ make format
   To run mypy over Python code:
     $$ make mypy
   To run all linters:
@@ -40,8 +40,9 @@ test:
 clean:
 	@rm -rfv build/ dist/ *.egg-info/
 
-black:
-	@black inodaqv2 tests
+format:
+	@black gui tests
+	@clang-format -i --verbose --style=file inodaqv2/*.cpp inodaqv2/*.h
 
 mypy:
 	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
