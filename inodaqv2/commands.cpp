@@ -1,11 +1,8 @@
-#include "command_aread.h"
+#include "commands.hpp"
 
 #include "helpers.h"
 
 #include "Arduino.h"
-
-namespace Command
-{
 
 void command_aread()
 {
@@ -24,5 +21,3 @@ void command_aread()
 
     Helpers::info(msg);
 }
-
-} // namespace Command

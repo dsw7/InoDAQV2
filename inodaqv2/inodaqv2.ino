@@ -1,4 +1,4 @@
-#include "command_aread.h"
+#include "commands.hpp"
 #include "command_dig.h"
 #include "command_dread.h"
 #include "command_ping.h"
@@ -55,7 +55,7 @@ void loop()
         }
         else if (command == F("aread"))
         {
-            Command::command_aread();
+            ::command_aread();
         }
         else if (command == F("dread"))
         {

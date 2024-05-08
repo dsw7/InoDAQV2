@@ -42,7 +42,7 @@ clean:
 
 format:
 	@black gui tests
-	@clang-format -i --verbose --style=file inodaqv2/*.cpp inodaqv2/*.h
+	@clang-format -i --verbose --style=file inodaqv2/*.cpp inodaqv2/*.hpp
 
 mypy:
 	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
