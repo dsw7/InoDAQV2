@@ -1,6 +1,6 @@
 #include "commands.hpp"
 
-#include "helpers.h"
+#include "helpers.hpp"
 
 void command_aread()
 {
