@@ -89,3 +89,19 @@ void command_dread()
 
     Helpers::info(msg);
 }
+
+void command_ping()
+{
+    static bool status = false;
+
+    status = !status;
+    ::digitalWrite(LED_BUILTIN, status);
+
+    if (status)
+    {
+        Helpers::info(F("Built in LED is ON"));
+        return;
+    }
+
+    Helpers::info(F("Built in LED is OFF"));
+}

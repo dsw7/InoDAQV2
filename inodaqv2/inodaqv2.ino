@@ -1,5 +1,4 @@
 #include "commands.hpp"
-#include "command_ping.h"
 #include "command_pwm.h"
 #include "command_tone.h"
 #include "helpers.h"
@@ -41,7 +40,7 @@ void loop()
         }
         else if (command == F("ping"))
         {
-            Command::command_ping();
+            ::command_ping();
         }
         else if (command.startsWith(F("dig:")))
         {
