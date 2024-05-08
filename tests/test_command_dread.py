@@ -1,7 +1,7 @@
 from re import match
 from inoio import InoIO
 from pytest import mark
-from inodaqv2.components.actions import PAT_VALID_DREAD
+from gui.components.actions import PAT_VALID_DREAD
 
 
 def test_command_dread(connection: InoIO) -> None:

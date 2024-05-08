@@ -1,7 +1,7 @@
 from re import match
 from inoio import InoIO
 from pytest import mark
-from inodaqv2.components.actions import PAT_VALID_AREAD
+from gui.components.actions import PAT_VALID_AREAD
 
 
 def test_command_aread(connection: InoIO) -> None:
