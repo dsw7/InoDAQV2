@@ -3,7 +3,7 @@ from logging import getLogger
 from math import ceil, floor
 from typing import TypedDict, Union
 from inoio import errors
-from gui.components.extensions import conn
+from gui.extensions import conn
 
 LOGGER = getLogger("inodaqv2")
 ANALOG_TO_VOLT = 5.0 / 1023
