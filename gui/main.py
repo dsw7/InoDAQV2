@@ -7,7 +7,6 @@ from click import command, option
 from inoio import errors
 from gui import actions
 from gui.extensions import conn
-from gui.logger import setup_logger
 
 app = Flask(__name__)
 
@@ -45,7 +44,6 @@ def dashboard() -> Union[Response, str]:
     "--serial-port", default="/dev/ttyS2", help="Specify which USB device to connect to"
 )
 def main(host: str, port: int, serial_port: str) -> None:
-    setup_logger()
     conn.init_app(port=serial_port)
 
     try:
