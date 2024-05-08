@@ -1,4 +1,4 @@
-.PHONY = help wheel setup test black mypy
+.PHONY = help wheel setup test black mypy lint
 
 define HELP_LIST_TARGETS
 
@@ -16,6 +16,8 @@ define HELP_LIST_TARGETS
     $$ make black
   To run mypy over Python code:
     $$ make mypy
+  To run all linters:
+    $$ make lint
 
 endef
 
@@ -43,3 +45,6 @@ black:
 
 mypy:
 	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
+
+lint:
+	@cppcheck inodaqv2 --enable=all
