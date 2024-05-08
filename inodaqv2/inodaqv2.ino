@@ -1,5 +1,4 @@
 #include "commands.hpp"
-#include "command_tone.h"
 #include "helpers.h"
 
 void setup()
@@ -59,7 +58,7 @@ void loop()
         }
         else if (command.startsWith(F("tone:")))
         {
-            Command::command_tone(command);
+            ::command_tone(command);
         }
         else if (command == F("exit"))
         {
