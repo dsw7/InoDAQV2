@@ -11,13 +11,7 @@ except _tkinter.TclError as exception:
 
 from gui.frame_digital_pins import frame_digital_pins
 from gui.frame_pwm import frame_pwm
-
-
-def panel_analog_read() -> None:
-    frame = ttk.LabelFrame(root, padding=10, text="Analog Read")
-    frame.grid(row=0, column=2, sticky="ns", padx=2)
-
-    ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
+from gui.frame_analog_read import frame_analog_read
 
 
 def panel_digital_read() -> None:
@@ -37,7 +31,6 @@ def panel_tone() -> None:
 
 def run_test() -> None:
 
-    print(actions.read_analog_pins())
     print(actions.read_digital_pins())
     print(actions.set_tone(pin=4, frequency="25"))
 
@@ -60,7 +53,7 @@ def main() -> None:
 
     frame_digital_pins(root)
     frame_pwm(root)
-    panel_analog_read()
+    frame_analog_read(root)
     panel_digital_read()
     panel_tone()
 
