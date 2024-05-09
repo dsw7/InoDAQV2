@@ -1,5 +1,5 @@
 import sys
-from tkinter import Tk, ttk, _tkinter
+from tkinter import Tk, _tkinter
 from inoio import errors
 from gui import actions
 from gui.extensions import conn
@@ -13,17 +13,7 @@ from gui.frame_digital_pins import frame_digital_pins
 from gui.frame_pwm import frame_pwm
 from gui.frame_analog_read import frame_analog_read
 from gui.frame_digital_read import frame_digital_read
-
-
-def panel_tone() -> None:
-    frame = ttk.LabelFrame(root, padding=10, text="Tone")
-    frame.grid(row=0, column=4, sticky="ns", padx=2)
-
-    ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
-
-
-def run_test() -> None:
-    print(actions.set_tone(pin=4, frequency="25"))
+from gui.frame_tone import frame_tone
 
 
 def main() -> None:
@@ -46,7 +36,7 @@ def main() -> None:
     frame_pwm(root)
     frame_analog_read(root)
     frame_digital_read(root)
-    panel_tone()
+    frame_tone(root)
 
     root.mainloop()
 
