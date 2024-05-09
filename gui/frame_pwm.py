@@ -3,7 +3,7 @@ from math import ceil, floor
 from re import match
 from tkinter import Tk, ttk, IntVar
 from inoio import errors
-from gui.consts import LOGGER, PAT_VALID_PWM, PADDING_FRAME
+from gui.consts import LOGGER, PAT_VALID_PWM, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
 
 _ANALOG_TO_DUTY_CYCLE = 100 / 255
@@ -40,7 +40,7 @@ def set_pwm(pin: int, *event) -> None:
 
 def frame_pwm(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=PADDING_FRAME, text="PWM")
-    frame.grid(row=0, column=1, sticky="ns", padx=10, pady=20)
+    frame.grid(row=0, column=1, sticky="ns", padx=MARGIN_X, pady=MARGIN_Y)
 
     for row, p in enumerate((3, 5, 6, 9, 10, 11)):
         _PINS_PWM[p] = IntVar()
@@ -50,4 +50,4 @@ def frame_pwm(root: Tk) -> None:
 
         scale = ttk.Scale(subframe, variable=_PINS_PWM[p], from_=0, to=100, length=150)
         scale.bind("<ButtonRelease-1>", partial(set_pwm, p))
-        scale.grid(column=0, row=row)
+        scale.grid(row=row)

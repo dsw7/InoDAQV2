@@ -1,7 +1,7 @@
 from re import match
 from tkinter import Tk, ttk, IntVar, _tkinter
 from inoio import errors
-from gui.consts import LOGGER, PAT_VALID_TONE, PADDING_FRAME
+from gui.consts import LOGGER, PAT_VALID_TONE, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
 
 _PIN = IntVar()
@@ -34,7 +34,9 @@ def set_tone() -> None:
 
 def frame_tone(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=PADDING_FRAME, text="Tone")
-    frame.grid(row=0, column=4, sticky="ns", padx=(10, 20), pady=20)
+    frame.grid(
+        row=0, column=4, sticky="ns", padx=(MARGIN_X, MARGIN_X * 2), pady=MARGIN_Y
+    )
 
     ttk.Radiobutton(frame, text="Pin 2", variable=_PIN, value=2, command=set_tone).grid(
         sticky="w"

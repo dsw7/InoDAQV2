@@ -2,7 +2,7 @@ from functools import partial
 from re import match
 from tkinter import Tk, ttk, BooleanVar
 from inoio import errors
-from gui.consts import LOGGER, PAT_VALID_DIG, PADDING_FRAME
+from gui.consts import LOGGER, PAT_VALID_DIG, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
 
 _PINS_DIGITAL: dict[int, BooleanVar] = {p: BooleanVar() for p in range(2, 14)}
@@ -33,7 +33,9 @@ def toggle_digital_pins(pin: int) -> None:
 
 def frame_digital_pins(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=PADDING_FRAME, text="Digital")
-    frame.grid(row=0, column=0, sticky="ns", padx=(20, 10), pady=20)
+    frame.grid(
+        row=0, column=0, sticky="ns", padx=(MARGIN_X * 2, MARGIN_X), pady=MARGIN_Y
+    )
 
     for pin, state in _PINS_DIGITAL.items():
         ttk.Checkbutton(
@@ -41,4 +43,4 @@ def frame_digital_pins(root: Tk) -> None:
             text=f"Pin {pin}",
             variable=state,
             command=partial(toggle_digital_pins, pin),
-        ).grid(sticky="w", pady=(5, 0), column=0, row=pin - 2)
+        ).grid(sticky="w", pady=(5, 0), row=pin - 2)
