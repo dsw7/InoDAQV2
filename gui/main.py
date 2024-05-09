@@ -1,7 +1,7 @@
 import sys
 from tkinter import Tk, _tkinter
 from inoio import errors
-from gui import actions
+from gui.consts import LOGGER
 from gui.extensions import conn
 
 try:
@@ -16,6 +16,23 @@ from gui.frame_digital_read import frame_digital_read
 from gui.frame_tone import frame_tone
 
 
+def run_handshake() -> None:
+    LOGGER.info("Handshaking with device")
+    LOGGER.info('Sending command: "hello"')
+
+    try:
+        conn.write("hello")
+    except errors.InoIOTransmissionError as e:
+        LOGGER.exception("Failed to send command")
+        raise ConnectionError("Could not connect to device") from e
+
+    reply = conn.read()
+
+    if reply != "1;Hello from InoDAQV2":
+        LOGGER.error('Handshake returned unknown message: "%s"', reply)
+        raise ConnectionError("Handshake returned unknown message")
+
+
 def main() -> None:
     serial_port = sys.argv[1]
     conn.init_app(port=serial_port)
@@ -26,7 +43,7 @@ def main() -> None:
         sys.exit(e)
 
     try:
-        actions.run_handshake()
+        run_handshake()
     except ConnectionError as e:
         sys.exit(str(e))
 
