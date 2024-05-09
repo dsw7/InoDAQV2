@@ -34,7 +34,7 @@ def read_analog_pins() -> None:
 
 def frame_analog_read(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Analog Read")
-    frame.grid(row=0, column=2, sticky="ns", padx=2)
+    frame.grid(row=0, column=2, sticky="ns", padx=10, pady=20)
 
     for pin in range(0, 6):
         subframe = ttk.LabelFrame(frame, text=f"A{pin}")

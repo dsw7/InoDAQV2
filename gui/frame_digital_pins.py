@@ -33,7 +33,7 @@ def toggle_digital_pins(pin: int) -> None:
 
 def frame_digital_pins(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Digital")
-    frame.grid(row=0, column=0, sticky="ns", padx=2)
+    frame.grid(row=0, column=0, sticky="ns", padx=(20, 10), pady=20)
 
     for pin, state in _PINS_DIGITAL.items():
         ttk.Checkbutton(

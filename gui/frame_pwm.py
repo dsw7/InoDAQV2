@@ -40,7 +40,7 @@ def set_pwm(pin: int, *event) -> None:
 
 def frame_pwm(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=10, text="PWM")
-    frame.grid(row=0, column=1, sticky="ns", padx=2)
+    frame.grid(row=0, column=1, sticky="ns", padx=10, pady=20)
 
     for row, p in enumerate((3, 5, 6, 9, 10, 11)):
         _PINS_PWM[p] = IntVar()

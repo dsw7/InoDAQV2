@@ -34,7 +34,7 @@ def set_tone() -> None:
 
 def frame_tone(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Tone")
-    frame.grid(row=0, column=4, sticky="ns", padx=2)
+    frame.grid(row=0, column=4, sticky="ns", padx=(10, 20), pady=20)
 
     ttk.Radiobutton(frame, text="Pin 2", variable=_PIN, value=2, command=set_tone).grid(
         sticky="w"

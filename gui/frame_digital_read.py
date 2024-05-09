@@ -33,7 +33,7 @@ def read_digital_pins() -> None:
 
 def frame_digital_read(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Digital Read")
-    frame.grid(row=0, column=3, sticky="ns", padx=2)
+    frame.grid(row=0, column=3, sticky="ns", padx=10, pady=20)
 
     for pin in range(0, 6):
         subframe = ttk.LabelFrame(frame, text=f"A{pin}")
