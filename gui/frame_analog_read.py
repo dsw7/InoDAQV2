@@ -38,10 +38,10 @@ def frame_analog_read(root: Tk) -> None:
 
     for pin in range(0, 6):
         subframe = ttk.LabelFrame(frame, text=f"A{pin}")
-        subframe.grid(row=pin)
+        subframe.grid(row=pin, pady=(0, 5))
 
-        _PINS_AREAD[pin] = Text(subframe, height=1, width=20)
+        _PINS_AREAD[pin] = Text(subframe, height=1, width=12)
         _PINS_AREAD[pin].grid(row=pin)
         _PINS_AREAD[pin].insert("end", "...")
 
-    Button(frame, text="READ", command=read_analog_pins).grid(pady=(10, 0))
+    Button(frame, text="READ", command=read_analog_pins).grid(pady=(5, 10))

@@ -43,4 +43,5 @@ def frame_digital_pins(root: Tk) -> None:
             text=f"Pin {pin}",
             variable=state,
             command=partial(toggle_digital_pins, pin),
-        ).grid(sticky="w", pady=(5, 0), row=pin - 2)
+            width=6,
+        ).grid(sticky="w", pady=(0, 5), row=pin - 2)
