@@ -1,7 +1,7 @@
 from re import match
 from tkinter import Tk, ttk, Text, Button
 from inoio import errors
-from gui.consts import LOGGER, PAT_VALID_DREAD
+from gui.consts import LOGGER, PAT_VALID_DREAD, PADDING_FRAME
 from gui.extensions import conn
 
 _PINS_DREAD: dict[int, Text] = {}
@@ -32,7 +32,7 @@ def read_digital_pins() -> None:
 
 
 def frame_digital_read(root: Tk) -> None:
-    frame = ttk.LabelFrame(root, padding=10, text="Digital Read")
+    frame = ttk.LabelFrame(root, padding=PADDING_FRAME, text="Digital Read")
     frame.grid(row=0, column=3, sticky="ns", padx=10, pady=20)
 
     for pin in range(0, 6):

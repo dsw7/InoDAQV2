@@ -1,7 +1,7 @@
 from re import match
 from tkinter import Tk, ttk, Text, Button
 from inoio import errors
-from gui.consts import LOGGER, PAT_VALID_AREAD
+from gui.consts import LOGGER, PAT_VALID_AREAD, PADDING_FRAME
 from gui.extensions import conn
 
 _ANALOG_TO_VOLT = 5.0 / 1023
@@ -33,7 +33,7 @@ def read_analog_pins() -> None:
 
 
 def frame_analog_read(root: Tk) -> None:
-    frame = ttk.LabelFrame(root, padding=10, text="Analog Read")
+    frame = ttk.LabelFrame(root, padding=PADDING_FRAME, text="Analog Read")
     frame.grid(row=0, column=2, sticky="ns", padx=10, pady=20)
 
     for pin in range(0, 6):
