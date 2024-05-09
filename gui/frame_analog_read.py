@@ -5,7 +5,7 @@ from gui.consts import LOGGER, PAT_VALID_AREAD
 from gui.extensions import conn
 
 _ANALOG_TO_VOLT = 5.0 / 1023
-_PINS_ANALOG: dict[int, Text] = {}
+_PINS_AREAD: dict[int, Text] = {}
 
 
 def read_analog_pins() -> None:
@@ -28,10 +28,8 @@ def read_analog_pins() -> None:
     volts = values.split(",")
 
     for pin in range(0, 6):
-        _PINS_ANALOG[pin].delete(1.0, "end")
-        _PINS_ANALOG[pin].insert(
-            "end", str(round(int(volts[pin]) * _ANALOG_TO_VOLT, 3))
-        )
+        _PINS_AREAD[pin].delete(1.0, "end")
+        _PINS_AREAD[pin].insert("end", str(round(int(volts[pin]) * _ANALOG_TO_VOLT, 3)))
 
 
 def frame_analog_read(root: Tk) -> None:
@@ -42,8 +40,8 @@ def frame_analog_read(root: Tk) -> None:
         subframe = ttk.LabelFrame(frame, text=f"A{pin}")
         subframe.grid(column=0, row=pin)
 
-        _PINS_ANALOG[pin] = Text(subframe, height=1, width=20)
-        _PINS_ANALOG[pin].grid(column=0, row=pin)
-        _PINS_ANALOG[pin].insert("end", "...")
+        _PINS_AREAD[pin] = Text(subframe, height=1, width=20)
+        _PINS_AREAD[pin].grid(column=0, row=pin)
+        _PINS_AREAD[pin].insert("end", "...")
 
     Button(frame, text="READ", command=read_analog_pins).grid(column=0)
