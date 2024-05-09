@@ -10,13 +10,7 @@ except _tkinter.TclError as exception:
     sys.exit(f'Missing X11 graphic layer: "{exception}"')
 
 from gui.frame_digital_pins import frame_digital_pins
-
-
-def panel_pwm() -> None:
-    frame = ttk.LabelFrame(root, padding=10, text="PWM")
-    frame.grid(row=0, column=1, sticky="ns", padx=2)
-
-    ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
+from gui.frame_pwm import frame_pwm
 
 
 def panel_analog_read() -> None:
@@ -45,7 +39,6 @@ def run_test() -> None:
 
     print(actions.read_analog_pins())
     print(actions.read_digital_pins())
-    print(actions.set_pwm(pin=3, duty_cycle=50))
     print(actions.set_tone(pin=4, frequency="25"))
 
 
@@ -66,7 +59,7 @@ def main() -> None:
     root.title("InoDAQV2")
 
     frame_digital_pins(root)
-    panel_pwm()
+    frame_pwm(root)
     panel_analog_read()
     panel_digital_read()
     panel_tone()

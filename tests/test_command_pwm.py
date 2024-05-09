@@ -1,7 +1,7 @@
 from re import match
 from pytest import mark
 from inoio import InoIO
-from gui.actions import PAT_VALID_PWM
+from gui.consts import PAT_VALID_PWM
 
 PAIRS_PWM_1 = [
     ("pwm", "0;Unknown command: pwm"),

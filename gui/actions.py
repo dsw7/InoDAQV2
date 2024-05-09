@@ -7,8 +7,6 @@ from gui.extensions import conn
 
 LOGGER = getLogger("inodaqv2")
 ANALOG_TO_VOLT = 5.0 / 1023
-DUTY_CYCLE_TO_ANALOG = 255 / 100
-ANALOG_TO_DUTY_CYCLE = 100 / 255
 TYPE_PAYLOAD_AREAD = TypedDict(
     "TYPE_PAYLOAD_AREAD",
     {
@@ -33,15 +31,6 @@ TYPE_PAYLOAD_DREAD = TypedDict(
         "A5": int,
     },
 )
-TYPE_PAYLOAD_PWM = TypedDict(
-    "TYPE_PAYLOAD_PWM",
-    {
-        "rv": bool,
-        "pin": str,
-        "pwm": str,
-    },
-)
-PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
 PAT_VALID_AREAD = re.compile(r"^1;\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4}$")
 PAT_VALID_DREAD = re.compile(r"^1;\d{1},\d{1},\d{1},\d{1},\d{1},\d{1}$")
 PAT_VALID_TONE = re.compile(r"^1;\d{1},\d{1,5}$")
@@ -62,35 +51,6 @@ def run_handshake() -> None:
     if reply != "1;Hello from InoDAQV2":
         LOGGER.error('Handshake returned unknown message: "%s"', reply)
         raise ConnectionError("Handshake returned unknown message")
-
-
-def set_pwm(pin: int, duty_cycle: int) -> TYPE_PAYLOAD_PWM:
-    pwm = ceil(duty_cycle * DUTY_CYCLE_TO_ANALOG)
-    command = f"pwm:{pin}:{pwm}"
-
-    LOGGER.info('Sending command: "%s"', command)
-
-    try:
-        conn.write(command)
-    except errors.InoIOTransmissionError:
-        LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin, "pwm": ""}
-
-    reply = conn.read()
-    LOGGER.info('Received reply: "%s"', reply)
-
-    if re.match(PAT_VALID_PWM, reply) is None:
-        LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {"rv": False, "pin": pin, "pwm": ""}
-
-    _, values = reply.split(";")
-    _pin, _duty_cycle = values.split(",")
-
-    return {
-        "rv": True,
-        "pin": _pin,
-        "pwm": str(floor(int(_duty_cycle) * ANALOG_TO_DUTY_CYCLE)),
-    }
 
 
 def read_analog_pins() -> Union[TYPE_PAYLOAD_AREAD, dict[str, bool]]:
