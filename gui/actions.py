@@ -9,14 +9,6 @@ LOGGER = getLogger("inodaqv2")
 ANALOG_TO_VOLT = 5.0 / 1023
 DUTY_CYCLE_TO_ANALOG = 255 / 100
 ANALOG_TO_DUTY_CYCLE = 100 / 255
-TYPE_PAYLOAD_DIG = TypedDict(
-    "TYPE_PAYLOAD_DIG",
-    {
-        "rv": bool,
-        "pin": str,
-        "state": str,
-    },
-)
 TYPE_PAYLOAD_AREAD = TypedDict(
     "TYPE_PAYLOAD_AREAD",
     {
@@ -49,7 +41,6 @@ TYPE_PAYLOAD_PWM = TypedDict(
         "pwm": str,
     },
 )
-PAT_VALID_DIG = re.compile(r"^1;\d{1,2},(on|off)$")
 PAT_VALID_PWM = re.compile(r"^1;\d{1,2},\d{1,3}$")
 PAT_VALID_AREAD = re.compile(r"^1;\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4},\d{1,4}$")
 PAT_VALID_DREAD = re.compile(r"^1;\d{1},\d{1},\d{1},\d{1},\d{1},\d{1}$")
@@ -71,34 +62,6 @@ def run_handshake() -> None:
     if reply != "1;Hello from InoDAQV2":
         LOGGER.error('Handshake returned unknown message: "%s"', reply)
         raise ConnectionError("Handshake returned unknown message")
-
-
-def toggle_digital_pins(pin: int, state: bool) -> TYPE_PAYLOAD_DIG:
-    command = f"dig:{pin}:"
-
-    if state:
-        command += "on"
-    else:
-        command += "off"
-
-    LOGGER.info('Sending command: "%s"', command)
-    try:
-        conn.write(command)
-    except errors.InoIOTransmissionError:
-        LOGGER.exception("Failed to send command")
-        return {"rv": False, "pin": pin, "state": ""}
-
-    reply = conn.read()
-    LOGGER.info('Received reply: "%s"', reply)
-
-    if re.match(PAT_VALID_DIG, reply) is None:
-        LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return {"rv": False, "pin": pin, "state": ""}
-
-    _, values = reply.split(";")
-    _pin, _state = values.split(",")
-
-    return {"rv": True, "pin": _pin, "state": _state}
 
 
 def set_pwm(pin: int, duty_cycle: int) -> TYPE_PAYLOAD_PWM:
