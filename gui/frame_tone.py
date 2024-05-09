@@ -36,17 +36,19 @@ def frame_tone(root: Tk) -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Tone")
     frame.grid(row=0, column=4, sticky="ns", padx=2)
 
-    ttk.Radiobutton(
-        frame, text="Pin 2", variable=_PIN, value=2, command=set_tone
-    ).pack()
-    ttk.Radiobutton(
-        frame, text="Pin 4", variable=_PIN, value=4, command=set_tone
-    ).pack()
-    ttk.Radiobutton(
-        frame, text="Pin 7", variable=_PIN, value=7, command=set_tone
-    ).pack()
-    ttk.Radiobutton(
-        frame, text="Pin 8", variable=_PIN, value=8, command=set_tone
-    ).pack()
+    ttk.Radiobutton(frame, text="Pin 2", variable=_PIN, value=2, command=set_tone).grid(
+        sticky="w"
+    )
+    ttk.Radiobutton(frame, text="Pin 4", variable=_PIN, value=4, command=set_tone).grid(
+        sticky="w"
+    )
+    ttk.Radiobutton(frame, text="Pin 7", variable=_PIN, value=7, command=set_tone).grid(
+        sticky="w"
+    )
+    ttk.Radiobutton(frame, text="Pin 8", variable=_PIN, value=8, command=set_tone).grid(
+        sticky="w"
+    )
 
-    ttk.Entry(frame, textvariable=_FREQUENCY).pack()
+    subframe = ttk.LabelFrame(frame, padding=10, text="Frequency (Hz)")
+    subframe.grid()
+    ttk.Entry(subframe, textvariable=_FREQUENCY).pack()
