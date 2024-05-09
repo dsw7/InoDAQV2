@@ -35,7 +35,7 @@ def set_pwm(pin: int, *event) -> None:
     _pin, _pwm = values.split(",")
 
     duty_cycle = floor(int(_pwm) * _ANALOG_TO_DUTY_CYCLE)
-    LOGGER.info("Pin %i emitting PWM wave with duty cycle of %i%%", _pin, duty_cycle)
+    LOGGER.info("Pin %s emitting PWM wave with duty cycle of %i%%", _pin, duty_cycle)
 
 
 def frame_pwm(root: Tk) -> None:
