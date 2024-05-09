@@ -1,7 +1,7 @@
 from functools import partial
 from math import ceil, floor
 from re import match
-from tkinter import Tk, ttk, IntVar, HORIZONTAL
+from tkinter import Tk, ttk, IntVar
 from inoio import errors
 from gui.consts import LOGGER, PAT_VALID_PWM
 from gui.extensions import conn
@@ -48,8 +48,6 @@ def frame_pwm(root: Tk) -> None:
         subframe = ttk.LabelFrame(frame, padding=5, text=f"Pin {p}")
         subframe.grid(column=0, padx=3, row=row)
 
-        scale = ttk.Scale(
-            subframe, variable=_PINS_PWM[p], orient=HORIZONTAL, length=150
-        )
+        scale = ttk.Scale(subframe, variable=_PINS_PWM[p], from_=0, to=100, length=150)
         scale.bind("<ButtonRelease-1>", partial(set_pwm, p))
-        scale.grid(column=0, padx=3, row=row)
+        scale.grid(column=0, padx=3, pady=3, row=row)
