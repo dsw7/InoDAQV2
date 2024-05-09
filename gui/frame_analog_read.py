@@ -44,4 +44,4 @@ def frame_analog_read(root: Tk) -> None:
         _PINS_AREAD[pin].grid(row=pin)
         _PINS_AREAD[pin].insert("end", "...")
 
-    Button(frame, text="READ", command=read_analog_pins).grid(pady=(20, 0))
+    Button(frame, text="READ", command=read_analog_pins).grid(pady=(10, 0))

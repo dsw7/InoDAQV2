@@ -43,4 +43,4 @@ def frame_digital_read(root: Tk) -> None:
         _PINS_DREAD[pin].grid(row=pin)
         _PINS_DREAD[pin].insert("end", "...")
 
-    Button(frame, text="READ", command=read_digital_pins).grid(pady=(20, 0))
+    Button(frame, text="READ", command=read_digital_pins).grid(pady=(10, 0))

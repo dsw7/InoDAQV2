@@ -52,5 +52,5 @@ def frame_tone(root: Tk) -> None:
     )
 
     subframe = ttk.LabelFrame(frame, padding=PADDING_FRAME, text="Frequency (Hz)")
-    subframe.grid(pady=(20, 0))
+    subframe.grid(pady=(10, 0))
     ttk.Entry(subframe, textvariable=_FREQUENCY).pack()
