@@ -1,18 +1,28 @@
 import sys
-from tkinter import Tk, _tkinter
-from tkinter import ttk
+from functools import partial
+from tkinter import BooleanVar
+from tkinter import Tk, ttk, _tkinter
 
 try:
     root = Tk()
 except _tkinter.TclError as exception:
     sys.exit(f'Missing X11 graphic layer: "{exception}"')
 
+PINS_DIGITAL: dict[int, BooleanVar] = {p: BooleanVar() for p in range(2, 14)}
+
+
+def toggle_pin(pin):
+    print(PINS_DIGITAL[pin].get())
+
 
 def panel_dig() -> None:
     frame = ttk.LabelFrame(root, padding=10, text="Digital")
     frame.grid(row=0, column=0, sticky="ns", padx=2)
 
-    ttk.Button(frame, text="Quit", command=root.destroy).grid(column=1, row=0)
+    for pin, state in PINS_DIGITAL.items():
+        ttk.Checkbutton(
+            frame, text=f"Pin {pin}", variable=state, command=partial(toggle_pin, pin)
+        ).grid(sticky="w", column=0, row=pin - 2)
 
 
 def panel_pwm() -> None:
