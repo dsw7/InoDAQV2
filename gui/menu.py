@@ -1,4 +1,4 @@
-from tkinter import Tk, StringVar, Menu
+from tkinter import Tk, StringVar, Menu, messagebox
 from inoio import errors
 from serial.tools import list_ports
 from gui.consts import LOGGER
@@ -13,7 +13,9 @@ def connect_on_port() -> None:
     try:
         conn.connect()
     except errors.InoIOConnectionError as e:
-        raise ConnectionError("Could not connect to device") from e
+        LOGGER.exception("Could not connect to device")
+        messagebox.showerror("Error", e)
+        return
 
     LOGGER.info("Handshaking with device")
     LOGGER.info('Sending command: "hello"')
@@ -21,14 +23,18 @@ def connect_on_port() -> None:
     try:
         conn.write("hello")
     except errors.InoIOTransmissionError as e:
-        LOGGER.exception("Failed to send command")
-        raise ConnectionError("Could not connect to device") from e
+        LOGGER.exception("Handshake with device failed")
+        messagebox.showerror("Error", e)
+        return
 
     reply = conn.read()
 
     if reply != "1;Hello from InoDAQV2":
         LOGGER.error('Handshake returned unknown message: "%s"', reply)
-        raise ConnectionError("Handshake returned unknown message")
+        messagebox.showerror("Error", "Handshake failure")
+        return
+
+    LOGGER.info("Handshake was successful. Ready to accept I/O")
 
 
 def menu(root: Tk) -> None:
