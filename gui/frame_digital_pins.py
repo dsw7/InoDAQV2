@@ -1,6 +1,6 @@
 from functools import partial
 from re import match
-from tkinter import Tk, ttk, BooleanVar
+from tkinter import Tk, ttk, BooleanVar, messagebox
 from inoio import errors
 from gui.consts import LOGGER, PAT_VALID_DIG, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
@@ -19,8 +19,9 @@ def toggle_digital_pins(pin: int) -> None:
     LOGGER.info('Sending command: "%s"', command)
     try:
         conn.write(command)
-    except errors.InoIOTransmissionError:
+    except errors.InoIOTransmissionError as e:
         LOGGER.exception("Failed to send command")
+        messagebox.showerror("Error", e)
         return
 
     reply = conn.read()
@@ -28,7 +29,7 @@ def toggle_digital_pins(pin: int) -> None:
 
     if match(PAT_VALID_DIG, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return
+        messagebox.showerror("Error", "Could not parse message")
 
 
 def frame_digital_pins(root: Tk) -> None:

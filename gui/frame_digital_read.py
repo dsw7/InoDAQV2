@@ -1,5 +1,5 @@
 from re import match
-from tkinter import Tk, ttk, Text, Button
+from tkinter import Tk, ttk, Text, Button, messagebox
 from inoio import errors
 from gui.consts import LOGGER, PAT_VALID_DREAD, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
@@ -12,8 +12,9 @@ def read_digital_pins() -> None:
 
     try:
         conn.write("dread")
-    except errors.InoIOTransmissionError:
+    except errors.InoIOTransmissionError as e:
         LOGGER.exception("Failed to send command")
+        messagebox.showerror("Error", e)
         return
 
     reply = conn.read()
@@ -21,6 +22,7 @@ def read_digital_pins() -> None:
 
     if match(PAT_VALID_DREAD, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
+        messagebox.showerror("Error", "Could not parse message")
         return
 
     _, values = reply.split(";")

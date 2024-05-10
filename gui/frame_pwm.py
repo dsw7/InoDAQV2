@@ -1,7 +1,7 @@
 from functools import partial
 from math import ceil, floor
 from re import match
-from tkinter import Tk, ttk, IntVar
+from tkinter import Tk, ttk, IntVar, messagebox
 from inoio import errors
 from gui.consts import LOGGER, PAT_VALID_PWM, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
@@ -20,8 +20,9 @@ def set_pwm(pin: int, *event) -> None:
 
     try:
         conn.write(command)
-    except errors.InoIOTransmissionError:
+    except errors.InoIOTransmissionError as e:
         LOGGER.exception("Failed to send command")
+        messagebox.showerror("Error", e)
         return
 
     reply = conn.read()
@@ -29,6 +30,7 @@ def set_pwm(pin: int, *event) -> None:
 
     if match(PAT_VALID_PWM, reply) is None:
         LOGGER.exception("Could not parse message. Reply is likely garbled")
+        messagebox.showerror("Error", "Could not parse message")
         return
 
     _, values = reply.split(";")
