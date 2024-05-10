@@ -8,7 +8,10 @@ _SERIAL_PORT = StringVar()
 
 
 def connect_on_port() -> None:
-    conn.init_app(port=_SERIAL_PORT.get())
+    port = _SERIAL_PORT.get()
+    LOGGER.info("Connecting to %s", port)
+
+    conn.init_app(port=port)
 
     try:
         conn.connect()
@@ -34,7 +37,17 @@ def connect_on_port() -> None:
         messagebox.showerror("Error", "Handshake failure")
         return
 
-    LOGGER.info("Handshake was successful. Ready to accept I/O")
+    LOGGER.info("Handshake was successful. Ready to accept I/O!")
+
+
+def disconnect_from_port() -> None:
+    if not conn.is_connected:
+        LOGGER.info("Nothing is connected")
+        return
+
+    LOGGER.info("Disconnecting from %s", conn.port)
+    conn.disconnect()
+    LOGGER.info("Disconnected")
 
 
 def menu(root: Tk) -> None:
@@ -53,6 +66,9 @@ def menu(root: Tk) -> None:
                 variable=_SERIAL_PORT,
                 command=connect_on_port,
             )
+
+        menu_port.add_separator()
+        menu_port.add_command(label="Disconnect", command=disconnect_from_port)
 
     menu_bar.add_cascade(label="Port", menu=menu_port)
     root.config(menu=menu_bar)
