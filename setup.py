@@ -6,6 +6,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         "inoio",
+        "pyserial",
     ],
     entry_points={
         "console_scripts": [
