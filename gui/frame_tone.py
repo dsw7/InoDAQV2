@@ -1,5 +1,5 @@
 from re import match
-from tkinter import Tk, ttk, IntVar, _tkinter
+from tkinter import Tk, ttk, IntVar, _tkinter, messagebox
 from inoio import errors
 from gui.consts import LOGGER, PAT_VALID_TONE, PADDING_FRAME, MARGIN_Y, MARGIN_X
 from gui.extensions import conn
@@ -12,7 +12,13 @@ def set_tone() -> None:
     try:
         frequency = _FREQUENCY.get()
     except _tkinter.TclError:
+        messagebox.showerror("Error", "Invalid frequency was provided")
         LOGGER.exception("Invalid frequency was provided")
+        return
+
+    if (frequency < 31) or (frequency > 65535):
+        messagebox.showerror("Error", "Frequency must be between 31 and 65535 Hz")
+        LOGGER.exception("Frequency must be between 31 and 65535 Hz")
         return
 
     command = f"tone:{_PIN.get()}:{frequency}"
@@ -20,16 +26,17 @@ def set_tone() -> None:
 
     try:
         conn.write(command)
-    except errors.InoIOTransmissionError:
+    except errors.InoIOTransmissionError as e:
         LOGGER.exception("Failed to send command")
+        messagebox.showerror("Error", e)
         return
 
     reply = conn.read()
     LOGGER.info('Received reply: "%s"', reply)
 
     if match(PAT_VALID_TONE, reply) is None:
-        LOGGER.exception("Could not parse message. Reply is likely garbled")
-        return
+        LOGGER.error("Could not parse message. Reply is likely garbled")
+        messagebox.showerror("Error", "Could not parse message")
 
 
 def frame_tone(root: Tk) -> None:
