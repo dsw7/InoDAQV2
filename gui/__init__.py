@@ -1,8 +1,7 @@
 from logging.config import dictConfig
 
-
-def setup_logger() -> None:
-    logging_config = {
+dictConfig(
+    {
         "version": 1,
         "formatters": {
             "debug": {
@@ -18,15 +17,10 @@ def setup_logger() -> None:
             },
         },
         "loggers": {
-            "werkzeug": {
-                "level": "DEBUG",
-                "handlers": ["stream"],
-            },
             "inodaqv2": {
                 "level": "DEBUG",
                 "handlers": ["stream"],
             },
         },
     }
-
-    dictConfig(logging_config)
+)

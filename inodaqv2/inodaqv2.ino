@@ -1,10 +1,5 @@
-#include "command_aread.h"
-#include "command_dig.h"
-#include "command_dread.h"
-#include "command_ping.h"
-#include "command_pwm.h"
-#include "command_tone.h"
-#include "helpers.h"
+#include "commands.hpp"
+#include "helpers.hpp"
 
 void setup()
 {
@@ -39,41 +34,41 @@ void loop()
 
         if (command == F("hello"))
         {
-            Helpers::info(F("Hello from InoDAQV2"));
+            helpers::info(F("Hello from InoDAQV2"));
         }
         else if (command == F("ping"))
         {
-            Command::command_ping();
+            ::command_ping();
         }
         else if (command.startsWith(F("dig:")))
         {
-            Command::command_dig(command);
+            ::command_dig(command);
         }
         else if (command.startsWith(F("pwm:")))
         {
-            Command::command_pwm(command);
+            ::command_pwm(command);
         }
         else if (command == F("aread"))
         {
-            Command::command_aread();
+            ::command_aread();
         }
         else if (command == F("dread"))
         {
-            Command::command_dread();
+            ::command_dread();
         }
         else if (command.startsWith(F("tone:")))
         {
-            Command::command_tone(command);
+            ::command_tone(command);
         }
         else if (command == F("exit"))
         {
-            Helpers::info(F("Closing connection. Goodbye!"));
+            helpers::info(F("Closing connection. Goodbye!"));
             ::Serial.end();
             break;
         }
         else
         {
-            Helpers::error("Unknown command: " + command);
+            helpers::error("Unknown command: " + command);
         }
     }
 }

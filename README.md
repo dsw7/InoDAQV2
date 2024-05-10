@@ -23,24 +23,35 @@ developers.
 **NOTE:** This project was only tested with the Arduino Uno. Other boards may or may not be compatible.
 ### Step 2 - Install package
 To install the `inodaqv2` Python package, run:
-```
+```console
 make setup
 ```
 The installation process will produce some build artifacts. These artifacts can be cleaned up by running:
-```
+```console
 make clean
 ```
 ### Step 3 - Upload source
-The `inodaqv2` Python package includes utilities for uploading Arduino source code to the target device. To
-upload the source, run:
+To upload the source, run:
+```console
+./upload
 ```
-inodaq-upload --serial-port=<serial-port>
+Which will prompt:
+```console
+...
+1. Select serial port for upload [default = COM3]:
+>
 ```
-Where `<serial-port>` would refer to a valid serial device, such as `COM3` on Windows or `/dev/ttyS2` on
-Linux.
+Where this port would refer to a valid serial device, such as `COM3` on Windows or `/dev/ttyS2` on
+Linux. Hit <kbd>enter</kbd> and continue. The install script will then prompt:
+```console
+...
+2. Select Fully Qualified Board Name (FQBN) [default = arduino:avr:uno]:
+>
+```
+Insert a valid FQBN and hit <kbd>enter</kbd>.
 ### Step 4 - Start webserver
 As a final sanity check, run the webserver:
-```
+```console
 inodaq --serial-port=<serial-port>
 ```
 This command will host a site locally using Flask's internal development server. Note that this webserver

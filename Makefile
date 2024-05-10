@@ -1,4 +1,4 @@
-.PHONY = help upload wheel setup test black mypy tidy
+.PHONY = help wheel setup test clean format mypy lint
 
 define HELP_LIST_TARGETS
 
@@ -8,18 +8,16 @@ define HELP_LIST_TARGETS
     $$ make wheel
   To set up the Python package:
     $$ make setup
-  To upload compiled Arduino code to board:
-    $$ make upload
   Test compiled Arduino code:
     $$ make test
   To remove Python installation artifacts:
     $$ make clean
-  To run black over Python code:
-    $$ make black
+  To run all formatters:
+    $$ make format
   To run mypy over Python code:
     $$ make mypy
-  To lint HTML code:
-    $$ make tidy
+  To run all linters:
+    $$ make lint
 
 endef
 
@@ -35,21 +33,19 @@ wheel:
 setup: wheel
 	@pip3 install dist/*whl --force-reinstall
 
-upload: setup
-	@inodaq-upload
-
-test: upload
+test:
 	@python3 -m pip install pytest
 	@python3 -m pytest --verbose --capture=no tests
 
 clean:
 	@rm -rfv build/ dist/ *.egg-info/
 
-black:
-	@black inodaqv2 tests
+format:
+	@black gui tests
+	@clang-format -i --verbose --style=file inodaqv2/*.cpp inodaqv2/*.hpp
 
 mypy:
-	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 inodaqv2 tests
+	@mypy --cache-dir=/tmp/mypy_cache_inodaqv2 gui tests
 
-tidy:
-	@tidy -errors inodaqv2/templates/*html
+lint:
+	@cppcheck inodaqv2 --enable=all

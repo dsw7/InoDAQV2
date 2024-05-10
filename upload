@@ -1,0 +1,38 @@
+#!/bin/bash
+
+if which arduino-cli > /dev/null; then
+  echo "Found $(arduino-cli version)"
+else
+  echo "Please install arduino-cli before proceeding"
+  exit 1
+fi
+echo
+
+echo "1. Select serial port for upload [default = COM3]:"
+echo -n "> "
+read -r PORT
+echo
+
+PORT=${PORT:-"COM3"}
+
+echo "2. Select Fully Qualified Board Name (FQBN) [default = arduino:avr:uno]:"
+echo -n "> "
+read -r FQBN
+echo
+
+FQBN=${FQBN:-"arduino:avr:uno"}
+
+echo "Will attempt operations against port: $PORT"
+echo "Will attempt operations against FQBN: $FQBN"
+
+BUILD_DIR="/tmp/inodaq-v2-build"
+CACHE_DIR="/tmp/inodaq-v2-core-cache"
+
+arduino-cli compile \
+  --verbose \
+  --upload \
+  --port="$PORT" \
+  --fqbn="$FQBN" \
+  --build-path="$BUILD_DIR" \
+  --build-cache-path="$CACHE_DIR" \
+  inodaqv2
