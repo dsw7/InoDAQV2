@@ -35,14 +35,18 @@ def menu(root: Tk) -> None:
     menu_bar = Menu(root)
     menu_port = Menu(menu_bar, tearoff=0)
 
-    for port in list_ports.comports():
-        menu_port.add_radiobutton(
-            label=port.device,
-            value=port.device,
-            variable=_SERIAL_PORT,
-            command=connect_on_port,
-        )
+    ports = list_ports.comports()
+
+    if not ports:
+        menu_port.add_command(label="No ports available", state="disabled")
+    else:
+        for port in ports:
+            menu_port.add_radiobutton(
+                label=port.device,
+                value=port.device,
+                variable=_SERIAL_PORT,
+                command=connect_on_port,
+            )
 
     menu_bar.add_cascade(label="Port", menu=menu_port)
-
     root.config(menu=menu_bar)
