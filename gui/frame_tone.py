@@ -18,7 +18,7 @@ def set_tone() -> None:
 
     if (frequency < 31) or (frequency > 65535):
         messagebox.showerror("Error", "Frequency must be between 31 and 65535 Hz")
-        LOGGER.exception("Frequency must be between 31 and 65535 Hz")
+        LOGGER.error("Frequency must be between 31 and 65535 Hz")
         return
 
     command = f"tone:{_PIN.get()}:{frequency}"
