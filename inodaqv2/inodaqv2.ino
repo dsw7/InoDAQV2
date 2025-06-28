@@ -33,17 +33,17 @@ void loop()
         if (command == F("hello")) {
             helpers::info(F("Hello from InoDAQV2"));
         } else if (command == F("ping")) {
-            command_ping();
+            commands::command_ping();
         } else if (command.startsWith(F("dig:"))) {
-            command_dig(command);
+            commands::command_dig(command);
         } else if (command.startsWith(F("pwm:"))) {
-            command_pwm(command);
+            commands::command_pwm(command);
         } else if (command == F("aread")) {
-            command_aread();
+            commands::command_aread();
         } else if (command == F("dread")) {
-            command_dread();
+            commands::command_dread();
         } else if (command.startsWith(F("tone:"))) {
-            command_tone(command);
+            commands::command_tone(command);
         } else if (command == F("exit")) {
             helpers::info(F("Closing connection. Goodbye!"));
             Serial.end();

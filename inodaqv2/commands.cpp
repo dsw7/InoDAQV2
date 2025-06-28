@@ -2,6 +2,8 @@
 
 #include "helpers.hpp"
 
+namespace commands {
+
 void command_aread()
 {
     String msg = String(analogRead(A0));
@@ -218,3 +220,5 @@ void command_tone(const String &command)
     const String msg = String(pin) + "," + String(freq);
     helpers::info(msg);
 }
+
+} // namespace commands
