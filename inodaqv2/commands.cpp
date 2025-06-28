@@ -5,7 +5,6 @@
 void command_aread()
 {
     String msg = String(analogRead(A0));
-
     msg += ',';
     msg += String(analogRead(A1));
     msg += ',';
@@ -16,7 +15,6 @@ void command_aread()
     msg += String(analogRead(A4));
     msg += ',';
     msg += String(analogRead(A5));
-
     helpers::info(msg);
 }
 
@@ -24,8 +22,8 @@ void command_dig(const String &command)
 {
     // Parse command of form: "dig:<2-13>:<on|off>"
 
-    int idx_pin = command.indexOf(':');
-    int idx_state = command.indexOf(':', idx_pin + 1);
+    const int idx_pin = command.indexOf(':');
+    const int idx_state = command.indexOf(':', idx_pin + 1);
 
     if (idx_state < 0) {
         helpers::error(F("Malformed command. Missing second colon!"));
@@ -60,14 +58,13 @@ void command_dig(const String &command)
 
     // Return payload of form: "1;<pin>,<on|off>"
 
-    String msg = String(pin) + "," + state;
+    const String msg = String(pin) + "," + state;
     helpers::info(msg);
 }
 
 void command_dread()
 {
     String msg = String(digitalRead(A0));
-
     msg += ',';
     msg += String(digitalRead(A1));
     msg += ',';
@@ -78,7 +75,6 @@ void command_dread()
     msg += String(digitalRead(A4));
     msg += ',';
     msg += String(digitalRead(A5));
-
     helpers::info(msg);
 }
 
@@ -112,8 +108,8 @@ void command_pwm(const String &command)
 {
     // Parse command of form: "pwm:<3|5|6|9|10|11>:<0-255>"
 
-    int idx_pin = command.indexOf(':');
-    int idx_duty_cycle = command.indexOf(':', idx_pin + 1);
+    const int idx_pin = command.indexOf(':');
+    const int idx_duty_cycle = command.indexOf(':', idx_pin + 1);
 
     if (idx_duty_cycle < 0) {
         helpers::error(F("Malformed command. Missing second colon!"));
@@ -141,7 +137,7 @@ void command_pwm(const String &command)
         return;
     }
 
-    String raw_duty_cycle = command.substring(idx_duty_cycle + 1);
+    const String raw_duty_cycle = command.substring(idx_duty_cycle + 1);
     int duty_cycle = 0;
 
     if (not raw_duty_cycle.equals("0")) {
@@ -165,7 +161,7 @@ void command_pwm(const String &command)
 
     // Return payload of form: "1;<pin>,<duty-cycle>"
 
-    String msg = String(pin) + "," + String(duty_cycle);
+    const String msg = String(pin) + "," + String(duty_cycle);
     helpers::info(msg);
 }
 
@@ -173,8 +169,8 @@ void command_tone(const String &command)
 {
     // Parse command of form: "tone:<2-13>:<frequency>"
 
-    int idx_pin = command.indexOf(':');
-    int idx_freq = command.indexOf(':', idx_pin + 1);
+    const int idx_pin = command.indexOf(':');
+    const int idx_freq = command.indexOf(':', idx_pin + 1);
 
     if (idx_freq < 0) {
         helpers::error(F("Malformed command. Missing second colon!"));
@@ -202,7 +198,7 @@ void command_tone(const String &command)
         return;
     }
 
-    long freq = command.substring(idx_freq + 1).toInt();
+    const long freq = command.substring(idx_freq + 1).toInt();
 
     if (freq == 0) {
         helpers::error(F("Malformed command. Could not parse frequency!"));
@@ -219,6 +215,6 @@ void command_tone(const String &command)
 
     // Return payload of form: "1;<pin>,<frequency>"
 
-    String msg = String(pin) + "," + String(freq);
+    const String msg = String(pin) + "," + String(freq);
     helpers::info(msg);
 }

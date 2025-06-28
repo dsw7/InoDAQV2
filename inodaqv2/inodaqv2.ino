@@ -3,10 +3,10 @@
 
 void setup()
 {
-    unsigned int baud_rate = 9600;
+    const unsigned int baud_rate = 9600;
     Serial.begin(baud_rate);
 
-    unsigned int max_time_millisec_wait_serial_data = 10;
+    const unsigned int max_time_millisec_wait_serial_data = 10;
     Serial.setTimeout(max_time_millisec_wait_serial_data);
 
     pinMode(LED_BUILTIN, OUTPUT);
