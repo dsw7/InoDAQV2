@@ -1,18 +1,17 @@
 #include "helpers.hpp"
 
-namespace helpers
-{
+namespace helpers {
 
-void info(const ::String &message)
+void info(const String &message)
 {
-    ::Serial.println("1;" + message);
-    ::Serial.flush();
+    Serial.println("1;" + message);
+    Serial.flush();
 }
 
-void error(const ::String &message)
+void error(const String &message)
 {
-    ::Serial.println("0;" + message);
-    ::Serial.flush();
+    Serial.println("0;" + message);
+    Serial.flush();
 }
 
 } // namespace helpers
