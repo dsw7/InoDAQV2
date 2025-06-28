@@ -9,10 +9,6 @@ A multifunction I/O device built atop the ATmega328P microprocessor.
   - [Step 3 - Upload source](#step-3---upload-source)
   - [Step 4 - Start GUI](#step-4---start-gui)
 - [Usage](#usage)
-  - [Window: Digital](#window-digital)
-  - [Window: PWM](#window-pwm)
-  - [Window: AnalogRead](#window-analogread)
-  - [Window: DigitalRead](#window-digitalread)
 
 ## Setup
 
@@ -56,10 +52,18 @@ Insert a valid FQBN and hit <kbd>enter</kbd>.
 ### Step 4 - Start GUI
 As a final sanity check, start the GUI:
 ```console
-inodaq --serial-port=<serial-port>
+inodaq
 ```
 
 ## Usage
+
+### Establish a connection
+Start the GUI using:
+```console
+inodaq
+```
+And locate the Port dropdown on the top left. Click on the serial port corresponding to the device, which
+should begin logging a handshake attempt with the device.
 
 ### Window: Digital
 This window is used to toggle digital pins 2 through 13 on the device. The pins toggle to either a HIGH or LOW
